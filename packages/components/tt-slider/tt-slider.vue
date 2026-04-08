@@ -59,7 +59,9 @@ function onChange(e: any) {
   background: var(--tt-background, #fff) !important;
   border: 2px solid var(--tt-primary, #171717) !important;
   box-shadow: 0 1px 4px rgba(0,0,0,.12) !important;
-  margin-top: -8px !important;
+  margin-top: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
   box-sizing: border-box !important;
   cursor: grab !important;
 }
