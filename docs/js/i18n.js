@@ -1,4 +1,6 @@
-export const i18n = {
+window.TTDocs = window.TTDocs || {}
+
+window.TTDocs.i18n = {
   en: {
     home: 'Home', components: 'Components', switchLang: 'Switch Language', toggleTheme: 'Toggle Theme',
     heroTitle1: 'TT ShadUni', heroTitle2: 'Component Library',
@@ -31,7 +33,7 @@ export const i18n = {
   }
 }
 
-export const categories = {
+window.TTDocs.categories = {
   en: { basic: 'Basic', form: 'Form', display: 'Display', navigation: 'Navigation', feedback: 'Feedback', layout: 'Layout' },
   zh: { basic: '基础', form: '表单', display: '展示', navigation: '导航', feedback: '反馈', layout: '布局' }
 }

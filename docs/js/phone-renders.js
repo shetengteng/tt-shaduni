@@ -1,4 +1,6 @@
-export function getPhoneRender(id, state) {
+window.TTDocs = window.TTDocs || {}
+
+window.TTDocs.getPhoneRender = function(id, state) {
   const renders = {
     button: () => {
       const v = state.btnVariant || 'default'

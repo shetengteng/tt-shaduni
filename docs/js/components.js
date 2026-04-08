@@ -1,4 +1,6 @@
-export const allComponents = [
+window.TTDocs = window.TTDocs || {}
+
+window.TTDocs.allComponents = [
   { id:'button', cat:'basic', name:'Button',
     desc:'Primary interactive element with 6 variants, 4 sizes, loading/disabled states.',
     usage:`<tt-button variant="default">Click me</tt-button>
