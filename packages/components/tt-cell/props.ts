@@ -1,0 +1,30 @@
+import type { ExtractPropTypes, PropType } from 'vue'
+
+export const cellProps = {
+  title: {
+    type: String,
+    default: '',
+  },
+  value: {
+    type: String,
+    default: '',
+  },
+  label: {
+    type: String,
+    default: '',
+  },
+  icon: {
+    type: String,
+    default: '',
+  },
+  isLink: {
+    type: Boolean,
+    default: false,
+  },
+  border: {
+    type: Boolean,
+    default: true,
+  },
+} as const
+
+export type TtCellProps = ExtractPropTypes<typeof cellProps>
