@@ -77,7 +77,7 @@
         <tt-button size="sm" @click="showDate = !showDate">{{ showDate ? 'Close' : 'Open' }} DatePicker</tt-button>
         <text v-if="dateVal" class="demo-hint">{{ dateVal }}</text>
       </view>
-      <tt-date-picker v-model="dateVal" v-model:show="showDate" title="Select Date" />
+      <tt-date-picker v-model="dateVal" v-model:show="showDate" :locale="lang" />
     </view>
 
     <view class="demo-block">

@@ -1,50 +1,70 @@
 <template>
   <view v-if="show" class="tt-date-picker">
-    <view class="tt-date-picker__toolbar">
-      <text class="tt-date-picker__cancel" @click="$emit('update:show', false)">Cancel</text>
-      <text class="tt-date-picker__title">{{ title }}</text>
-      <text class="tt-date-picker__confirm" @click="onConfirm">Confirm</text>
-    </view>
-    <view class="tt-date-picker__body">
-      <picker-view class="tt-date-picker__view" :value="pickerVal" @change="onChange">
-        <picker-view-column>
-          <view v-for="y in years" :key="y" class="tt-date-picker__item"><text>{{ y }}</text></view>
-        </picker-view-column>
-        <picker-view-column>
-          <view v-for="m in 12" :key="m" class="tt-date-picker__item"><text>{{ pad(m) }}</text></view>
-        </picker-view-column>
-        <picker-view-column>
-          <view v-for="d in days" :key="d" class="tt-date-picker__item"><text>{{ pad(d) }}</text></view>
-        </picker-view-column>
-      </picker-view>
+    <view class="tt-date-picker__mask" @click="$emit('update:show', false)" />
+    <view class="tt-date-picker__panel">
+      <view class="tt-date-picker__toolbar">
+        <text class="tt-date-picker__cancel" @click="$emit('update:show', false)">{{ loc.cancel }}</text>
+        <text class="tt-date-picker__title">{{ title || loc.title }}</text>
+        <text class="tt-date-picker__confirm" @click="onConfirm">{{ loc.confirm }}</text>
+      </view>
+      <view class="tt-date-picker__body">
+        <picker-view class="tt-date-picker__view" :value="pickerVal" indicator-class="tt-date-picker__indicator" @change="onChange">
+          <picker-view-column>
+            <view v-for="y in years" :key="y" class="tt-date-picker__item"><text>{{ loc.yearFmt(y) }}</text></view>
+          </picker-view-column>
+          <picker-view-column>
+            <view v-for="m in 12" :key="m" class="tt-date-picker__item"><text>{{ loc.monthFmt(m) }}</text></view>
+          </picker-view-column>
+          <picker-view-column>
+            <view v-for="d in days" :key="d" class="tt-date-picker__item"><text>{{ loc.dayFmt(d) }}</text></view>
+          </picker-view-column>
+        </picker-view>
+      </view>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { datePickerProps } from './props'
 
 const props = defineProps(datePickerProps)
 const emit = defineEmits(['update:modelValue', 'update:show', 'confirm'])
 
-const now = new Date()
-const selectedYear = ref(now.getFullYear())
-const selectedMonth = ref(now.getMonth() + 1)
-const selectedDay = ref(now.getDate())
-const pickerVal = ref([selectedYear.value - 2020, selectedMonth.value - 1, selectedDay.value - 1])
+const L = {
+  en: { cancel: 'Cancel', confirm: 'Confirm', title: 'Select Date', yearFmt: (y: number) => `${y}`, monthFmt: (m: number) => pad(m), dayFmt: (d: number) => pad(d) },
+  zh: { cancel: '取消', confirm: '确定', title: '选择日期', yearFmt: (y: number) => `${y}年`, monthFmt: (m: number) => `${m}月`, dayFmt: (d: number) => `${d}日` },
+}
+const loc = computed(() => L[props.locale] || L.en)
 
-const years = computed(() => { const arr = []; for (let y = 2020; y <= 2030; y++) arr.push(y); return arr })
+const now = new Date()
+
+function parseInit() {
+  if (props.modelValue) {
+    const parts = props.modelValue.split('-').map(Number)
+    if (parts.length >= 3) return { y: parts[0], m: parts[1], d: parts[2] }
+  }
+  return { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate() }
+}
+
+const init = parseInit()
+const selectedYear = ref(init.y)
+const selectedMonth = ref(init.m)
+const selectedDay = ref(init.d)
+const pickerVal = ref([selectedYear.value - props.minYear, selectedMonth.value - 1, selectedDay.value - 1])
+
+const years = computed(() => { const arr = []; for (let y = props.minYear; y <= props.maxYear; y++) arr.push(y); return arr })
 const days = computed(() => new Date(selectedYear.value, selectedMonth.value, 0).getDate())
 
 function pad(n: number) { return n < 10 ? `0${n}` : `${n}` }
 
 function onChange(e: any) {
   const v = e.detail.value
-  selectedYear.value = 2020 + v[0]
+  selectedYear.value = props.minYear + v[0]
   selectedMonth.value = v[1] + 1
-  selectedDay.value = v[2] + 1
-  pickerVal.value = v
+  const maxD = new Date(selectedYear.value, selectedMonth.value, 0).getDate()
+  selectedDay.value = Math.min(v[2] + 1, maxD)
+  pickerVal.value = [v[0], v[1], selectedDay.value - 1]
 }
 
 function onConfirm() {
@@ -53,15 +73,28 @@ function onConfirm() {
   emit('confirm', val)
   emit('update:show', false)
 }
+
+watch(() => props.show, (v) => {
+  if (v) {
+    const i = parseInit()
+    selectedYear.value = i.y
+    selectedMonth.value = i.m
+    selectedDay.value = i.d
+    pickerVal.value = [i.y - props.minYear, i.m - 1, i.d - 1]
+  }
+})
 </script>
 
 <style>
-.tt-date-picker { background: var(--tt-background, #fff); border-radius: var(--tt-radius, 12rpx) var(--tt-radius, 12rpx) 0 0; }
-.tt-date-picker__toolbar { display: flex; align-items: center; justify-content: space-between; height: 88rpx; padding: 0 32rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
-.tt-date-picker__cancel { font-size: 28rpx; color: var(--tt-muted-foreground, #737373); }
-.tt-date-picker__title { font-size: 30rpx; font-weight: 600; }
-.tt-date-picker__confirm { font-size: 28rpx; color: var(--tt-primary, #171717); font-weight: 500; }
-.tt-date-picker__view { height: 440rpx; }
-.tt-date-picker__body { padding: 0 32rpx; }
-.tt-date-picker__item { display: flex; align-items: center; justify-content: center; height: 88rpx; font-size: 28rpx; }
+.tt-date-picker { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; justify-content: flex-end; }
+.tt-date-picker__mask { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); }
+.tt-date-picker__panel { position: relative; background: var(--tt-background, #fff); border-radius: var(--tt-radius, 12rpx) var(--tt-radius, 12rpx) 0 0; z-index: 1; }
+.tt-date-picker__toolbar { display: flex; align-items: center; justify-content: space-between; height: 96rpx; padding: 0 32rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-date-picker__cancel { font-size: 28rpx; color: var(--tt-muted-foreground, #737373); cursor: pointer; }
+.tt-date-picker__title { font-size: 30rpx; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
+.tt-date-picker__confirm { font-size: 28rpx; color: var(--tt-primary, #171717); font-weight: 600; cursor: pointer; }
+.tt-date-picker__view { height: 480rpx; }
+.tt-date-picker__body { padding: 0 32rpx 32rpx; }
+.tt-date-picker__item { display: flex; align-items: center; justify-content: center; height: 88rpx; font-size: 30rpx; color: var(--tt-foreground, #0a0a0a); }
+.tt-date-picker__indicator { border-top: 2rpx solid var(--tt-border, #e5e5e5); border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
 </style>

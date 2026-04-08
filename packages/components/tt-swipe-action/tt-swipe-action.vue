@@ -38,12 +38,18 @@ function onTouchStart(e: any) {
 function onTouchMove(e: any) {
   if (props.disabled) return
   const dx = e.touches[0].clientX - startX.value
-  offset.value = Math.min(80, Math.max(-80, startOffset.value + dx))
+  const maxRight = props.leftActions.length ? 80 : 0
+  const maxLeft = props.rightActions.length ? -80 : 0
+  offset.value = Math.min(maxRight, Math.max(maxLeft, startOffset.value + dx))
 }
 
 function onTouchEnd() {
   if (Math.abs(offset.value) < 30) offset.value = 0
-  else offset.value = offset.value > 0 ? 80 : -80
+  else {
+    const maxRight = props.leftActions.length ? 80 : 0
+    const maxLeft = props.rightActions.length ? -80 : 0
+    offset.value = offset.value > 0 ? maxRight : maxLeft
+  }
 }
 
 function close() { offset.value = 0 }

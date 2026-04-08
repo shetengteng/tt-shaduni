@@ -9,6 +9,9 @@ export const datePickerProps = {
   show: { type: Boolean, default: false },
   minDate: { type: String, default: '' },
   maxDate: { type: String, default: '' },
+  locale: { type: String as PropType<'en' | 'zh'>, default: 'en' },
+  minYear: { type: Number, default: 2000 },
+  maxYear: { type: Number, default: 2040 },
 }
 
 export type DatePickerProps = ExtractPropTypes<typeof datePickerProps>
