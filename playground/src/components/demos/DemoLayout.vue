@@ -2,6 +2,7 @@
   <view class="demo">
     <view class="demo-block">
       <text class="demo-label">Row / Col</text>
+      <text class="demo-desc">12-column flex grid layout</text>
       <tt-row :gutter="8">
         <tt-col :span="12"><view class="g-cell pri">12</view></tt-col>
         <tt-col :span="12"><view class="g-cell sec">12</view></tt-col>
@@ -15,6 +16,7 @@
 
     <view class="demo-block">
       <text class="demo-label">Grid</text>
+      <text class="demo-desc">N-column grid with optional border</text>
       <tt-grid :column-num="4" border>
         <view class="g-item">A</view>
         <view class="g-item">B</view>
@@ -25,6 +27,7 @@
 
     <view class="demo-block">
       <text class="demo-label">Space</text>
+      <text class="demo-desc">Horizontal/vertical spacing</text>
       <tt-space :size="10">
         <tt-button size="sm">A</tt-button>
         <tt-button size="sm">B</tt-button>
@@ -34,6 +37,7 @@
 
     <view class="demo-block">
       <text class="demo-label">Collapse</text>
+      <text class="demo-desc">Accordion expand/collapse panels</text>
       <tt-collapse v-model="collapse">
         <text class="demo-hint">Collapse content</text>
       </tt-collapse>
@@ -41,11 +45,13 @@
 
     <view class="demo-block">
       <text class="demo-label">Sticky</text>
-      <text class="demo-hint">Makes child stick to top on scroll.</text>
+      <text class="demo-desc">Sticks child to top on scroll</text>
+      <text class="demo-hint">Wrap any content to make it sticky during scroll with configurable offset.</text>
     </view>
 
     <view class="demo-block">
       <text class="demo-label">Theme</text>
+      <text class="demo-desc">CSS variable token system</text>
       <view class="theme-row">
         <view class="swatch" style="background: var(--tt-primary, #171717);" />
         <text class="demo-hint">Primary</text>

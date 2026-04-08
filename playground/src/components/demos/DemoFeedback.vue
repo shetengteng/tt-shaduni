@@ -2,6 +2,7 @@
   <view class="demo">
     <view class="demo-block">
       <text class="demo-label">Loading</text>
+      <text class="demo-desc">Spinner with text, vertical layout</text>
       <view class="demo-row">
         <tt-loading />
         <tt-loading text="Loading..." />
@@ -10,6 +11,7 @@
 
     <view class="demo-block">
       <text class="demo-label">Toast</text>
+      <text class="demo-desc">Lightweight message popup</text>
       <view class="demo-row">
         <tt-button size="sm" @click="toast = true">Toast</tt-button>
         <tt-button size="sm" variant="outline" @click="sToast = true">Success</tt-button>
@@ -20,6 +22,7 @@
 
     <view class="demo-block">
       <text class="demo-label">Dialog</text>
+      <text class="demo-desc">Modal confirm/cancel dialog</text>
       <view class="demo-row">
         <tt-button size="sm" @click="dlg = true">Confirm</tt-button>
         <tt-button size="sm" variant="outline" @click="alert = true">Alert</tt-button>
@@ -30,6 +33,7 @@
 
     <view class="demo-block">
       <text class="demo-label">Popup</text>
+      <text class="demo-desc">5 positions with overlay</text>
       <view class="demo-row">
         <tt-button size="sm" variant="outline" @click="pPos='center';popup=true">Center</tt-button>
         <tt-button size="sm" variant="outline" @click="pPos='bottom';popup=true">Bottom</tt-button>
@@ -42,12 +46,14 @@
 
     <view class="demo-block">
       <text class="demo-label">ActionSheet</text>
+      <text class="demo-desc">Bottom action menu with cancel</text>
       <tt-button size="sm" @click="as = true">Show</tt-button>
       <tt-action-sheet v-model:show="as" :actions="asActs" />
     </view>
 
     <view class="demo-block">
       <text class="demo-label">Sheet</text>
+      <text class="demo-desc">Bottom/right sheet with title</text>
       <tt-button size="sm" @click="sheet = true">Open</tt-button>
       <tt-sheet v-model:show="sheet" title="Sheet">
         <text class="demo-hint">Sheet content</text>
@@ -56,11 +62,13 @@
 
     <view class="demo-block">
       <text class="demo-label">NoticeBar</text>
+      <text class="demo-desc">Scrollable notification with close</text>
       <tt-notice-bar text="Notification message." closeable />
     </view>
 
     <view class="demo-block">
       <text class="demo-label">Transition</text>
+      <text class="demo-desc">Fade / slide-up / zoom animations</text>
       <tt-button size="sm" @click="trans = !trans">Toggle</tt-button>
       <tt-transition :show="trans" name="fade">
         <view style="padding: 14px; background: var(--tt-muted, #f5f5f5); border-radius: 8px; margin-top: 8px;">

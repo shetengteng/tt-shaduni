@@ -181,6 +181,12 @@ const cats = [
   gap: 10px;
   align-items: center;
 }
+.demo-desc {
+  font-size: 12px;
+  color: var(--tt-muted-foreground, #737373);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
 .demo-hint {
   font-size: 13px;
   color: var(--tt-muted-foreground, #737373);

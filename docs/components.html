@@ -43,7 +43,7 @@
     <main class="main">
       <div class="main-header" :key="active">
         <h1>{{ comp.name }}</h1>
-        <p>{{ comp.desc }}</p>
+        <p>{{ lang==='zh' && comp.descZh ? comp.descZh : comp.desc }}</p>
       </div>
 
       <div class="content-grid" :key="active+'grid'">
