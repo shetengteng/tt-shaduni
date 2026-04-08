@@ -9,10 +9,10 @@
     </view>
     <view class="pg-hd__actions">
       <view class="pg-hd__btn" @click="$emit('toggleLang')">
-        <text class="pg-hd__btn-label">{{ lang === 'en' ? '中' : 'En' }}</text>
+        <text class="pg-hd__btn-lang">{{ lang === 'en' ? '中' : 'En' }}</text>
       </view>
       <view class="pg-hd__btn" @click="$emit('toggleTheme')">
-        <text class="pg-hd__btn-label">{{ isDark ? '☀' : '☽' }}</text>
+        <text class="pg-hd__btn-theme">{{ isDark ? '☀' : '☽' }}</text>
       </view>
     </view>
   </view>
@@ -81,10 +81,14 @@ defineEmits(['toggleLang', 'toggleTheme'])
   padding: 0 12rpx;
 }
 .pg-hd__btn:active { background: var(--tt-muted, #f5f5f5); }
-.pg-hd__btn-label {
-  font-size: 36rpx;
+.pg-hd__btn-lang {
+  font-size: 24rpx;
   font-weight: 600;
   color: var(--tt-foreground, #0a0a0a);
+  line-height: 1;
+}
+.pg-hd__btn-theme {
+  font-size: 36rpx;
   line-height: 1;
 }
 </style>

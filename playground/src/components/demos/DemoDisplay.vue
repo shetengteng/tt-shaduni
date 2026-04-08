@@ -88,13 +88,15 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('swiper') }}</text>
       <text class="demo-desc">{{ t('swiper.desc') }}</text>
-      <tt-swiper :autoplay="true" :interval="3000" indicator-dots circular style="height: 300rpx;">
-        <swiper-item v-for="c in ['#3b82f6','#22c55e','#f59e0b']" :key="c">
-          <view class="swiper-slide" :style="{ background: c }">
-            <text class="swiper-slide__text">Slide</text>
-          </view>
-        </swiper-item>
-      </tt-swiper>
+      <view style="height: 300rpx;">
+        <tt-swiper :autoplay="true" :interval="3000" indicator-dots circular style="height: 300rpx;">
+          <swiper-item v-for="c in ['#3b82f6','#22c55e','#f59e0b']" :key="c" style="height: 300rpx;">
+            <view class="swiper-slide" :style="{ background: c, height: '300rpx' }">
+              <text class="swiper-slide__text">Slide</text>
+            </view>
+          </swiper-item>
+        </tt-swiper>
+      </view>
     </view>
 
     <view class="demo-block">

@@ -89,7 +89,7 @@ const ddOptions = [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' 
 
 <style>
 .swipe-demo-cell {
-  padding: 28rpx 24rpx;
+  padding: 40rpx 24rpx;
   background: var(--tt-background, #fff);
   border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
   font-size: 28rpx;

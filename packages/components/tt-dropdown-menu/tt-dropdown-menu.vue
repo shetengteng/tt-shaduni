@@ -48,7 +48,7 @@ function select(opt: { value: string | number }) { emit('update:modelValue', opt
   border-radius: var(--tt-radius, 12rpx);
 }
 .tt-dropdown-menu__title { font-size: 28rpx; font-weight: 500; color: var(--tt-foreground, #0a0a0a); }
-.tt-dropdown-menu__arrow { font-size: 36rpx; transition: transform .2s; color: var(--tt-muted-foreground, #737373); line-height: 1; }
+.tt-dropdown-menu__arrow { font-size: 24rpx; transition: transform .2s; color: var(--tt-muted-foreground, #737373); line-height: 1; }
 .tt-dropdown-menu__arrow--up { transform: rotate(180deg); }
 .tt-dropdown-menu__popup { position: absolute; left: 0; right: 0; top: calc(100% + 8rpx); z-index: 100; }
 .tt-dropdown-menu__overlay { position: fixed; inset: 0; z-index: -1; background: transparent; }
