@@ -13,11 +13,11 @@
         <view
           v-for="y in yearRange"
           :key="y"
-          class="tt-calendar__picker-item"
-          :class="{ 'tt-calendar__picker-item--active': viewYear === y }"
+          class="tt-calendar__picker-cell"
+          :class="{ 'tt-calendar__picker-cell--active': viewYear === y }"
           @click="pickYear(y)"
         >
-          <text>{{ y }}</text>
+          <text class="tt-calendar__picker-text">{{ y }}</text>
         </view>
       </view>
     </view>
@@ -27,11 +27,11 @@
         <view
           v-for="(m, i) in loc.months"
           :key="i"
-          class="tt-calendar__picker-item"
-          :class="{ 'tt-calendar__picker-item--active': viewMonth === i + 1 }"
+          class="tt-calendar__picker-cell"
+          :class="{ 'tt-calendar__picker-cell--active': viewMonth === i + 1 }"
           @click="pickMonth(i + 1)"
         >
-          <text>{{ m }}</text>
+          <text class="tt-calendar__picker-text">{{ m }}</text>
         </view>
       </view>
     </view>
@@ -257,25 +257,33 @@ function onSelect(cell: CalendarCell) {
 }
 .tt-calendar__picker-grid--year {
   grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
 }
-.tt-calendar__picker-item {
+.tt-calendar__picker-cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80rpx;
+  height: 88rpx;
   border-radius: var(--tt-radius, 12rpx);
-  font-size: 28rpx;
-  color: var(--tt-foreground, #0a0a0a);
   cursor: pointer;
-  transition: background .15s;
+  transition: all .2s ease;
+  border: 2rpx solid transparent;
 }
-.tt-calendar__picker-item:active {
+.tt-calendar__picker-cell:active {
   background: var(--tt-muted, #f5f5f5);
+  transform: scale(0.95);
 }
-.tt-calendar__picker-item--active {
+.tt-calendar__picker-cell--active {
   background: var(--tt-primary, #171717);
+  border-color: var(--tt-primary, #171717);
+}
+.tt-calendar__picker-cell--active .tt-calendar__picker-text {
   color: var(--tt-primary-foreground, #fafafa);
   font-weight: 600;
+}
+.tt-calendar__picker-text {
+  font-size: 28rpx;
+  color: var(--tt-foreground, #0a0a0a);
 }
 .tt-calendar__weekdays {
   display: grid;

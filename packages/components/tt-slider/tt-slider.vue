@@ -10,7 +10,7 @@
       :activeColor="activeColor || 'var(--tt-primary, #171717)'"
       :backgroundColor="'var(--tt-muted, #f5f5f5)'"
       :block-size="18"
-      block-color="transparent"
+      block-color="#ffffff"
       @changing="onChanging"
       @change="onChange"
     />
@@ -59,7 +59,11 @@ function onChange(e: any) {
   border-radius: 50% !important;
   background: var(--tt-background, #fff) !important;
   border: 4rpx solid var(--tt-primary, #171717) !important;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,.1) !important;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,.12) !important;
   margin-top: -14rpx !important;
+  box-sizing: border-box !important;
+}
+.tt-slider .uni-slider-handle::after {
+  display: none !important;
 }
 </style>
