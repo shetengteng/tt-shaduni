@@ -11,6 +11,17 @@ const dict: Record<string, Record<string, string>> = {
   'cat.feedback': { en: 'Feedback', zh: '反馈' },
   'cat.layout': { en: 'Layout', zh: '布局' },
 
+  'cat.icon': { en: 'Icons', zh: '图标' },
+
+  // Icon Gallery
+  'icon.gallery': { en: 'Icon Gallery', zh: '图标集' },
+  'icon.gallery.desc': { en: 'Tap an icon to copy its name', zh: '点击图标复制名称' },
+  'icon.sizes': { en: 'Sizes', zh: '尺寸' },
+  'icon.sizes.desc': { en: 'Icons scale from 16px to 48px', zh: '图标支持 16px 到 48px 缩放' },
+  'icon.colors': { en: 'Colors', zh: '颜色' },
+  'icon.colors.desc': { en: 'Apply any color via the color prop', zh: '通过 color 属性设置任意颜色' },
+  'icon.copied': { en: 'Copied', zh: '已复制' },
+
   // Basic
   'button': { en: 'Button', zh: '按钮' },
   'button.desc': { en: '6 variants, 4 sizes, loading/disabled states', zh: '6 种变体、4 种尺寸、加载/禁用状态' },
@@ -40,6 +51,8 @@ const dict: Record<string, Record<string, string>> = {
   'picker.desc': { en: 'Single/multi-column picker with toolbar', zh: '单列/多列选择器，带确认工具栏' },
   'datepicker': { en: 'DatePicker', zh: '日期选择' },
   'datepicker.desc': { en: 'Year-month-day date selector', zh: '年-月-日日期选择器' },
+  'calendar': { en: 'Calendar', zh: '日历' },
+  'calendar.desc': { en: 'Month view with date selection', zh: '月历视图，支持日期选择' },
   'upload': { en: 'Upload', zh: '上传' },
   'upload.desc': { en: 'Image uploader with preview and delete', zh: '图片上传，支持预览和删除' },
   'form': { en: 'Form', zh: '表单' },
@@ -94,6 +107,8 @@ const dict: Record<string, Record<string, string>> = {
   'pagination.desc': { en: 'Page number navigation', zh: '页码导航' },
   'dropdown': { en: 'DropdownMenu', zh: '下拉菜单' },
   'dropdown.desc': { en: 'Filter/sort dropdown with options', zh: '筛选/排序下拉菜单' },
+  'swipeAction': { en: 'SwipeAction', zh: '滑动操作' },
+  'swipeAction.desc': { en: 'Swipe cell to reveal actions', zh: '滑动单元格显示操作按钮' },
 
   // Feedback
   'loading': { en: 'Loading', zh: '加载' },

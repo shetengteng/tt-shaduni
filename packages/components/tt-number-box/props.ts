@@ -21,6 +21,6 @@ export const numberBoxProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtNumberBoxProps = ExtractPropTypes<typeof numberBoxProps>

@@ -15,7 +15,7 @@ const emit = defineEmits<{
 </script>
 
 <style>
-.tt-rate { display: inline-flex; gap: 2px; }
+.tt-rate { display: inline-flex; gap: 4rpx; }
 .tt-rate__star { color: var(--tt-muted, #f5f5f5); cursor: pointer; transition: color 0.15s; }
 .tt-rate__star--active { color: var(--tt-warning, #f59e0b); }
 </style>

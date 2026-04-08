@@ -17,6 +17,6 @@ defineEmits(['load'])
 </script>
 
 <style>
-.tt-list__loading, .tt-list__finished { display: flex; align-items: center; justify-content: center; padding: 16px 0; }
-.tt-list__text { font-size: 13px; color: var(--tt-muted-foreground, #737373); }
+.tt-list__loading, .tt-list__finished { display: flex; align-items: center; justify-content: center; padding: 32rpx 0; }
+.tt-list__text { font-size: 26rpx; color: var(--tt-muted-foreground, #737373); }
 </style>

@@ -9,6 +9,6 @@ export const swiperProps = {
   indicatorColor: { type: String, default: 'rgba(0,0,0,.3)' },
   indicatorActiveColor: { type: String, default: '' },
   current: { type: Number, default: 0 },
-} as const
+}
 
 export type SwiperProps = ExtractPropTypes<typeof swiperProps>

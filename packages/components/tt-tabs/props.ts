@@ -9,6 +9,6 @@ export const tabsProps = {
     type: Array as PropType<Array<{ label: string; value: string | number; disabled?: boolean }>>,
     default: () => [],
   },
-} as const
+}
 
 export type TabsProps = ExtractPropTypes<typeof tabsProps>

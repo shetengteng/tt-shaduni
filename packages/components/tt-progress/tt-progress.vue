@@ -14,8 +14,8 @@ defineProps(progressProps)
 </script>
 
 <style>
-.tt-progress { display: flex; align-items: center; gap: 10px; width: 100%; }
-.tt-progress__bar { flex: 1; background: var(--tt-muted, #f5f5f5); border-radius: 9999px; overflow: hidden; }
-.tt-progress__inner { height: 100%; background: var(--tt-primary, #171717); border-radius: 9999px; transition: width 0.3s; }
-.tt-progress__text { font-size: 12px; color: var(--tt-muted-foreground, #737373); flex-shrink: 0; width: 36px; text-align: right; }
+.tt-progress { display: flex; align-items: center; gap: 20rpx; width: 100%; }
+.tt-progress__bar { flex: 1; background: var(--tt-muted, #f5f5f5); border-radius: 19998rpx; overflow: hidden; }
+.tt-progress__inner { height: 100%; background: var(--tt-primary, #171717); border-radius: 19998rpx; transition: width 0.3s; }
+.tt-progress__text { font-size: 24rpx; color: var(--tt-muted-foreground, #737373); flex-shrink: 0; width: 72rpx; text-align: right; }
 </style>

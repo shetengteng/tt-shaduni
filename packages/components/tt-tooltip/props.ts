@@ -6,6 +6,6 @@ export const tooltipProps = {
   content: { type: String, default: '' },
   placement: { type: String as PropType<TooltipPlacement>, default: 'top' },
   show: { type: Boolean, default: false },
-} as const
+}
 
 export type TooltipProps = ExtractPropTypes<typeof tooltipProps>

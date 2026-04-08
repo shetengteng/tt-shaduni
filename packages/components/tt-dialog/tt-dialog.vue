@@ -55,37 +55,37 @@ function handleCancel() {
 
 <style>
 .tt-dialog {
-  width: 280px;
+  width: 560rpx;
   background-color: var(--tt-background, #ffffff);
-  border-radius: calc(var(--tt-radius, 6px) + 4px);
+  border-radius: calc(var(--tt-radius, 12rpx) + 8rpx);
   overflow: hidden;
 }
 
 .tt-dialog__header {
-  padding: 24px 24px 0;
+  padding: 48rpx 48rpx 0;
   text-align: center;
 }
 
 .tt-dialog__title {
-  font-size: 16px;
+  font-size: 32rpx;
   font-weight: 600;
   color: var(--tt-foreground, #0a0a0a);
 }
 
 .tt-dialog__body {
-  padding: 16px 24px 24px;
+  padding: 32rpx 48rpx 48rpx;
   text-align: center;
 }
 
 .tt-dialog__message {
-  font-size: 14px;
+  font-size: 28rpx;
   color: var(--tt-muted-foreground, #737373);
   line-height: 1.6;
 }
 
 .tt-dialog__footer {
   display: flex;
-  border-top: 1px solid var(--tt-border, #e5e5e5);
+  border-top: 2rpx solid var(--tt-border, #e5e5e5);
 }
 
 .tt-dialog__btn {
@@ -93,15 +93,15 @@ function handleCancel() {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 48px;
-  font-size: 15px;
+  height: 96rpx;
+  font-size: 30rpx;
   cursor: pointer;
   transition: background-color 0.15s;
 }
 
 .tt-dialog__btn--cancel {
   color: var(--tt-muted-foreground, #737373);
-  border-right: 1px solid var(--tt-border, #e5e5e5);
+  border-right: 2rpx solid var(--tt-border, #e5e5e5);
 }
 
 .tt-dialog__btn--confirm {

@@ -17,6 +17,6 @@ export const avatarProps = {
     type: String,
     default: '',
   },
-} as const
+}
 
 export type TtAvatarProps = ExtractPropTypes<typeof avatarProps>

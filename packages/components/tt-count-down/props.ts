@@ -13,6 +13,6 @@ export const countDownProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtCountDownProps = ExtractPropTypes<typeof countDownProps>

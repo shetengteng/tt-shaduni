@@ -18,12 +18,12 @@ defineProps(descriptionsProps)
 </script>
 
 <style>
-.tt-descriptions { border-radius: var(--tt-radius, 6px); overflow: hidden; }
-.tt-descriptions--bordered { border: 1px solid var(--tt-border, #e5e5e5); }
-.tt-descriptions__header { padding: 12px 16px; border-bottom: 1px solid var(--tt-border, #e5e5e5); }
-.tt-descriptions__title { font-size: 15px; font-weight: 600; }
+.tt-descriptions { border-radius: var(--tt-radius, 12rpx); overflow: hidden; }
+.tt-descriptions--bordered { border: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-descriptions__header { padding: 24rpx 32rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-descriptions__title { font-size: 30rpx; font-weight: 600; }
 .tt-descriptions__body { display: grid; gap: 0; }
-.tt-descriptions__item { padding: 12px 16px; border-bottom: 1px solid var(--tt-border, #e5e5e5); }
-.tt-descriptions__label { font-size: 12px; color: var(--tt-muted-foreground, #737373); margin-bottom: 4px; display: block; }
-.tt-descriptions__value { font-size: 14px; color: var(--tt-foreground, #0a0a0a); display: block; }
+.tt-descriptions__item { padding: 24rpx 32rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-descriptions__label { font-size: 24rpx; color: var(--tt-muted-foreground, #737373); margin-bottom: 8rpx; display: block; }
+.tt-descriptions__value { font-size: 28rpx; color: var(--tt-foreground, #0a0a0a); display: block; }
 </style>

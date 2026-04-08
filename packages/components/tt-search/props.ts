@@ -17,6 +17,6 @@ export const searchProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtSearchProps = ExtractPropTypes<typeof searchProps>

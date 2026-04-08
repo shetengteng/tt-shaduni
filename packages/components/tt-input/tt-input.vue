@@ -69,10 +69,10 @@ function handleClear() {
 .tt-input {
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid var(--tt-input, #e5e5e5);
-  border-radius: var(--tt-radius, 6px);
+  height: 80rpx;
+  padding: 0 24rpx;
+  border: 2rpx solid var(--tt-input, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
   background-color: var(--tt-background, #ffffff);
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
@@ -80,7 +80,7 @@ function handleClear() {
 
 .tt-input--focused {
   border-color: var(--tt-ring, #a3a3a3);
-  box-shadow: 0 0 0 2px rgba(163, 163, 163, 0.2);
+  box-shadow: 0 0 0 4rpx rgba(163, 163, 163, 0.2);
 }
 
 .tt-input--disabled {
@@ -91,7 +91,7 @@ function handleClear() {
 .tt-input__inner {
   flex: 1;
   height: 100%;
-  font-size: 14px;
+  font-size: 28rpx;
   color: var(--tt-foreground, #0a0a0a);
   background: transparent;
   border: none;
@@ -103,14 +103,14 @@ function handleClear() {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin-left: 4px;
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 8rpx;
   cursor: pointer;
 }
 
 .tt-input__clear-icon {
-  font-size: 16px;
+  font-size: 32rpx;
   color: var(--tt-muted-foreground, #737373);
   line-height: 1;
 }

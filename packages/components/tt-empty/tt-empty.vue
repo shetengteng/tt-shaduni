@@ -13,7 +13,7 @@ defineProps(emptyProps)
 </script>
 
 <style>
-.tt-empty { display: flex; flex-direction: column; align-items: center; padding: 40px 0; }
-.tt-empty__icon { font-size: 48px; margin-bottom: 12px; }
-.tt-empty__desc { font-size: 14px; color: var(--tt-muted-foreground, #737373); }
+.tt-empty { display: flex; flex-direction: column; align-items: center; padding: 80rpx 0; }
+.tt-empty__icon { font-size: 96rpx; margin-bottom: 24rpx; }
+.tt-empty__desc { font-size: 28rpx; color: var(--tt-muted-foreground, #737373); }
 </style>

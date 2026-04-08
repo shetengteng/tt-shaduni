@@ -12,6 +12,6 @@ export const typographyProps = {
   delete: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
   href: { type: String, default: '' },
-} as const
+}
 
 export type TypographyProps = ExtractPropTypes<typeof typographyProps>

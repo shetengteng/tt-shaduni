@@ -18,8 +18,8 @@ const emit = defineEmits<{
 </script>
 
 <style>
-.tt-sheet { min-height: 200px; }
-.tt-sheet__header { padding: 16px 20px; border-bottom: 1px solid var(--tt-border, #e5e5e5); }
-.tt-sheet__title { font-size: 16px; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
-.tt-sheet__body { padding: 20px; }
+.tt-sheet { min-height: 400rpx; }
+.tt-sheet__header { padding: 32rpx 40rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-sheet__title { font-size: 32rpx; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
+.tt-sheet__body { padding: 40rpx; }
 </style>

@@ -25,6 +25,6 @@ export const cellProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtCellProps = ExtractPropTypes<typeof cellProps>

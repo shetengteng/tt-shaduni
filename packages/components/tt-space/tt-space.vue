@@ -8,7 +8,12 @@
 import { computed } from 'vue'
 import { spaceProps } from './props'
 
-defineProps(spaceProps)
+const props = defineProps(spaceProps)
+
+const spaceStyle = computed(() => {
+  const g = typeof props.size === 'number' ? props.size + 'px' : props.size
+  return { gap: g, alignItems: props.align }
+})
 </script>
 
 <style>

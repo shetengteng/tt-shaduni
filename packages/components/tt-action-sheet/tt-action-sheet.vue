@@ -27,9 +27,9 @@ const emit = defineEmits<{
 
 <style>
 .tt-action-sheet { background: var(--tt-background, #ffffff); }
-.tt-action-sheet__title { display: block; text-align: center; padding: 16px; font-size: 14px; color: var(--tt-muted-foreground, #737373); border-bottom: 1px solid var(--tt-border, #e5e5e5); }
-.tt-action-sheet__item { padding: 16px; text-align: center; font-size: 16px; color: var(--tt-foreground, #0a0a0a); cursor: pointer; transition: background 0.15s; }
+.tt-action-sheet__title { display: block; text-align: center; padding: 32rpx; font-size: 28rpx; color: var(--tt-muted-foreground, #737373); border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-action-sheet__item { padding: 32rpx; text-align: center; font-size: 32rpx; color: var(--tt-foreground, #0a0a0a); cursor: pointer; transition: background 0.15s; }
 .tt-action-sheet__item--disabled { opacity: 0.4; cursor: not-allowed; }
-.tt-action-sheet__gap { height: 8px; background: var(--tt-muted, #f5f5f5); }
-.tt-action-sheet__cancel { padding: 16px; text-align: center; font-size: 16px; color: var(--tt-foreground, #0a0a0a); cursor: pointer; }
+.tt-action-sheet__gap { height: 16rpx; background: var(--tt-muted, #f5f5f5); }
+.tt-action-sheet__cancel { padding: 32rpx; text-align: center; font-size: 32rpx; color: var(--tt-foreground, #0a0a0a); cursor: pointer; }
 </style>

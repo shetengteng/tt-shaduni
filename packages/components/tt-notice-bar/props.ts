@@ -21,6 +21,6 @@ export const noticeBarProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtNoticeBarProps = ExtractPropTypes<typeof noticeBarProps>

@@ -13,6 +13,6 @@ export const formProps = {
     type: String,
     default: '80px',
   },
-} as const
+}
 
 export type TtFormProps = ExtractPropTypes<typeof formProps>

@@ -47,12 +47,12 @@ function go(p: number) {
 </script>
 
 <style>
-.tt-pagination { display: flex; align-items: center; gap: 4px; }
-.tt-pagination__btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 6px); cursor: pointer; font-size: 16px; transition: background .15s; }
+.tt-pagination { display: flex; align-items: center; gap: 8rpx; }
+.tt-pagination__btn { width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; border: 2rpx solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 12rpx); cursor: pointer; font-size: 32rpx; transition: background .15s; }
 .tt-pagination__btn:active { background: var(--tt-muted, #f5f5f5); }
 .tt-pagination__btn--disabled { opacity: .4; pointer-events: none; }
-.tt-pagination__item { min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: var(--tt-radius, 6px); font-size: 13px; cursor: pointer; transition: all .15s; }
+.tt-pagination__item { min-width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; border-radius: var(--tt-radius, 12rpx); font-size: 26rpx; cursor: pointer; transition: all .15s; }
 .tt-pagination__item:active { background: var(--tt-muted, #f5f5f5); }
 .tt-pagination__item--active { background: var(--tt-primary, #171717); color: var(--tt-primary-foreground, #fafafa); font-weight: 600; }
-.tt-pagination__simple { font-size: 13px; padding: 0 8px; }
+.tt-pagination__simple { font-size: 26rpx; padding: 0 16rpx; }
 </style>

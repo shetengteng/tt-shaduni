@@ -23,10 +23,10 @@ defineProps(tableProps)
 <style>
 .tt-table-wrap { width: 100%; }
 .tt-table { display: table; width: 100%; border-collapse: collapse; }
-.tt-table--bordered .tt-table__th, .tt-table--bordered .tt-table__td { border: 1px solid var(--tt-border, #e5e5e5); }
+.tt-table--bordered .tt-table__th, .tt-table--bordered .tt-table__td { border: 2rpx solid var(--tt-border, #e5e5e5); }
 .tt-table__header { display: table-row; background: var(--tt-muted, #f5f5f5); }
 .tt-table__row { display: table-row; }
 .tt-table--striped .tt-table__row:nth-child(even) { background: var(--tt-muted, #f5f5f5); }
-.tt-table__th { display: table-cell; padding: 10px 12px; font-size: 13px; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
-.tt-table__td { display: table-cell; padding: 10px 12px; font-size: 13px; color: var(--tt-foreground, #0a0a0a); }
+.tt-table__th { display: table-cell; padding: 20rpx 24rpx; font-size: 26rpx; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
+.tt-table__td { display: table-cell; padding: 20rpx 24rpx; font-size: 26rpx; color: var(--tt-foreground, #0a0a0a); }
 </style>

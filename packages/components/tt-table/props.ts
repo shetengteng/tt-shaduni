@@ -7,6 +7,6 @@ export const tableProps = {
   data: { type: Array as PropType<Record<string, any>[]>, default: () => [] },
   bordered: { type: Boolean, default: true },
   striped: { type: Boolean, default: false },
-} as const
+}
 
 export type TableProps = ExtractPropTypes<typeof tableProps>

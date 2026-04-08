@@ -9,6 +9,6 @@ export const datePickerProps = {
   show: { type: Boolean, default: false },
   minDate: { type: String, default: '' },
   maxDate: { type: String, default: '' },
-} as const
+}
 
 export type DatePickerProps = ExtractPropTypes<typeof datePickerProps>

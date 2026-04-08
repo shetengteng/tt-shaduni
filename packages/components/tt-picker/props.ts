@@ -7,6 +7,6 @@ export const pickerProps = {
   confirmText: { type: String, default: 'Confirm' },
   cancelText: { type: String, default: 'Cancel' },
   show: { type: Boolean, default: false },
-} as const
+}
 
 export type PickerProps = ExtractPropTypes<typeof pickerProps>

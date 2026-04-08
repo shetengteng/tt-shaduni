@@ -27,6 +27,6 @@ export const popupProps = {
     type: Number,
     default: 300,
   },
-} as const
+}
 
 export type PopupProps = ExtractPropTypes<typeof popupProps>

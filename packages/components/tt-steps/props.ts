@@ -9,6 +9,6 @@ export const stepsProps = {
     type: String as PropType<'horizontal' | 'vertical'>,
     default: 'horizontal',
   },
-} as const
+}
 
 export type TtStepsProps = ExtractPropTypes<typeof stepsProps>

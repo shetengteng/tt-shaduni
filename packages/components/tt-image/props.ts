@@ -25,6 +25,6 @@ export const imageProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtImageProps = ExtractPropTypes<typeof imageProps>

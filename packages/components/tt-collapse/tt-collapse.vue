@@ -5,15 +5,30 @@
 </template>
 
 <script setup lang="ts">
+import { provide, toRef, computed } from 'vue'
 import { collapseProps } from './props'
 
-defineProps(collapseProps)
+const props = defineProps(collapseProps)
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void
 }>()
 
+const value = computed(() => props.modelValue || [])
+provide('tt-collapse-value', value)
+
+provide('tt-collapse-toggle', (name: string | number) => {
+  const arr = [...(props.modelValue || [])] as any[]
+  const idx = arr.indexOf(name)
+  if (props.accordion) {
+    emit('update:modelValue', idx >= 0 ? [] : [name])
+  } else {
+    if (idx >= 0) arr.splice(idx, 1)
+    else arr.push(name)
+    emit('update:modelValue', arr)
+  }
+})
 </script>
 
 <style>
-.tt-collapse { border: 1px solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 6px); overflow: hidden; }
+.tt-collapse { border: 2rpx solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 12rpx); overflow: hidden; }
 </style>

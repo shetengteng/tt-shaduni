@@ -51,9 +51,9 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('sticky') }}</text>
       <text class="demo-desc">{{ t('sticky.desc') }}</text>
-      <tt-sticky :offset-top="80">
-        <view style="background: var(--tt-primary, #18181b); padding: 10px 16px; border-radius: 8px;">
-          <text style="color: #fff; font-size: 13px;">I stick at 80px</text>
+      <tt-sticky :offset-top="200">
+        <view style="background: var(--tt-primary, #18181b); padding: 20rpx 32rpx; border-radius: 16rpx;">
+          <text style="color: #fff; font-size: 26rpx;">Sticky element (offset: 200rpx)</text>
         </view>
       </tt-sticky>
     </view>
@@ -73,6 +73,7 @@
 
 <script setup lang="ts">
 import { ref, inject } from 'vue'
+import '@/styles/demo-shared.css'
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const collapseVal = ref(['a'])
@@ -83,25 +84,25 @@ const collapseVal = ref(['a'])
   background: var(--tt-primary, #18181b);
   color: #fff;
   text-align: center;
-  font-size: 12px;
-  padding: 10px 0;
-  border-radius: 6px;
+  font-size: 24rpx;
+  padding: 20rpx 0;
+  border-radius: 12rpx;
 }
 .grid-cell.alt { background: var(--tt-muted-foreground, #737373); }
 .grid-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 0;
+  padding: 28rpx 0;
 }
 .grid-item-text {
-  font-size: 13px;
+  font-size: 26rpx;
   color: var(--tt-foreground, #0a0a0a);
 }
 .swatch {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid var(--tt-border, #e5e5e5);
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid var(--tt-border, #e5e5e5);
 }
 </style>

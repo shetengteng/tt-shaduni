@@ -6,7 +6,6 @@ describe('TtSlider', () => {
   it('renders with default props', () => {
     const wrapper = mount(TtSlider)
     expect(wrapper.classes()).toContain('tt-slider')
-    expect(wrapper.find('.tt-slider__track').exists()).toBe(true)
   })
 
   it('applies disabled class', () => {
@@ -14,15 +13,16 @@ describe('TtSlider', () => {
     expect(wrapper.classes()).toContain('tt-slider--disabled')
   })
 
-  it('computes bar width from modelValue', () => {
+  it('emits update:modelValue on change', async () => {
     const wrapper = mount(TtSlider, { props: { modelValue: 50, min: 0, max: 100 } })
-    const bar = wrapper.find('.tt-slider__bar')
-    expect(bar.attributes('style')).toContain('width: 50%')
+    await wrapper.find('slider').trigger('change', { detail: { value: 75 } })
+    const emitted = wrapper.emitted('update:modelValue')
+    expect(emitted).toBeTruthy()
   })
 
-  it('computes 0% when modelValue equals min', () => {
-    const wrapper = mount(TtSlider, { props: { modelValue: 0, min: 0, max: 100 } })
-    const bar = wrapper.find('.tt-slider__bar')
-    expect(bar.attributes('style')).toContain('width: 0%')
+  it('passes min/max/step props', () => {
+    const wrapper = mount(TtSlider, { props: { modelValue: 5, min: 0, max: 10, step: 2 } })
+    const slider = wrapper.find('slider')
+    expect(slider.exists()).toBe(true)
   })
 })

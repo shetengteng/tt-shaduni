@@ -1,9 +1,15 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export interface TabbarItem { text: string; icon?: string }
+
 export const tabbarProps = {
   modelValue: {
     type: Number,
     default: 0,
+  },
+  items: {
+    type: Array as PropType<TabbarItem[]>,
+    default: () => [],
   },
   fixed: {
     type: Boolean,
@@ -17,6 +23,6 @@ export const tabbarProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtTabbarProps = ExtractPropTypes<typeof tabbarProps>

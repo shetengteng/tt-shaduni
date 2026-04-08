@@ -45,9 +45,9 @@ function handleClick(e: Event) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 12rpx;
   border: none;
-  border-radius: var(--tt-radius, 6px);
+  border-radius: var(--tt-radius, 12rpx);
   font-weight: 500;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif;
@@ -79,7 +79,7 @@ function handleClick(e: Event) {
 .tt-button--outline {
   background-color: var(--tt-background, #ffffff);
   color: var(--tt-foreground, #0a0a0a);
-  border: 1px solid var(--tt-border, #e5e5e5);
+  border: 2rpx solid var(--tt-border, #e5e5e5);
 }
 
 .tt-button--secondary {
@@ -96,34 +96,34 @@ function handleClick(e: Event) {
   background-color: transparent;
   color: var(--tt-primary, #171717);
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 8rpx;
 }
 
 /* — Sizes — */
 
 .tt-button--sm {
-  height: 32px;
-  padding: 0 12px;
-  font-size: 12px;
-  border-radius: calc(var(--tt-radius, 6px) - 2px);
+  height: 64rpx;
+  padding: 0 24rpx;
+  font-size: 24rpx;
+  border-radius: calc(var(--tt-radius, 12rpx) - 4rpx);
 }
 
 .tt-button--md {
-  height: 36px;
-  padding: 0 16px;
-  font-size: 14px;
+  height: 72rpx;
+  padding: 0 32rpx;
+  font-size: 28rpx;
 }
 
 .tt-button--lg {
-  height: 44px;
-  padding: 0 24px;
-  font-size: 16px;
-  border-radius: calc(var(--tt-radius, 6px) + 2px);
+  height: 88rpx;
+  padding: 0 48rpx;
+  font-size: 32rpx;
+  border-radius: calc(var(--tt-radius, 12rpx) + 4rpx);
 }
 
 .tt-button--icon {
-  width: 36px;
-  height: 36px;
+  width: 72rpx;
+  height: 72rpx;
   padding: 0;
 }
 
@@ -153,9 +153,9 @@ function handleClick(e: Event) {
 }
 
 .tt-button__spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid currentColor;
+  width: 28rpx;
+  height: 28rpx;
+  border: 4rpx solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
   animation: tt-spin 0.6s linear infinite;

@@ -35,6 +35,6 @@ export const buttonProps = {
     type: String,
     default: '',
   },
-} as const
+}
 
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>

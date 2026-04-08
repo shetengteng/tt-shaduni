@@ -9,6 +9,6 @@ export const configProviderProps = {
     type: Object as PropType<Record<string, string>>,
     default: () => ({}),
   },
-} as const
+}
 
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>

@@ -99,32 +99,32 @@ function handleClose() {
 }
 
 .tt-popup--center .tt-popup__content {
-  border-radius: calc(var(--tt-radius, 6px) + 4px);
+  border-radius: calc(var(--tt-radius, 12rpx) + 8rpx);
   max-width: 85vw;
 }
 
 .tt-popup--bottom .tt-popup__content {
   width: 100%;
-  border-radius: calc(var(--tt-radius, 6px) + 4px) calc(var(--tt-radius, 6px) + 4px) 0 0;
+  border-radius: calc(var(--tt-radius, 12rpx) + 8rpx) calc(var(--tt-radius, 12rpx) + 8rpx) 0 0;
   animation-name: tt-popup-slide-up;
 }
 
 .tt-popup--top .tt-popup__content {
   width: 100%;
-  border-radius: 0 0 calc(var(--tt-radius, 6px) + 4px) calc(var(--tt-radius, 6px) + 4px);
+  border-radius: 0 0 calc(var(--tt-radius, 12rpx) + 8rpx) calc(var(--tt-radius, 12rpx) + 8rpx);
   animation-name: tt-popup-slide-down;
 }
 
 .tt-popup__content--round {
-  border-radius: calc(var(--tt-radius, 6px) + 8px);
+  border-radius: calc(var(--tt-radius, 12rpx) + 16rpx);
 }
 
 .tt-popup__close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 24px;
-  height: 24px;
+  top: 24rpx;
+  right: 24rpx;
+  width: 48rpx;
+  height: 48rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +133,7 @@ function handleClose() {
 }
 
 .tt-popup__close-icon {
-  font-size: 20px;
+  font-size: 40rpx;
   color: var(--tt-muted-foreground, #737373);
   line-height: 1;
 }

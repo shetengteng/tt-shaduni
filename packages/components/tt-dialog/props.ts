@@ -25,6 +25,6 @@ export const dialogProps = {
     type: String,
     default: 'Cancel',
   },
-} as const
+}
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>

@@ -7,6 +7,6 @@ export const descriptionsProps = {
   items: { type: Array as PropType<DescriptionItem[]>, default: () => [] },
   column: { type: Number, default: 2 },
   bordered: { type: Boolean, default: false },
-} as const
+}
 
 export type DescriptionsProps = ExtractPropTypes<typeof descriptionsProps>

@@ -117,6 +117,7 @@
 
 <script setup lang="ts">
 import { inject } from 'vue'
+import '@/styles/demo-shared.css'
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const cols = [{ key: 'name', title: 'Name' }, { key: 'age', title: 'Age' }, { key: 'role', title: 'Role' }]

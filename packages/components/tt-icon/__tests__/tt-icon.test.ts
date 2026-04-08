@@ -3,10 +3,10 @@ import { mount } from '@vue/test-utils'
 import TtIcon from '../tt-icon.vue'
 
 describe('TtIcon', () => {
-  it('renders with name class', () => {
+  it('renders icon character from name', () => {
     const wrapper = mount(TtIcon, { props: { name: 'close' } })
     expect(wrapper.classes()).toContain('tt-icon')
-    expect(wrapper.classes()).toContain('tt-icon-close')
+    expect(wrapper.text()).toBe('✕')
   })
 
   it('applies numeric size as px', () => {

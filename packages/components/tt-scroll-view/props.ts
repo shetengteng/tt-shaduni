@@ -6,6 +6,6 @@ export const scrollViewProps = {
   refresherEnabled: { type: Boolean, default: false },
   refresherTriggered: { type: Boolean, default: false },
   lowerThreshold: { type: Number, default: 50 },
-} as const
+}
 
 export type ScrollViewProps = ExtractPropTypes<typeof scrollViewProps>

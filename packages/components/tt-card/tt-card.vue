@@ -25,8 +25,8 @@ defineProps(cardProps)
 
 <style>
 .tt-card {
-  border-radius: calc(var(--tt-radius, 6px) + 2px);
-  border: 1px solid var(--tt-border, #e5e5e5);
+  border-radius: calc(var(--tt-radius, 12rpx) + 4rpx);
+  border: 2rpx solid var(--tt-border, #e5e5e5);
   background-color: var(--tt-card, #ffffff);
   color: var(--tt-card-foreground, #0a0a0a);
   overflow: hidden;
@@ -34,7 +34,7 @@ defineProps(cardProps)
 }
 
 .tt-card--shadow-always {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.06), 0 2rpx 4rpx rgba(0, 0, 0, 0.04);
 }
 
 .tt-card--shadow-never {
@@ -42,36 +42,36 @@ defineProps(cardProps)
 }
 
 .tt-card__header {
-  padding: 20px 20px 0;
+  padding: 40rpx 40rpx 0;
 }
 
 .tt-card__header-inner {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8rpx;
 }
 
 .tt-card__title {
-  font-size: 16px;
+  font-size: 32rpx;
   font-weight: 600;
   line-height: 1.4;
   color: inherit;
 }
 
 .tt-card__description {
-  font-size: 13px;
+  font-size: 26rpx;
   color: var(--tt-muted-foreground, #737373);
   line-height: 1.5;
 }
 
 .tt-card__content {
-  padding: 20px;
+  padding: 40rpx;
 }
 
 .tt-card__footer {
-  padding: 0 20px 20px;
+  padding: 0 40rpx 40rpx;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16rpx;
 }
 </style>

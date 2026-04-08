@@ -22,5 +22,5 @@ const gridStyle = computed(() => {
 
 <style>
 .tt-grid { display: grid; }
-.tt-grid--border { border: 1px solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 6px); overflow: hidden; }
+.tt-grid--border { border: 2rpx solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 12rpx); overflow: hidden; }
 </style>

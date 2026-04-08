@@ -22,7 +22,7 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('tabbar') }}</text>
       <text class="demo-desc">{{ t('tabbar.desc') }}</text>
-      <tt-tabbar v-model="tbIdx" :items="tabbarItems" />
+      <tt-tabbar v-model="tbIdx" :items="tabbarItems" :fixed="false" />
     </view>
 
     <view class="demo-block">
@@ -34,7 +34,7 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('sidebar') }}</text>
       <text class="demo-desc">{{ t('sidebar.desc') }}</text>
-      <tt-sidebar v-model="sideIdx" :items="[{text:'Category 1'},{text:'Category 2'},{text:'Category 3'}]" />
+      <tt-sidebar v-model="sideIdx" width="200rpx" :items="[{text:'Category 1'},{text:'Category 2'},{text:'Category 3'}]" />
     </view>
 
     <view class="demo-block">
@@ -52,13 +52,29 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('dropdown') }}</text>
       <text class="demo-desc">{{ t('dropdown.desc') }}</text>
-      <tt-dropdown-menu :items="ddItems" />
+      <tt-dropdown-menu v-model="ddVal" title="Sort" :options="ddOptions" />
+    </view>
+
+    <view class="demo-block">
+      <text class="demo-label">{{ t('swipeAction') }}</text>
+      <text class="demo-desc">{{ t('swipeAction.desc') }}</text>
+      <tt-swipe-action :right-actions="[{ text: 'Delete', bgColor: '#ef4444' }]">
+        <view class="swipe-demo-cell">
+          <text>Swipe left to delete</text>
+        </view>
+      </tt-swipe-action>
+      <tt-swipe-action :left-actions="[{ text: 'Pin', bgColor: '#3b82f6' }]" :right-actions="[{ text: 'Delete', bgColor: '#ef4444' }]">
+        <view class="swipe-demo-cell">
+          <text>Swipe both directions</text>
+        </view>
+      </tt-swipe-action>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, inject } from 'vue'
+import '@/styles/demo-shared.css'
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const tabIdx = ref(0)
@@ -67,5 +83,16 @@ const tabbarItems = [{ text: 'Home', icon: 'home' }, { text: 'List', icon: 'list
 const stepItems = [{ title: 'Order' }, { title: 'Pay' }, { title: 'Done' }]
 const sideIdx = ref(0)
 const page = ref(1)
-const ddItems = [{ title: 'Sort', options: [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' }] }]
+const ddVal = ref('')
+const ddOptions = [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' }, { text: 'Sales', value: '2' }]
 </script>
+
+<style>
+.swipe-demo-cell {
+  padding: 28rpx 24rpx;
+  background: var(--tt-background, #fff);
+  border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
+  font-size: 28rpx;
+  color: var(--tt-foreground, #0a0a0a);
+}
+</style>

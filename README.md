@@ -18,12 +18,12 @@
 - **TypeScript** — Full type definitions for all components, composables, and design tokens
 - **Lightweight** — No SCSS runtime dependency; styles are self-contained with CSS variable fallbacks
 
-## Components (63)
+## Components (64)
 
 | Category | Components |
 |----------|-----------|
 | **Basic** | Button, Icon |
-| **Form** | Input, Textarea, Checkbox, CheckboxGroup, Radio, RadioGroup, Switch, Search, NumberBox, Form, FormItem, DatePicker, Picker, Slider, Upload |
+| **Form** | Input, Textarea, Checkbox, CheckboxGroup, Radio, RadioGroup, Switch, Search, NumberBox, Form, FormItem, DatePicker, Calendar, Picker, Slider, Upload |
 | **Display** | Card, Badge, Tag, Divider, Empty, Progress, Skeleton, Avatar, Rate, CountDown, Image, Descriptions, Typography, Table, List, Tooltip |
 | **Navigation** | Cell, Tabs, Navbar, Tabbar, Steps, Breadcrumb, Sidebar, IndexBar, Pagination, DropdownMenu |
 | **Feedback** | Popup, Dialog, Toast, ActionSheet, Sheet, NoticeBar, Loading, SwipeAction, Transition |
@@ -80,7 +80,7 @@ const { isDark, toggleTheme } = useTheme()
 
 ```
 packages/
-├── components/       # 63 Vue SFC components
+├── components/       # 64 Vue SFC components
 │   ├── tt-button/
 │   ├── tt-input/
 │   └── ...
@@ -90,6 +90,9 @@ packages/
 
 playground/           # UniApp demo app
 docs/                 # Documentation site (Vue CDN SPA)
+docs-vitepress/       # VitePress documentation site
+build/                # Vite library build config
+scripts/              # Release, docs gen, uni_modules scripts
 ```
 
 ## Development
@@ -104,6 +107,91 @@ npm test
 # Run tests in watch mode
 npm run test:watch
 ```
+
+## Documentation (VitePress)
+
+The project includes a VitePress-powered documentation site with auto-generated component API docs.
+
+```bash
+# Generate component API docs from props.ts files
+npm run docs:gen
+
+# Start local VitePress dev server (auto-generates docs first)
+npm run docs:dev
+
+# Build VitePress static site for deployment
+npm run docs:build
+```
+
+The generated site includes:
+- **Getting Started** guide with install and usage instructions
+- **Theming** guide with CSS variable customization
+- **Dark Mode** guide with `useTheme` composable
+- **Component API** pages auto-generated from each component's `props.ts`
+
+VitePress config is in `docs-vitepress/.vitepress/config.ts`. Generated component docs go to `docs-vitepress/components/`.
+
+## Build & Publish
+
+```bash
+# Build library (ESM + CJS)
+npm run build
+
+# Generate TypeScript declarations
+npm run build:dts
+
+# Build all (library + dts)
+npm run build:all
+
+# Generate uni_modules format
+npm run build:uni_modules
+
+# Generate component API docs
+npm run docs:gen
+
+# Run VitePress docs dev server
+npm run docs:dev
+
+# Build VitePress docs
+npm run docs:build
+
+# Release a new version (patch/minor/major)
+node scripts/release.mjs patch
+git push --follow-tags
+```
+
+### Build Output
+
+```
+dist/
+├── es/            # ESM modules (tree-shakable)
+├── lib/           # CJS modules
+├── types/         # TypeScript declarations
+└── uni_modules/   # UniApp plugin format
+    └── tt-shaduni/
+```
+
+### Auto-Import (Vite)
+
+```ts
+// vite.config.ts
+import { TtUIResolver } from 'tt-shaduni/resolver'
+import Components from 'unplugin-vue-components/vite'
+
+export default {
+  plugins: [
+    Components({
+      resolvers: [TtUIResolver()],
+    }),
+  ],
+}
+```
+
+## CI/CD
+
+- **CI**: Lint + Test + Build on every push/PR to `main`
+- **Publish**: Triggered on `v*` tags — publishes to npm + creates GitHub Release
+- **Docs**: Auto-deploys VitePress to GitHub Pages when `docs-vitepress/` changes
 
 ## Tech Stack
 

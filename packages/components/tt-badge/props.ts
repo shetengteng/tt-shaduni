@@ -17,6 +17,6 @@ export const badgeProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtBadgeProps = ExtractPropTypes<typeof badgeProps>

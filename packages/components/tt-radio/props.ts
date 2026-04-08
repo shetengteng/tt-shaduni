@@ -13,6 +13,6 @@ export const radioProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtRadioProps = ExtractPropTypes<typeof radioProps>

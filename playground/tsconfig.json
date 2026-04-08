@@ -16,7 +16,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "tt-ui/*": ["../packages/*"]
     },
     "lib": ["ESNext", "DOM"],
     "types": ["@dcloudio/types"]

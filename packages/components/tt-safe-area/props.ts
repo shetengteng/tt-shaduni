@@ -5,6 +5,6 @@ export const safeAreaProps = {
     type: String as PropType<'top' | 'bottom'>,
     default: 'bottom',
   },
-} as const
+}
 
 export type TtSafeAreaProps = ExtractPropTypes<typeof safeAreaProps>

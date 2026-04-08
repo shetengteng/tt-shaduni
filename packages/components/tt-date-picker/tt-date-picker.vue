@@ -56,12 +56,12 @@ function onConfirm() {
 </script>
 
 <style>
-.tt-date-picker { background: var(--tt-background, #fff); border-radius: var(--tt-radius, 6px) var(--tt-radius, 6px) 0 0; }
-.tt-date-picker__toolbar { display: flex; align-items: center; justify-content: space-between; height: 44px; padding: 0 16px; border-bottom: 1px solid var(--tt-border, #e5e5e5); }
-.tt-date-picker__cancel { font-size: 14px; color: var(--tt-muted-foreground, #737373); }
-.tt-date-picker__title { font-size: 15px; font-weight: 600; }
-.tt-date-picker__confirm { font-size: 14px; color: var(--tt-primary, #171717); font-weight: 500; }
-.tt-date-picker__view { height: 220px; }
-.tt-date-picker__body { padding: 0 16px; }
-.tt-date-picker__item { display: flex; align-items: center; justify-content: center; height: 44px; font-size: 14px; }
+.tt-date-picker { background: var(--tt-background, #fff); border-radius: var(--tt-radius, 12rpx) var(--tt-radius, 12rpx) 0 0; }
+.tt-date-picker__toolbar { display: flex; align-items: center; justify-content: space-between; height: 88rpx; padding: 0 32rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-date-picker__cancel { font-size: 28rpx; color: var(--tt-muted-foreground, #737373); }
+.tt-date-picker__title { font-size: 30rpx; font-weight: 600; }
+.tt-date-picker__confirm { font-size: 28rpx; color: var(--tt-primary, #171717); font-weight: 500; }
+.tt-date-picker__view { height: 440rpx; }
+.tt-date-picker__body { padding: 0 32rpx; }
+.tt-date-picker__item { display: flex; align-items: center; justify-content: center; height: 88rpx; font-size: 28rpx; }
 </style>

@@ -17,6 +17,6 @@ export const spaceProps = {
     type: String as PropType<'start' | 'center' | 'end' | 'baseline'>,
     default: 'start',
   },
-} as const
+}
 
 export type TtSpaceProps = ExtractPropTypes<typeof spaceProps>

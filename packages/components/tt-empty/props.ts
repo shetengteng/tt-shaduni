@@ -9,6 +9,6 @@ export const emptyProps = {
     type: String,
     default: '',
   },
-} as const
+}
 
 export type TtEmptyProps = ExtractPropTypes<typeof emptyProps>

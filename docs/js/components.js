@@ -106,6 +106,14 @@ window.TTDocs.allComponents = [
     usage:`<tt-date-picker v-model="date" v-model:show="visible" title="Select Date" />`,
     props:[['v-model','string',"''"],['v-model:show','boolean','false'],['mode',"'date'|'time'|'datetime'","'date'"],['title','string',"''"]]
   },
+  { id:'calendar', cat:'form', name:'Calendar',
+    desc:'Month-view calendar with date selection, min/max range, and navigation.',
+    descZh:'月历视图，支持日期选择、最小/最大范围限制和月份导航。',
+    usage:`<tt-calendar v-model="selectedDate" />
+<tt-calendar v-model="date" min-date="2025-01-01" max-date="2025-12-31" />
+<tt-calendar v-model="date" :first-day-of-week="1" />`,
+    props:[['v-model','string',"''"],['minDate','string',"''"],['maxDate','string',"''"],['firstDayOfWeek','0|1','0'],['readonly','boolean','false']]
+  },
   { id:'upload', cat:'form', name:'Upload',
     desc:'Image/file uploader with preview, delete, and count limit.',
     descZh:'图片/文件上传，支持预览、删除和数量限制。',

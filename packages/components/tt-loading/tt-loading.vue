@@ -9,13 +9,22 @@
 import { computed } from 'vue'
 import { loadingProps } from './props'
 
-defineProps(loadingProps)
+const props = defineProps(loadingProps)
+
+const spinnerStyle = computed(() => {
+  const s = typeof props.size === 'number' ? props.size + 'px' : props.size
+  return {
+    width: s,
+    height: s,
+    ...(props.color ? { borderTopColor: props.color } : {}),
+  }
+})
 </script>
 
 <style>
-.tt-loading { display: inline-flex; align-items: center; gap: 8px; }
+.tt-loading { display: inline-flex; align-items: center; gap: 16rpx; }
 .tt-loading--vertical { flex-direction: column; }
-.tt-loading__spinner { border: 2px solid var(--tt-muted, #f5f5f5); border-top-color: var(--tt-primary, #171717); border-radius: 50%; animation: tt-spin 0.6s linear infinite; }
-.tt-loading__text { font-size: 14px; color: var(--tt-muted-foreground, #737373); }
+.tt-loading__spinner { border: 4rpx solid var(--tt-muted, #f5f5f5); border-top-color: var(--tt-primary, #171717); border-radius: 50%; animation: tt-spin 0.6s linear infinite; }
+.tt-loading__text { font-size: 28rpx; color: var(--tt-muted-foreground, #737373); }
 @keyframes tt-spin { to { transform: rotate(360deg); } }
 </style>

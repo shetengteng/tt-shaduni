@@ -1,0 +1,10 @@
+uni-page-body,
+.uni-page-body {
+  height: auto !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+uni-page-wrapper {
+  overflow-y: auto !important;
+}

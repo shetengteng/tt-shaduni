@@ -57,5 +57,5 @@ function close() { offset.value = 0 }
 .tt-swipe-action__left, .tt-swipe-action__right { position: absolute; top: 0; bottom: 0; display: flex; }
 .tt-swipe-action__left { right: 100%; }
 .tt-swipe-action__right { left: 100%; }
-.tt-swipe-action__btn { display: flex; align-items: center; justify-content: center; padding: 0 16px; font-size: 13px; white-space: nowrap; }
+.tt-swipe-action__btn { display: flex; align-items: center; justify-content: center; padding: 0 32rpx; font-size: 26rpx; white-space: nowrap; }
 </style>

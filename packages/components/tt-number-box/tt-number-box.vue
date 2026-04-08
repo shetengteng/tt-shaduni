@@ -17,8 +17,8 @@ const emit = defineEmits<{
 </script>
 
 <style>
-.tt-number-box { display: inline-flex; align-items: center; border: 1px solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 6px); overflow: hidden; }
+.tt-number-box { display: inline-flex; align-items: center; border: 2rpx solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 12rpx); overflow: hidden; }
 .tt-number-box--disabled { opacity: 0.5; }
-.tt-number-box__btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--tt-foreground, #0a0a0a); font-size: 16px; background: var(--tt-muted, #f5f5f5); }
-.tt-number-box__value { min-width: 40px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--tt-foreground, #0a0a0a); }
+.tt-number-box__btn { width: 64rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--tt-foreground, #0a0a0a); font-size: 32rpx; background: var(--tt-muted, #f5f5f5); }
+.tt-number-box__value { min-width: 80rpx; height: 64rpx; display: flex; align-items: center; justify-content: center; font-size: 28rpx; color: var(--tt-foreground, #0a0a0a); }
 </style>

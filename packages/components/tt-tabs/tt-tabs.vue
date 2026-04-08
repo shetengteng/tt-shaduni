@@ -41,7 +41,7 @@ function handleClick(item: { value: string | number; disabled?: boolean }) {
 <style>
 .tt-tabs__nav {
   white-space: nowrap;
-  border-bottom: 1px solid var(--tt-border, #e5e5e5);
+  border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
 }
 
 .tt-tabs__nav-inner {
@@ -52,8 +52,8 @@ function handleClick(item: { value: string | number; disabled?: boolean }) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
-  font-size: 14px;
+  padding: 20rpx 32rpx;
+  font-size: 28rpx;
   color: var(--tt-muted-foreground, #737373);
   position: relative;
   cursor: pointer;
@@ -70,11 +70,11 @@ function handleClick(item: { value: string | number; disabled?: boolean }) {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 16px;
-  right: 16px;
-  height: 2px;
+  left: 32rpx;
+  right: 32rpx;
+  height: 4rpx;
   background-color: var(--tt-primary, #171717);
-  border-radius: 1px;
+  border-radius: 2rpx;
 }
 
 .tt-tabs__item--disabled {
@@ -88,6 +88,6 @@ function handleClick(item: { value: string | number; disabled?: boolean }) {
 }
 
 .tt-tabs__content {
-  padding: 16px 0;
+  padding: 32rpx 0;
 }
 </style>

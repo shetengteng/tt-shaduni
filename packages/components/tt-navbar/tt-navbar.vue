@@ -37,8 +37,8 @@ function handleLeftClick() {
 .tt-navbar {
   display: flex;
   align-items: center;
-  height: 44px;
-  padding: 0 16px;
+  height: 88rpx;
+  padding: 0 32rpx;
   background-color: var(--tt-background, #ffffff);
   position: relative;
 }
@@ -52,25 +52,25 @@ function handleLeftClick() {
 }
 
 .tt-navbar--border {
-  border-bottom: 1px solid var(--tt-border, #e5e5e5);
+  border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
 }
 
 .tt-navbar__left {
   display: flex;
   align-items: center;
-  gap: 4px;
-  min-width: 60px;
+  gap: 8rpx;
+  min-width: 120rpx;
   cursor: pointer;
 }
 
 .tt-navbar__arrow {
-  font-size: 24px;
+  font-size: 48rpx;
   color: var(--tt-foreground, #0a0a0a);
   line-height: 1;
 }
 
 .tt-navbar__left-text {
-  font-size: 14px;
+  font-size: 28rpx;
   color: var(--tt-foreground, #0a0a0a);
 }
 
@@ -80,7 +80,7 @@ function handleLeftClick() {
 }
 
 .tt-navbar__title-text {
-  font-size: 16px;
+  font-size: 32rpx;
   font-weight: 600;
   color: var(--tt-foreground, #0a0a0a);
 }
@@ -88,7 +88,7 @@ function handleLeftClick() {
 .tt-navbar__right {
   display: flex;
   align-items: center;
-  min-width: 60px;
+  min-width: 120rpx;
   justify-content: flex-end;
 }
 </style>

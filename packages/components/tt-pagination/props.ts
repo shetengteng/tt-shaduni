@@ -8,6 +8,6 @@ export const paginationProps = {
   itemsPerPage: { type: Number, default: 10 },
   mode: { type: String as PropType<PaginationMode>, default: 'number' },
   showPageSize: { type: Number, default: 5 },
-} as const
+}
 
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>

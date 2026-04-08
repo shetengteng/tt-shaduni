@@ -71,6 +71,7 @@
 
 <script setup lang="ts">
 import { ref, inject } from 'vue'
+import '@/styles/demo-shared.css'
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const showToast = ref(false)

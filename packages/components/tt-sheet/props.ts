@@ -13,6 +13,6 @@ export const sheetProps = {
     type: String,
     default: '',
   },
-} as const
+}
 
 export type TtSheetProps = ExtractPropTypes<typeof sheetProps>

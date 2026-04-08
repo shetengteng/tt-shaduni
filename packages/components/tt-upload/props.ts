@@ -10,6 +10,6 @@ export const uploadProps = {
   disabled: { type: Boolean, default: false },
   previewImage: { type: Boolean, default: true },
   deletable: { type: Boolean, default: true },
-} as const
+}
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>

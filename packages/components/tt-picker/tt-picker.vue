@@ -46,13 +46,13 @@ function onConfirm() {
 </script>
 
 <style>
-.tt-picker { background: var(--tt-background, #fff); border-radius: var(--tt-radius, 6px) var(--tt-radius, 6px) 0 0; }
-.tt-picker__toolbar { display: flex; align-items: center; justify-content: space-between; height: 44px; padding: 0 16px; border-bottom: 1px solid var(--tt-border, #e5e5e5); }
-.tt-picker__cancel { font-size: 14px; color: var(--tt-muted-foreground, #737373); }
-.tt-picker__title { font-size: 15px; font-weight: 600; }
-.tt-picker__confirm { font-size: 14px; color: var(--tt-primary, #171717); font-weight: 500; }
-.tt-picker__columns { display: flex; height: 220px; }
+.tt-picker { background: var(--tt-background, #fff); border-radius: var(--tt-radius, 12rpx) var(--tt-radius, 12rpx) 0 0; }
+.tt-picker__toolbar { display: flex; align-items: center; justify-content: space-between; height: 88rpx; padding: 0 32rpx; border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-picker__cancel { font-size: 28rpx; color: var(--tt-muted-foreground, #737373); }
+.tt-picker__title { font-size: 30rpx; font-weight: 600; }
+.tt-picker__confirm { font-size: 28rpx; color: var(--tt-primary, #171717); font-weight: 500; }
+.tt-picker__columns { display: flex; height: 440rpx; }
 .tt-picker__column { flex: 1; overflow-y: auto; }
-.tt-picker__item { display: flex; align-items: center; justify-content: center; height: 44px; font-size: 14px; color: var(--tt-muted-foreground, #737373); }
+.tt-picker__item { display: flex; align-items: center; justify-content: center; height: 88rpx; font-size: 28rpx; color: var(--tt-muted-foreground, #737373); }
 .tt-picker__item--active { color: var(--tt-foreground, #0a0a0a); font-weight: 600; }
 </style>

@@ -21,6 +21,6 @@ export const navbarProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type NavbarProps = ExtractPropTypes<typeof navbarProps>

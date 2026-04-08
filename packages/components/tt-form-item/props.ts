@@ -13,6 +13,6 @@ export const formItemProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtFormItemProps = ExtractPropTypes<typeof formItemProps>

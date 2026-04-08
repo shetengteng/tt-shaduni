@@ -31,6 +31,6 @@ export const inputProps = {
     type: Number,
     default: -1,
   },
-} as const
+}
 
 export type InputProps = ExtractPropTypes<typeof inputProps>

@@ -17,6 +17,6 @@ export const switchProps = {
     type: String as PropType<'sm' | 'md'>,
     default: 'md',
   },
-} as const
+}
 
 export type TtSwitchProps = ExtractPropTypes<typeof switchProps>

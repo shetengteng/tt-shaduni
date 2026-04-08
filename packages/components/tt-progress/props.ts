@@ -17,6 +17,6 @@ export const progressProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtProgressProps = ExtractPropTypes<typeof progressProps>

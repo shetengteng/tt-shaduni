@@ -16,5 +16,5 @@ const emit = defineEmits<{
 
 <style>
 .tt-count-down { display: inline-flex; }
-.tt-count-down__text { font-size: 14px; color: var(--tt-foreground, #0a0a0a); font-variant-numeric: tabular-nums; }
+.tt-count-down__text { font-size: 28rpx; color: var(--tt-foreground, #0a0a0a); font-variant-numeric: tabular-nums; }
 </style>

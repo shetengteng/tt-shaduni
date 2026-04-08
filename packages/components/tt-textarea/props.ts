@@ -25,6 +25,6 @@ export const textareaProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtTextareaProps = ExtractPropTypes<typeof textareaProps>

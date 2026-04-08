@@ -17,6 +17,6 @@ export const loadingProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtLoadingProps = ExtractPropTypes<typeof loadingProps>

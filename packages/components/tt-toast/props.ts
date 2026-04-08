@@ -17,6 +17,6 @@ export const toastProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtToastProps = ExtractPropTypes<typeof toastProps>

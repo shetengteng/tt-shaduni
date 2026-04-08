@@ -9,6 +9,6 @@ export const collapseProps = {
     type: Boolean,
     default: false,
   },
-} as const
+}
 
 export type TtCollapseProps = ExtractPropTypes<typeof collapseProps>

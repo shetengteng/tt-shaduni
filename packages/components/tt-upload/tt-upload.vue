@@ -38,13 +38,13 @@ function onPreview(idx: number) {
 </script>
 
 <style>
-.tt-upload { display: flex; flex-wrap: wrap; gap: 8px; }
-.tt-upload__preview { position: relative; width: 80px; height: 80px; border-radius: var(--tt-radius, 6px); overflow: hidden; }
+.tt-upload { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.tt-upload__preview { position: relative; width: 160rpx; height: 160rpx; border-radius: var(--tt-radius, 12rpx); overflow: hidden; }
 .tt-upload__image { width: 100%; height: 100%; }
-.tt-upload__delete { position: absolute; top: 0; right: 0; width: 18px; height: 18px; background: rgba(0,0,0,.6); border-radius: 0 0 0 6px; display: flex; align-items: center; justify-content: center; }
-.tt-upload__delete-icon { color: #fff; font-size: 12px; }
+.tt-upload__delete { position: absolute; top: 0; right: 0; width: 36rpx; height: 36rpx; background: rgba(0,0,0,.6); border-radius: 0 0 0 12rpx; display: flex; align-items: center; justify-content: center; }
+.tt-upload__delete-icon { color: #fff; font-size: 24rpx; }
 .tt-upload__mask { position: absolute; inset: 0; background: rgba(0,0,0,.3); display: flex; align-items: center; justify-content: center; }
-.tt-upload__loading-text { color: #fff; font-size: 12px; }
-.tt-upload__add { width: 80px; height: 80px; border: 1px dashed var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 6px); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.tt-upload__add-icon { font-size: 28px; color: var(--tt-muted-foreground, #737373); }
+.tt-upload__loading-text { color: #fff; font-size: 24rpx; }
+.tt-upload__add { width: 160rpx; height: 160rpx; border: 2rpx dashed var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 12rpx); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.tt-upload__add-icon { font-size: 56rpx; color: var(--tt-muted-foreground, #737373); }
 </style>

@@ -7,6 +7,6 @@ export const dropdownMenuProps = {
   modelValue: { type: [String, Number], default: '' },
   title: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
-} as const
+}
 
 export type DropdownMenuProps = ExtractPropTypes<typeof dropdownMenuProps>

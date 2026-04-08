@@ -14,7 +14,7 @@ defineEmits(['navigate'])
 </script>
 
 <style>
-.tt-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; font-size: 13px; }
+.tt-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 8rpx; font-size: 26rpx; }
 .tt-breadcrumb__separator { color: var(--tt-muted-foreground, #737373); }
 .tt-breadcrumb__item { color: var(--tt-muted-foreground, #737373); }
 .tt-breadcrumb__item--link { cursor: pointer; }

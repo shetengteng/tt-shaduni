@@ -15,6 +15,6 @@ export const cardProps = {
     type: String as PropType<CardShadow>,
     default: 'always',
   },
-} as const
+}
 
 export type CardProps = ExtractPropTypes<typeof cardProps>

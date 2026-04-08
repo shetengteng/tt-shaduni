@@ -8,6 +8,6 @@ export const sliderProps = {
   disabled: { type: Boolean, default: false },
   activeColor: { type: String, default: '' },
   inactiveColor: { type: String, default: '' },
-} as const
+}
 
 export type SliderProps = ExtractPropTypes<typeof sliderProps>

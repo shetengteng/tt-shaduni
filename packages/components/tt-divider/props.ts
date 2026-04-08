@@ -9,6 +9,6 @@ export const dividerProps = {
     type: String as PropType<'left' | 'center' | 'right'>,
     default: 'center',
   },
-} as const
+}
 
 export type TtDividerProps = ExtractPropTypes<typeof dividerProps>

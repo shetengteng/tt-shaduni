@@ -2,7 +2,7 @@
   <view class="tt-dropdown-menu" :class="{ 'tt-dropdown-menu--disabled': disabled }">
     <view class="tt-dropdown-menu__bar" @click="toggle">
       <text class="tt-dropdown-menu__title">{{ displayText }}</text>
-      <text class="tt-dropdown-menu__arrow" :class="{ 'tt-dropdown-menu__arrow--up': open }">▾</text>
+      <text class="tt-dropdown-menu__arrow" :class="{ 'tt-dropdown-menu__arrow--up': open }">▼</text>
     </view>
     <view v-if="open" class="tt-dropdown-menu__popup">
       <view class="tt-dropdown-menu__overlay" @click="open = false"></view>
@@ -36,15 +36,40 @@ function select(opt: { value: string | number }) { emit('update:modelValue', opt
 <style>
 .tt-dropdown-menu { position: relative; }
 .tt-dropdown-menu--disabled { opacity: .5; pointer-events: none; }
-.tt-dropdown-menu__bar { display: flex; align-items: center; justify-content: center; height: 44px; padding: 0 12px; cursor: pointer; gap: 4px; }
-.tt-dropdown-menu__title { font-size: 14px; font-weight: 500; }
-.tt-dropdown-menu__arrow { font-size: 10px; transition: transform .2s; }
+.tt-dropdown-menu__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  padding: 0 24rpx;
+  cursor: pointer;
+  gap: 12rpx;
+  border: 2rpx solid var(--tt-border, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
+}
+.tt-dropdown-menu__title { font-size: 28rpx; font-weight: 500; color: var(--tt-foreground, #0a0a0a); }
+.tt-dropdown-menu__arrow { font-size: 36rpx; transition: transform .2s; color: var(--tt-muted-foreground, #737373); line-height: 1; }
 .tt-dropdown-menu__arrow--up { transform: rotate(180deg); }
-.tt-dropdown-menu__popup { position: absolute; left: 0; right: 0; top: 100%; z-index: 10; }
-.tt-dropdown-menu__overlay { position: fixed; inset: 0; z-index: -1; }
-.tt-dropdown-menu__content { background: var(--tt-background, #fff); border: 1px solid var(--tt-border, #e5e5e5); border-radius: var(--tt-radius, 6px); box-shadow: 0 4px 12px rgba(0,0,0,.08); overflow: hidden; }
-.tt-dropdown-menu__option { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; font-size: 14px; cursor: pointer; transition: background .15s; }
+.tt-dropdown-menu__popup { position: absolute; left: 0; right: 0; top: calc(100% + 8rpx); z-index: 100; }
+.tt-dropdown-menu__overlay { position: fixed; inset: 0; z-index: -1; background: transparent; }
+.tt-dropdown-menu__content {
+  background: var(--tt-background, #fff);
+  border: 2rpx solid var(--tt-border, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
+  box-shadow: 0 8rpx 32rpx rgba(0,0,0,.12);
+  overflow: hidden;
+}
+.tt-dropdown-menu__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  color: var(--tt-foreground, #0a0a0a);
+  cursor: pointer;
+  transition: background .15s;
+}
 .tt-dropdown-menu__option:active { background: var(--tt-muted, #f5f5f5); }
 .tt-dropdown-menu__option--active { color: var(--tt-primary, #171717); font-weight: 600; }
-.tt-dropdown-menu__check { font-size: 14px; color: var(--tt-primary, #171717); }
+.tt-dropdown-menu__check { font-size: 28rpx; color: var(--tt-primary, #171717); }
 </style>

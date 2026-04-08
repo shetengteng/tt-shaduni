@@ -13,6 +13,6 @@ defineEmits(['change'])
 </script>
 
 <style>
-.tt-swiper { width: 100%; overflow: hidden; border-radius: var(--tt-radius, 6px); }
+.tt-swiper { width: 100%; overflow: hidden; border-radius: var(--tt-radius, 12rpx); }
 .tt-swiper__inner { width: 100%; height: 100%; }
 </style>

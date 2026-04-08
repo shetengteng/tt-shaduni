@@ -73,8 +73,18 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('datepicker') }}</text>
       <text class="demo-desc">{{ t('datepicker.desc') }}</text>
-      <tt-button size="sm" @click="showDate = true">{{ dateVal || 'Select Date' }}</tt-button>
+      <view class="demo-row">
+        <tt-button size="sm" @click="showDate = !showDate">{{ showDate ? 'Close' : 'Open' }} DatePicker</tt-button>
+        <text v-if="dateVal" class="demo-hint">{{ dateVal }}</text>
+      </view>
       <tt-date-picker v-model="dateVal" v-model:show="showDate" title="Select Date" />
+    </view>
+
+    <view class="demo-block">
+      <text class="demo-label">{{ t('calendar') }}</text>
+      <text class="demo-desc">{{ t('calendar.desc') }}</text>
+      <tt-calendar v-model="calendarDate" :locale="lang" />
+      <text v-if="calendarDate" class="demo-hint">Selected: {{ calendarDate }}</text>
     </view>
 
     <view class="demo-block">
@@ -102,8 +112,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from 'vue'
+import { ref, inject, type Ref } from 'vue'
+import '@/styles/demo-shared.css'
 const t = inject<(key: string) => string>('t', (k) => k)
+const lang = inject<Ref<string>>('lang', ref('en'))
 
 const inputVal = ref('')
 const inputVal2 = ref('Hello')
@@ -120,8 +132,9 @@ const rate = ref(3)
 const slider = ref(40)
 const showPicker = ref(false)
 const pickerCols = [{ text: 'A', value: 'a' }, { text: 'B', value: 'b' }, { text: 'C', value: 'c' }]
-const showDate = ref(false)
+const showDate = ref(true)
 const dateVal = ref('')
+const calendarDate = ref('')
 const files = ref<Array<{ url: string }>>([])
 const fname = ref('')
 const femail = ref('')

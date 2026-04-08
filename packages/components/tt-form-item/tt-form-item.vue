@@ -15,8 +15,8 @@ defineProps(formItemProps)
 </script>
 
 <style>
-.tt-form-item { display: flex; align-items: flex-start; margin-bottom: 16px; }
-.tt-form-item__label { width: 80px; font-size: 14px; color: var(--tt-foreground, #0a0a0a); padding-top: 10px; flex-shrink: 0; }
-.tt-form-item__required { color: var(--tt-destructive, #ef4444); margin-right: 2px; }
+.tt-form-item { display: flex; align-items: flex-start; margin-bottom: 32rpx; }
+.tt-form-item__label { width: 160rpx; font-size: 28rpx; color: var(--tt-foreground, #0a0a0a); padding-top: 20rpx; flex-shrink: 0; }
+.tt-form-item__required { color: var(--tt-destructive, #ef4444); margin-right: 4rpx; }
 .tt-form-item__content { flex: 1; }
 </style>

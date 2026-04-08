@@ -21,6 +21,6 @@ export const rateProps = {
     type: [String, Number],
     default: 20,
   },
-} as const
+}
 
 export type TtRateProps = ExtractPropTypes<typeof rateProps>

@@ -17,6 +17,6 @@ export const tagProps = {
     type: String as PropType<'sm' | 'md'>,
     default: 'md',
   },
-} as const
+}
 
 export type TtTagProps = ExtractPropTypes<typeof tagProps>

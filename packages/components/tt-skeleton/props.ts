@@ -21,6 +21,6 @@ export const skeletonProps = {
     type: Boolean,
     default: true,
   },
-} as const
+}
 
 export type TtSkeletonProps = ExtractPropTypes<typeof skeletonProps>

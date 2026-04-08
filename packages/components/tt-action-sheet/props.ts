@@ -17,6 +17,6 @@ export const actionSheetProps = {
     type: String,
     default: 'Cancel',
   },
-} as const
+}
 
 export type TtActionSheetProps = ExtractPropTypes<typeof actionSheetProps>
