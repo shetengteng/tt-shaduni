@@ -9,8 +9,8 @@
       :disabled="disabled"
       :activeColor="activeColor || 'var(--tt-primary, #171717)'"
       :backgroundColor="'var(--tt-muted, #f5f5f5)'"
-      :block-size="18"
-      block-color="#ffffff"
+      :block-size="1"
+      block-color="transparent"
       @changing="onChanging"
       @change="onChange"
     />
@@ -52,7 +52,6 @@ function onChange(e: any) {
   border-radius: 999px !important;
   background: var(--tt-primary, #171717) !important;
 }
-.tt-slider .uni-slider-thumb,
 .tt-slider .uni-slider-handle {
   width: 20px !important;
   height: 20px !important;
@@ -64,10 +63,14 @@ function onChange(e: any) {
   box-sizing: border-box !important;
   cursor: grab !important;
 }
+.tt-slider .uni-slider-thumb {
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+}
 .tt-slider .uni-slider-handle::before,
-.tt-slider .uni-slider-handle::after,
-.tt-slider .uni-slider-thumb::before,
-.tt-slider .uni-slider-thumb::after {
+.tt-slider .uni-slider-handle::after {
   display: none !important;
 }
 </style>
