@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.DS_Store
+
+**/config-dev.yml
+/.idea/
+/target/
+/refer/**
+
+prompts.txt
+userinput.py
+.cursor/**
+allure-results/**
+/test-output/**
+
+playground/node_modules/
+playground/dist/

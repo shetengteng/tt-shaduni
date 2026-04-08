@@ -1,0 +1,22 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^tt-(.*)": "../../packages/components/tt-$1/tt-$1.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "TT-UI Playground"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "TT-UI",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
+	}
+}
