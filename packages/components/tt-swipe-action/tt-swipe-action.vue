@@ -61,7 +61,7 @@ function close() { offset.value = 0 }
 .tt-swipe-action__wrapper { display: flex; position: relative; }
 .tt-swipe-action__content { flex-shrink: 0; width: 100%; }
 .tt-swipe-action__left, .tt-swipe-action__right { position: absolute; top: 0; bottom: 0; display: flex; }
-.tt-swipe-action__left { right: 100%; }
+.tt-swipe-action__left { right: 100%; flex-direction: row-reverse; }
 .tt-swipe-action__right { left: 100%; }
-.tt-swipe-action__btn { display: flex; align-items: center; justify-content: center; padding: 0 32rpx; font-size: 26rpx; white-space: nowrap; }
+.tt-swipe-action__btn { display: flex; align-items: center; justify-content: center; min-width: 80px; padding: 0 32rpx; font-size: 26rpx; white-space: nowrap; }
 </style>

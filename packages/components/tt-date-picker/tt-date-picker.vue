@@ -8,7 +8,7 @@
         <text class="tt-date-picker__confirm" @click="onConfirm">{{ loc.confirm }}</text>
       </view>
       <view class="tt-date-picker__body">
-        <picker-view class="tt-date-picker__view" :value="pickerVal" indicator-class="tt-date-picker__indicator" @change="onChange">
+        <picker-view class="tt-date-picker__view" :value="pickerVal" indicator-style="height: 44px;" indicator-class="tt-date-picker__indicator" @change="onChange">
           <picker-view-column>
             <view v-for="y in years" :key="y" class="tt-date-picker__item"><text>{{ loc.yearFmt(y) }}</text></view>
           </picker-view-column>
@@ -95,6 +95,6 @@ watch(() => props.show, (v) => {
 .tt-date-picker__confirm { font-size: 28rpx; color: var(--tt-primary, #171717); font-weight: 600; cursor: pointer; }
 .tt-date-picker__view { height: 480rpx; }
 .tt-date-picker__body { padding: 0 32rpx 32rpx; }
-.tt-date-picker__item { display: flex; align-items: center; justify-content: center; height: 88rpx; font-size: 30rpx; color: var(--tt-foreground, #0a0a0a); }
-.tt-date-picker__indicator { border-top: 2rpx solid var(--tt-border, #e5e5e5); border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
+.tt-date-picker__item { display: flex; align-items: center; justify-content: center; height: 44px; line-height: 44px; font-size: 30rpx; color: var(--tt-foreground, #0a0a0a); }
+.tt-date-picker__indicator { height: 44px !important; border-top: 2rpx solid var(--tt-border, #e5e5e5) !important; border-bottom: 2rpx solid var(--tt-border, #e5e5e5) !important; }
 </style>

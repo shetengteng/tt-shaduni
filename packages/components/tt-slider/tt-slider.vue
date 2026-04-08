@@ -42,28 +42,32 @@ function onChange(e: any) {
 
 /* shadcn-style overrides for UniApp H5 slider internals */
 .tt-slider .uni-slider-handle-wrapper {
-  height: 8rpx !important;
-  border-radius: 999rpx !important;
+  height: 4px !important;
+  border-radius: 999px !important;
   background: var(--tt-muted, #f5f5f5) !important;
   overflow: visible !important;
 }
 .tt-slider .uni-slider-track {
-  height: 8rpx !important;
-  border-radius: 999rpx !important;
+  height: 4px !important;
+  border-radius: 999px !important;
   background: var(--tt-primary, #171717) !important;
 }
 .tt-slider .uni-slider-thumb,
 .tt-slider .uni-slider-handle {
-  width: 36rpx !important;
-  height: 36rpx !important;
+  width: 20px !important;
+  height: 20px !important;
   border-radius: 50% !important;
   background: var(--tt-background, #fff) !important;
-  border: 4rpx solid var(--tt-primary, #171717) !important;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,.12) !important;
-  margin-top: -14rpx !important;
+  border: 2px solid var(--tt-primary, #171717) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12) !important;
+  margin-top: -8px !important;
   box-sizing: border-box !important;
+  cursor: grab !important;
 }
-.tt-slider .uni-slider-handle::after {
+.tt-slider .uni-slider-handle::before,
+.tt-slider .uni-slider-handle::after,
+.tt-slider .uni-slider-thumb::before,
+.tt-slider .uni-slider-thumb::after {
   display: none !important;
 }
 </style>
