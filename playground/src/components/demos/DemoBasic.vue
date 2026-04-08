@@ -1,8 +1,8 @@
 <template>
   <view class="demo">
     <view class="demo-block">
-      <text class="demo-label">Button</text>
-      <text class="demo-desc">6 variants, 4 sizes, loading/disabled states</text>
+      <text class="demo-label">{{ t('button') }}</text>
+      <text class="demo-desc">{{ t('button.desc') }}</text>
       <view class="demo-row">
         <tt-button variant="default">Default</tt-button>
         <tt-button variant="secondary">Secondary</tt-button>
@@ -26,8 +26,8 @@
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Icon</text>
-      <text class="demo-desc">Custom name, size, and color support</text>
+      <text class="demo-label">{{ t('icon') }}</text>
+      <text class="demo-desc">{{ t('icon.desc') }}</text>
       <view class="demo-row">
         <tt-icon name="home" />
         <tt-icon name="close" size="24" />
@@ -36,8 +36,8 @@
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Typography</text>
-      <text class="demo-desc">Heading, body, link, bold, ellipsis</text>
+      <text class="demo-label">{{ t('typography') }}</text>
+      <text class="demo-desc">{{ t('typography.desc') }}</text>
       <tt-typography type="title" :level="2">Heading H2</tt-typography>
       <tt-typography type="title" :level="4">Heading H4</tt-typography>
       <tt-typography>Regular body text.</tt-typography>
@@ -49,4 +49,6 @@
 </template>
 
 <script setup lang="ts">
+import { inject } from 'vue'
+const t = inject<(key: string) => string>('t', (k) => k)
 </script>

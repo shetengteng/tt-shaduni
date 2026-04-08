@@ -1,0 +1,139 @@
+import { ref, computed } from 'vue'
+
+const lang = ref<'en' | 'zh'>('en')
+
+const dict: Record<string, Record<string, string>> = {
+  // Categories
+  'cat.basic': { en: 'Basic', zh: '基础' },
+  'cat.form': { en: 'Form', zh: '表单' },
+  'cat.display': { en: 'Display', zh: '展示' },
+  'cat.nav': { en: 'Nav', zh: '导航' },
+  'cat.feedback': { en: 'Feedback', zh: '反馈' },
+  'cat.layout': { en: 'Layout', zh: '布局' },
+
+  // Basic
+  'button': { en: 'Button', zh: '按钮' },
+  'button.desc': { en: '6 variants, 4 sizes, loading/disabled states', zh: '6 种变体、4 种尺寸、加载/禁用状态' },
+  'icon': { en: 'Icon', zh: '图标' },
+  'icon.desc': { en: 'Custom name, size, and color support', zh: '自定义名称、尺寸和颜色' },
+  'typography': { en: 'Typography', zh: '排版' },
+  'typography.desc': { en: 'Heading, body, link, bold, ellipsis', zh: '标题、正文、链接、加粗、省略' },
+
+  // Form
+  'input': { en: 'Input', zh: '输入框' },
+  'input.desc': { en: 'Text / password / clearable / disabled', zh: '文本/密码/可清除/禁用' },
+  'textarea': { en: 'Textarea', zh: '多行输入' },
+  'textarea.desc': { en: 'Multi-line with maxlength count', zh: '多行文本输入，支持字数统计' },
+  'checkbox_radio': { en: 'Checkbox & Radio', zh: '复选框 & 单选框' },
+  'checkbox_radio.desc': { en: 'Toggle selection with v-model', zh: '通过 v-model 进行选择切换' },
+  'switch': { en: 'Switch', zh: '开关' },
+  'switch.desc': { en: 'Toggle on/off with active color', zh: '开启/关闭切换，支持自定义颜色' },
+  'search': { en: 'Search', zh: '搜索' },
+  'search.desc': { en: 'Search input with icon and cancel', zh: '搜索输入框，带图标和取消按钮' },
+  'numberbox': { en: 'NumberBox', zh: '步进器' },
+  'numberbox.desc': { en: 'Stepper with min/max/step', zh: '带最小值/最大值/步长的步进器' },
+  'rate': { en: 'Rate', zh: '评分' },
+  'rate.desc': { en: 'Star rating, readonly support', zh: '星级评分，支持只读模式' },
+  'slider': { en: 'Slider', zh: '滑块' },
+  'slider.desc': { en: 'Single-thumb slider 0-100', zh: '单滑块范围选择 0-100' },
+  'picker': { en: 'Picker', zh: '选择器' },
+  'picker.desc': { en: 'Single/multi-column picker with toolbar', zh: '单列/多列选择器，带确认工具栏' },
+  'datepicker': { en: 'DatePicker', zh: '日期选择' },
+  'datepicker.desc': { en: 'Year-month-day date selector', zh: '年-月-日日期选择器' },
+  'upload': { en: 'Upload', zh: '上传' },
+  'upload.desc': { en: 'Image uploader with preview and delete', zh: '图片上传，支持预览和删除' },
+  'form': { en: 'Form', zh: '表单' },
+  'form.desc': { en: 'Form container with validation', zh: '表单容器，支持校验规则' },
+
+  // Display
+  'card': { en: 'Card', zh: '卡片' },
+  'card.desc': { en: 'Container with header, content, footer slots', zh: '带头部、内容、底部插槽的容器' },
+  'badge': { en: 'Badge', zh: '徽标' },
+  'badge.desc': { en: 'Number/dot/max cap overlay', zh: '数字/红点/上限覆盖' },
+  'tag': { en: 'Tag', zh: '标签' },
+  'tag.desc': { en: '5 types + closeable + round', zh: '5 种类型 + 可关闭 + 圆角' },
+  'divider': { en: 'Divider', zh: '分割线' },
+  'divider.desc': { en: 'Horizontal line with text slot', zh: '水平分割线，支持文字插槽' },
+  'empty': { en: 'Empty', zh: '空状态' },
+  'empty.desc': { en: 'Empty state placeholder', zh: '空数据占位展示' },
+  'progress': { en: 'Progress', zh: '进度条' },
+  'progress.desc': { en: 'Linear bar 0-100%', zh: '线性进度条 0-100%' },
+  'skeleton': { en: 'Skeleton', zh: '骨架屏' },
+  'skeleton.desc': { en: 'Loading placeholder with avatar/rows', zh: '加载占位，支持头像和行' },
+  'avatar': { en: 'Avatar', zh: '头像' },
+  'avatar.desc': { en: 'Circle/square with text fallback', zh: '圆形/方形头像，支持文字回退' },
+  'countdown': { en: 'CountDown', zh: '倒计时' },
+  'countdown.desc': { en: 'Timer with HH:mm:ss format', zh: '倒计时，支持 HH:mm:ss 格式' },
+  'image': { en: 'Image', zh: '图片' },
+  'image.desc': { en: 'Lazy-load, mode, radius', zh: '懒加载、显示模式、圆角' },
+  'table': { en: 'Table', zh: '表格' },
+  'table.desc': { en: 'Bordered/striped simple table', zh: '简单表格，支持边框/斑马纹' },
+  'descriptions': { en: 'Descriptions', zh: '描述列表' },
+  'descriptions.desc': { en: 'Key-value pairs in grid layout', zh: '网格布局显示键值对' },
+  'list': { en: 'List', zh: '列表' },
+  'list.desc': { en: 'Infinite scroll with loading/finished', zh: '无限滚动，支持加载中/完成状态' },
+  'tooltip': { en: 'Tooltip', zh: '提示' },
+  'tooltip.desc': { en: '4-direction tooltip popup', zh: '4 方向工具提示弹出' },
+
+  // Nav
+  'cell': { en: 'Cell', zh: '单元格' },
+  'cell.desc': { en: 'List cell with title, value, link arrow', zh: '单元格，支持标题、数值、箭头' },
+  'tabs': { en: 'Tabs', zh: '选项卡' },
+  'tabs.desc': { en: 'Tab navigation with active indicator', zh: '选项卡导航，支持激活指示器' },
+  'navbar': { en: 'Navbar', zh: '导航栏' },
+  'navbar.desc': { en: 'Top bar with back arrow and slots', zh: '顶部栏，支持返回箭头和插槽' },
+  'tabbar': { en: 'Tabbar', zh: '标签栏' },
+  'tabbar.desc': { en: 'Fixed bottom tab bar', zh: '底部固定标签栏' },
+  'steps': { en: 'Steps', zh: '步骤条' },
+  'steps.desc': { en: 'Step indicator, horizontal/vertical', zh: '步骤指示器，水平/垂直布局' },
+  'sidebar': { en: 'Sidebar', zh: '侧边栏' },
+  'sidebar.desc': { en: 'Vertical category navigation', zh: '垂直分类导航' },
+  'breadcrumb': { en: 'Breadcrumb', zh: '面包屑' },
+  'breadcrumb.desc': { en: 'Hierarchy navigation trail', zh: '层级导航路径' },
+  'pagination': { en: 'Pagination', zh: '分页' },
+  'pagination.desc': { en: 'Page number navigation', zh: '页码导航' },
+  'dropdown': { en: 'DropdownMenu', zh: '下拉菜单' },
+  'dropdown.desc': { en: 'Filter/sort dropdown with options', zh: '筛选/排序下拉菜单' },
+
+  // Feedback
+  'loading': { en: 'Loading', zh: '加载' },
+  'loading.desc': { en: 'Spinner with text, vertical layout', zh: '加载指示器，支持文字和垂直布局' },
+  'toast': { en: 'Toast', zh: '轻提示' },
+  'toast.desc': { en: 'Lightweight message popup', zh: '轻量消息弹出提示' },
+  'dialog': { en: 'Dialog', zh: '对话框' },
+  'dialog.desc': { en: 'Modal confirm/cancel dialog', zh: '模态确认/取消对话框' },
+  'popup': { en: 'Popup', zh: '弹出层' },
+  'popup.desc': { en: '5 positions with overlay', zh: '5 个方向定位，支持遮罩层' },
+  'actionsheet': { en: 'ActionSheet', zh: '操作面板' },
+  'actionsheet.desc': { en: 'Bottom action menu with cancel', zh: '底部操作菜单，带取消按钮' },
+  'sheet': { en: 'Sheet', zh: '面板' },
+  'sheet.desc': { en: 'Bottom/right sheet with title', zh: '底部/右侧面板，支持标题' },
+  'noticebar': { en: 'NoticeBar', zh: '通知栏' },
+  'noticebar.desc': { en: 'Scrollable notification with close', zh: '可滚动通知，支持关闭' },
+  'transition': { en: 'Transition', zh: '动画' },
+  'transition.desc': { en: 'Fade / slide-up / zoom animations', zh: '淡入/上滑/缩放动画效果' },
+
+  // Layout
+  'row_col': { en: 'Row / Col', zh: '行 / 列' },
+  'row_col.desc': { en: '12-column flex grid layout', zh: '12 列弹性栅格布局' },
+  'grid': { en: 'Grid', zh: '宫格' },
+  'grid.desc': { en: 'N-column grid with optional border', zh: 'N 列宫格布局，可选边框' },
+  'space': { en: 'Space', zh: '间距' },
+  'space.desc': { en: 'Horizontal/vertical spacing', zh: '水平/垂直间距控制' },
+  'collapse': { en: 'Collapse', zh: '折叠面板' },
+  'collapse.desc': { en: 'Accordion expand/collapse panels', zh: '手风琴展开/收起面板' },
+  'sticky': { en: 'Sticky', zh: '吸顶' },
+  'sticky.desc': { en: 'Sticks child to top on scroll', zh: '滚动时子元素吸附顶部' },
+  'theme': { en: 'Theme', zh: '主题' },
+  'theme.desc': { en: 'CSS variable token system', zh: 'CSS 变量 Token 系统' },
+}
+
+export function useI18n() {
+  function t(key: string): string {
+    return dict[key]?.[lang.value] || key
+  }
+  function toggleLang() {
+    lang.value = lang.value === 'en' ? 'zh' : 'en'
+  }
+  return { lang, t, toggleLang }
+}

@@ -1,84 +1,107 @@
 <template>
   <view class="demo">
     <view class="demo-block">
-      <text class="demo-label">Row / Col</text>
-      <text class="demo-desc">12-column flex grid layout</text>
+      <text class="demo-label">{{ t('row_col') }}</text>
+      <text class="demo-desc">{{ t('row_col.desc') }}</text>
       <tt-row :gutter="8">
-        <tt-col :span="12"><view class="g-cell pri">12</view></tt-col>
-        <tt-col :span="12"><view class="g-cell sec">12</view></tt-col>
+        <tt-col :span="8"><view class="grid-cell">8</view></tt-col>
+        <tt-col :span="8"><view class="grid-cell alt">8</view></tt-col>
+        <tt-col :span="8"><view class="grid-cell">8</view></tt-col>
       </tt-row>
-      <view style="height: 8px;" />
       <tt-row :gutter="8">
-        <tt-col :span="8"><view class="g-cell pri">8</view></tt-col>
-        <tt-col :span="16"><view class="g-cell sec">16</view></tt-col>
+        <tt-col :span="6"><view class="grid-cell">6</view></tt-col>
+        <tt-col :span="12"><view class="grid-cell alt">12</view></tt-col>
+        <tt-col :span="6"><view class="grid-cell">6</view></tt-col>
       </tt-row>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Grid</text>
-      <text class="demo-desc">N-column grid with optional border</text>
-      <tt-grid :column-num="4" border>
-        <view class="g-item">A</view>
-        <view class="g-item">B</view>
-        <view class="g-item">C</view>
-        <view class="g-item">D</view>
+      <text class="demo-label">{{ t('grid') }}</text>
+      <text class="demo-desc">{{ t('grid.desc') }}</text>
+      <tt-grid :column="4" border>
+        <view v-for="i in 8" :key="i" class="grid-item">
+          <text class="grid-item-text">{{ i }}</text>
+        </view>
       </tt-grid>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Space</text>
-      <text class="demo-desc">Horizontal/vertical spacing</text>
-      <tt-space :size="10">
+      <text class="demo-label">{{ t('space') }}</text>
+      <text class="demo-desc">{{ t('space.desc') }}</text>
+      <view class="demo-row">
         <tt-button size="sm">A</tt-button>
         <tt-button size="sm">B</tt-button>
         <tt-button size="sm">C</tt-button>
-      </tt-space>
+      </view>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Collapse</text>
-      <text class="demo-desc">Accordion expand/collapse panels</text>
-      <tt-collapse v-model="collapse">
-        <text class="demo-hint">Collapse content</text>
+      <text class="demo-label">{{ t('collapse') }}</text>
+      <text class="demo-desc">{{ t('collapse.desc') }}</text>
+      <tt-collapse v-model="collapseVal">
+        <tt-collapse-item title="Section A" name="a">
+          <text class="demo-hint">Content A</text>
+        </tt-collapse-item>
+        <tt-collapse-item title="Section B" name="b">
+          <text class="demo-hint">Content B</text>
+        </tt-collapse-item>
       </tt-collapse>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Sticky</text>
-      <text class="demo-desc">Sticks child to top on scroll</text>
-      <text class="demo-hint">Wrap any content to make it sticky during scroll with configurable offset.</text>
+      <text class="demo-label">{{ t('sticky') }}</text>
+      <text class="demo-desc">{{ t('sticky.desc') }}</text>
+      <tt-sticky :offset-top="80">
+        <view style="background: var(--tt-primary, #18181b); padding: 10px 16px; border-radius: 8px;">
+          <text style="color: #fff; font-size: 13px;">I stick at 80px</text>
+        </view>
+      </tt-sticky>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Theme</text>
-      <text class="demo-desc">CSS variable token system</text>
-      <view class="theme-row">
-        <view class="swatch" style="background: var(--tt-primary, #171717);" />
-        <text class="demo-hint">Primary</text>
-      </view>
-      <view class="theme-row">
+      <text class="demo-label">{{ t('theme') }}</text>
+      <text class="demo-desc">{{ t('theme.desc') }}</text>
+      <view class="demo-row">
+        <view class="swatch" style="background: var(--tt-primary, #18181b);" />
         <view class="swatch" style="background: var(--tt-secondary, #f5f5f5);" />
-        <text class="demo-hint">Secondary</text>
-      </view>
-      <view class="theme-row">
+        <view class="swatch" style="background: var(--tt-muted, #a3a3a3);" />
         <view class="swatch" style="background: var(--tt-destructive, #ef4444);" />
-        <text class="demo-hint">Destructive</text>
       </view>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+const t = inject<(key: string) => string>('t', (k) => k)
 
-const collapse = ref([])
+const collapseVal = ref(['a'])
 </script>
 
 <style>
-.g-cell { padding: 10px; text-align: center; border-radius: 4px; font-size: 12px; font-weight: 600; }
-.g-cell.pri { background: var(--tt-primary, #171717); color: var(--tt-primary-foreground, #fafafa); }
-.g-cell.sec { background: var(--tt-secondary, #f5f5f5); color: var(--tt-secondary-foreground, #171717); }
-.g-item { padding: 12px; text-align: center; font-size: 13px; font-weight: 500; }
-.theme-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.swatch { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--tt-border, #e5e5e5); flex-shrink: 0; }
+.grid-cell {
+  background: var(--tt-primary, #18181b);
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  padding: 10px 0;
+  border-radius: 6px;
+}
+.grid-cell.alt { background: var(--tt-muted-foreground, #737373); }
+.grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 0;
+}
+.grid-item-text {
+  font-size: 13px;
+  color: var(--tt-foreground, #0a0a0a);
+}
+.swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--tt-border, #e5e5e5);
+}
 </style>

@@ -1,23 +1,23 @@
 <template>
   <view class="demo">
     <view class="demo-block">
-      <text class="demo-label">Input</text>
-      <text class="demo-desc">Text / password / clearable / disabled</text>
+      <text class="demo-label">{{ t('input') }}</text>
+      <text class="demo-desc">{{ t('input.desc') }}</text>
       <tt-input v-model="inputVal" placeholder="Type something..." />
       <tt-input v-model="inputVal2" placeholder="Clearable" clearable />
       <tt-input v-model="pwdVal" type="password" placeholder="Password" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Textarea</text>
-      <text class="demo-desc">Multi-line with maxlength count</text>
+      <text class="demo-label">{{ t('textarea') }}</text>
+      <text class="demo-desc">{{ t('textarea.desc') }}</text>
       <tt-textarea v-model="textVal" placeholder="Enter text..." />
       <tt-textarea v-model="textVal" :maxlength="200" show-count />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Checkbox & Radio</text>
-      <text class="demo-desc">Toggle selection with v-model</text>
+      <text class="demo-label">{{ t('checkbox_radio') }}</text>
+      <text class="demo-desc">{{ t('checkbox_radio.desc') }}</text>
       <tt-checkbox v-model="c1" label="Option A" />
       <tt-checkbox v-model="c2" label="Option B" />
       <tt-divider />
@@ -26,8 +26,8 @@
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Switch</text>
-      <text class="demo-desc">Toggle on/off with active color</text>
+      <text class="demo-label">{{ t('switch') }}</text>
+      <text class="demo-desc">{{ t('switch.desc') }}</text>
       <view class="demo-row">
         <tt-switch v-model="sw" />
         <text class="demo-hint">{{ sw ? 'ON' : 'OFF' }}</text>
@@ -35,14 +35,14 @@
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Search</text>
-      <text class="demo-desc">Search input with icon and cancel</text>
+      <text class="demo-label">{{ t('search') }}</text>
+      <text class="demo-desc">{{ t('search.desc') }}</text>
       <tt-search v-model="searchVal" placeholder="Search..." show-cancel @cancel="searchVal = ''" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">NumberBox</text>
-      <text class="demo-desc">Stepper with min/max/step</text>
+      <text class="demo-label">{{ t('numberbox') }}</text>
+      <text class="demo-desc">{{ t('numberbox.desc') }}</text>
       <view class="demo-row">
         <tt-number-box v-model="num" :min="0" :max="20" />
         <text class="demo-hint">{{ num }}</text>
@@ -50,42 +50,42 @@
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Rate</text>
-      <text class="demo-desc">Star rating, readonly support</text>
+      <text class="demo-label">{{ t('rate') }}</text>
+      <text class="demo-desc">{{ t('rate.desc') }}</text>
       <tt-rate v-model="rate" />
       <text class="demo-hint">Score: {{ rate }}</text>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Slider</text>
-      <text class="demo-desc">Single-thumb slider 0-100</text>
+      <text class="demo-label">{{ t('slider') }}</text>
+      <text class="demo-desc">{{ t('slider.desc') }}</text>
       <tt-slider v-model="slider" />
       <text class="demo-hint">Value: {{ slider }}</text>
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Picker</text>
-      <text class="demo-desc">Single/multi-column picker with toolbar</text>
+      <text class="demo-label">{{ t('picker') }}</text>
+      <text class="demo-desc">{{ t('picker.desc') }}</text>
       <tt-button size="sm" @click="showPicker = true">Open Picker</tt-button>
       <tt-picker v-model:show="showPicker" :columns="pickerCols" title="Select" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">DatePicker</text>
-      <text class="demo-desc">Year-month-day date selector</text>
+      <text class="demo-label">{{ t('datepicker') }}</text>
+      <text class="demo-desc">{{ t('datepicker.desc') }}</text>
       <tt-button size="sm" @click="showDate = true">{{ dateVal || 'Select Date' }}</tt-button>
       <tt-date-picker v-model="dateVal" v-model:show="showDate" title="Select Date" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Upload</text>
-      <text class="demo-desc">Image uploader with preview and delete</text>
+      <text class="demo-label">{{ t('upload') }}</text>
+      <text class="demo-desc">{{ t('upload.desc') }}</text>
       <tt-upload v-model:file-list="files" :max-count="6" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Form</text>
-      <text class="demo-desc">Form container with validation</text>
+      <text class="demo-label">{{ t('form') }}</text>
+      <text class="demo-desc">{{ t('form.desc') }}</text>
       <tt-form>
         <view class="form-row">
           <text class="form-lbl">Name</text>
@@ -102,7 +102,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+const t = inject<(key: string) => string>('t', (k) => k)
 
 const inputVal = ref('')
 const inputVal2 = ref('Hello')

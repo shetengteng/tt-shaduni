@@ -1,78 +1,71 @@
 <template>
   <view class="demo">
     <view class="demo-block">
-      <text class="demo-label">Cell</text>
-      <text class="demo-desc">List cell with title, value, link arrow</text>
-      <tt-cell title="Language" value="English" is-link />
-      <tt-cell title="Theme" value="System" is-link />
-      <tt-cell title="About" is-link :border="false" />
+      <text class="demo-label">{{ t('cell') }}</text>
+      <text class="demo-desc">{{ t('cell.desc') }}</text>
+      <tt-cell title="Setting" value="Go" is-link />
+      <tt-cell title="About" value="v1.0" is-link />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Tabs</text>
-      <text class="demo-desc">Tab navigation with active indicator</text>
-      <tt-tabs v-model="tab" :items="tabItems" />
-      <text class="demo-hint">Active: {{ tab }}</text>
+      <text class="demo-label">{{ t('tabs') }}</text>
+      <text class="demo-desc">{{ t('tabs.desc') }}</text>
+      <tt-tabs v-model="tabIdx" :items="['Home', 'Profile', 'Setting']" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Navbar</text>
-      <text class="demo-desc">Top bar with back arrow and slots</text>
-      <tt-navbar title="Page Title" left-arrow left-text="Back" />
+      <text class="demo-label">{{ t('navbar') }}</text>
+      <text class="demo-desc">{{ t('navbar.desc') }}</text>
+      <tt-navbar title="Page Title" left-arrow />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Tabbar</text>
-      <text class="demo-desc">Fixed bottom tab bar</text>
-      <tt-tabbar v-model="tbIdx" :fixed="false" />
+      <text class="demo-label">{{ t('tabbar') }}</text>
+      <text class="demo-desc">{{ t('tabbar.desc') }}</text>
+      <tt-tabbar v-model="tbIdx" :items="tabbarItems" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Steps</text>
-      <text class="demo-desc">Step indicator, horizontal/vertical</text>
-      <tt-steps :active="1" />
+      <text class="demo-label">{{ t('steps') }}</text>
+      <text class="demo-desc">{{ t('steps.desc') }}</text>
+      <tt-steps :active="1" :items="stepItems" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Sidebar</text>
-      <text class="demo-desc">Vertical category navigation</text>
-      <view style="display: flex; height: 140px;">
-        <tt-sidebar v-model="sbIdx" :items="sbItems" />
-        <view style="flex: 1; padding: 14px; font-size: 13px;">{{ sbItems[sbIdx].text }}</view>
-      </view>
+      <text class="demo-label">{{ t('sidebar') }}</text>
+      <text class="demo-desc">{{ t('sidebar.desc') }}</text>
+      <tt-sidebar v-model="sideIdx" :items="[{text:'Category 1'},{text:'Category 2'},{text:'Category 3'}]" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Breadcrumb</text>
-      <text class="demo-desc">Hierarchy navigation trail</text>
-      <tt-breadcrumb :items="[{text:'Home',to:'/'},{text:'Category',to:'/cat'},{text:'Current'}]" />
+      <text class="demo-label">{{ t('breadcrumb') }}</text>
+      <text class="demo-desc">{{ t('breadcrumb.desc') }}</text>
+      <tt-breadcrumb :items="[{text:'Home',link:true},{text:'Category',link:true},{text:'Page'}]" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">Pagination</text>
-      <text class="demo-desc">Page number navigation</text>
-      <tt-pagination v-model="page" :total-items="50" :items-per-page="10" />
-      <text class="demo-hint">Page: {{ page }}</text>
+      <text class="demo-label">{{ t('pagination') }}</text>
+      <text class="demo-desc">{{ t('pagination.desc') }}</text>
+      <tt-pagination v-model="page" :total="50" :page-size="10" />
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">DropdownMenu</text>
-      <text class="demo-desc">Filter/sort dropdown with options</text>
-      <tt-dropdown-menu v-model="ddVal" :options="ddOpts" title="Sort" />
-      <text class="demo-hint">{{ ddVal }}</text>
+      <text class="demo-label">{{ t('dropdown') }}</text>
+      <text class="demo-desc">{{ t('dropdown.desc') }}</text>
+      <tt-dropdown-menu :items="ddItems" />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+const t = inject<(key: string) => string>('t', (k) => k)
 
-const tab = ref('t1')
-const tabItems = [{ label: 'Tab 1', value: 't1' }, { label: 'Tab 2', value: 't2' }, { label: 'Disabled', value: 't3', disabled: true }]
+const tabIdx = ref(0)
 const tbIdx = ref(0)
-const sbIdx = ref(0)
-const sbItems = [{ text: 'All' }, { text: 'Hot' }, { text: 'New' }, { text: 'Sale' }]
+const tabbarItems = [{ text: 'Home', icon: 'home' }, { text: 'List', icon: 'list' }, { text: 'Me', icon: 'user' }]
+const stepItems = [{ title: 'Order' }, { title: 'Pay' }, { title: 'Done' }]
+const sideIdx = ref(0)
 const page = ref(1)
-const ddVal = ref('newest')
-const ddOpts = [{ text: 'Newest', value: 'newest' }, { text: 'Popular', value: 'popular' }, { text: 'Price', value: 'price' }]
+const ddItems = [{ title: 'Sort', options: [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' }] }]
 </script>

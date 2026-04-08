@@ -4,9 +4,14 @@
       <!-- Header -->
       <view class="hd">
         <text class="hd-title">TT ShadUni</text>
-        <view class="hd-toggle" @click="toggleTheme">
-          <text v-if="isDark" class="hd-icon">&#x2600;</text>
-          <text v-else class="hd-icon">&#x263E;</text>
+        <view class="hd-actions">
+          <view class="hd-btn" @click="toggleLang">
+            <text class="hd-btn-text">{{ lang === 'en' ? '中' : 'En' }}</text>
+          </view>
+          <view class="hd-btn" @click="toggleTheme">
+            <text v-if="isDark" class="hd-icon">&#x2600;</text>
+            <text v-else class="hd-icon">&#x263E;</text>
+          </view>
         </view>
       </view>
 
@@ -26,7 +31,7 @@
       </scroll-view>
 
       <!-- Content -->
-      <view class="content">
+      <view class="content" :key="cat">
         <DemoBasic v-if="cat === 'basic'" />
         <DemoForm v-if="cat === 'form'" />
         <DemoDisplay v-if="cat === 'display'" />
@@ -39,8 +44,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, provide } from 'vue'
 import { useTheme } from 'tt-ui/composables/use-theme'
+import { useI18n } from '@/composables/use-i18n'
 import DemoBasic from '@/components/demos/DemoBasic.vue'
 import DemoForm from '@/components/demos/DemoForm.vue'
 import DemoDisplay from '@/components/demos/DemoDisplay.vue'
@@ -49,16 +55,18 @@ import DemoFeedback from '@/components/demos/DemoFeedback.vue'
 import DemoLayout from '@/components/demos/DemoLayout.vue'
 
 const { isDark, toggleTheme } = useTheme()
+const { lang, t, toggleLang } = useI18n()
+provide('t', t)
 
 const cat = ref('basic')
-const cats = [
-  { key: 'basic', label: 'Basic' },
-  { key: 'form', label: 'Form' },
-  { key: 'display', label: 'Display' },
-  { key: 'nav', label: 'Nav' },
-  { key: 'feedback', label: 'Feedback' },
-  { key: 'layout', label: 'Layout' },
-]
+const cats = computed(() => [
+  { key: 'basic', label: t('cat.basic') },
+  { key: 'form', label: t('cat.form') },
+  { key: 'display', label: t('cat.display') },
+  { key: 'nav', label: t('cat.nav') },
+  { key: 'feedback', label: t('cat.feedback') },
+  { key: 'layout', label: t('cat.layout') },
+])
 </script>
 
 <style>
@@ -87,7 +95,8 @@ const cats = [
   color: var(--tt-foreground, #0a0a0a);
   letter-spacing: -.6px;
 }
-.hd-toggle {
+.hd-actions { display: flex; gap: 8px; }
+.hd-btn {
   width: 44px;
   height: 44px;
   display: flex;
@@ -99,7 +108,8 @@ const cats = [
   cursor: pointer;
   transition: background .2s, border-color .2s;
 }
-.hd-toggle:active { background: var(--tt-muted, #f5f5f5); }
+.hd-btn:active { background: var(--tt-muted, #f5f5f5); }
+.hd-btn-text { font-size: 14px; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
 .hd-icon { font-size: 18px; }
 
 /* Pills */
