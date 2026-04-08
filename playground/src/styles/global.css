@@ -1,10 +1,23 @@
+html, body {
+  height: auto !important;
+  overflow: auto !important;
+}
+
+uni-app,
+uni-page,
+uni-page-wrapper,
 uni-page-body,
 .uni-page-body {
   height: auto !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
 }
 
 uni-page-wrapper {
-  overflow-y: auto !important;
+  display: block !important;
+}
+
+uni-page-body {
+  -webkit-overflow-scrolling: touch;
 }
