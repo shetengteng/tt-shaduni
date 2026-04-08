@@ -2,7 +2,6 @@
 code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--muted);padding:2px 6px;border-radius:4px}
 pre{background:var(--muted);border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow-x:auto;font-size:13px;line-height:1.7;font-family:'JetBrains Mono',monospace}
 pre code{background:none;padding:0}
-.nav-brand{margin-right:auto}
 
 /* Layout */
 .layout{display:flex;padding-top:56px;min-height:100vh}
@@ -70,5 +69,12 @@ pre code{background:none;padding:0}
 .p-skeleton{background:var(--muted);border-radius:4px;animation:skeleton 1.5s infinite}
 .p-rate-star{color:var(--border);cursor:pointer;font-size:16px}
 .p-rate-star.active{color:#f59e0b}
+
+/* Interactive phone previews */
+.phone-screen .p-btn{cursor:pointer;transition:opacity .15s,transform .15s}
+.phone-screen .p-btn:active{opacity:.7;transform:scale(.95)}
+.phone-screen .p-switch{cursor:pointer;transition:background .2s}
+.phone-screen [data-interactive]{cursor:pointer;transition:opacity .15s}
+.phone-screen [data-interactive]:active{opacity:.7}
 
 @media(max-width:768px){.sidebar{display:none}.main{margin-left:0}}
