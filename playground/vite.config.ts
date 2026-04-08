@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "tt-ui": path.resolve(__dirname, "../packages"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
 });
