@@ -6,672 +6,240 @@
   <title>TT ShadUni — shadcn-style UniApp Component Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
-    :root {
-      --bg: #ffffff;
-      --fg: #0a0a0a;
-      --card: #ffffff;
-      --card-fg: #0a0a0a;
-      --muted: #f5f5f5;
-      --muted-fg: #737373;
-      --border: #e5e5e5;
-      --primary: #171717;
-      --primary-fg: #fafafa;
-      --destructive: #ef4444;
-      --secondary: #f5f5f5;
-      --secondary-fg: #171717;
-      --accent: #f5f5f5;
-      --radius: 8px;
-      --ring: #a3a3a3;
-    }
-    .dark {
-      --bg: #0a0a0a;
-      --fg: #fafafa;
-      --card: #0a0a0a;
-      --card-fg: #fafafa;
-      --muted: #262626;
-      --muted-fg: #a3a3a3;
-      --border: #262626;
-      --primary: #fafafa;
-      --primary-fg: #0a0a0a;
-      --destructive: #dc2626;
-      --secondary: #262626;
-      --secondary-fg: #fafafa;
-      --accent: #262626;
-      --ring: #525252;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
-    }
-    a { color: inherit; text-decoration: none; }
-    code {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.85em;
-      background: var(--muted);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: var(--fg);
-    }
-    pre {
-      background: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      overflow-x: auto;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-    pre code { background: none; padding: 0; }
+    :root{--bg:#ffffff;--fg:#0a0a0a;--card:#ffffff;--card-fg:#0a0a0a;--muted:#f5f5f5;--muted-fg:#737373;--border:#e5e5e5;--primary:#171717;--primary-fg:#fafafa;--destructive:#ef4444;--secondary:#f5f5f5;--secondary-fg:#171717;--accent:#f5f5f5;--radius:8px;--ring:#a3a3a3}
+    .dark{--bg:#0a0a0a;--fg:#fafafa;--card:#141414;--card-fg:#fafafa;--muted:#1c1c1c;--muted-fg:#a3a3a3;--border:#262626;--primary:#fafafa;--primary-fg:#0a0a0a;--destructive:#dc2626;--secondary:#262626;--secondary-fg:#fafafa;--accent:#262626;--ring:#525252}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;transition:background .4s,color .4s;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
 
-    /* Layout */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    /* Navigation */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.8);border-bottom:1px solid var(--border);transition:background .4s}
+    .dark .nav{background:rgba(10,10,10,0.8)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1200px;margin:0 auto;padding:0 24px}
+    .nav-brand{font-size:16px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+    .nav-brand svg{width:24px;height:24px}
+    .nav-links{display:flex;align-items:center;gap:20px}
+    .nav-link{font-size:14px;color:var(--muted-fg);cursor:pointer;transition:color .2s;padding:2px 0;font-weight:500}
+    .nav-link:hover{color:var(--fg)}
+    .nav-link.active{color:var(--fg)}
+    .nav-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:calc(var(--radius) - 2px);border:1px solid var(--border);cursor:pointer;background:var(--bg);color:var(--fg);transition:all .2s;font-size:14px}
+    .nav-btn:hover{background:var(--accent)}
 
     /* Hero */
-    .hero {
-      padding: 80px 0 60px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .hero-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted-fg);
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: 48px;
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-    .hero h1 span { color: var(--muted-fg); }
-    .hero p {
-      font-size: 18px;
-      color: var(--muted-fg);
-      max-width: 600px;
-      margin: 0 auto 32px;
-    }
-    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      transition: opacity 0.15s;
-    }
-    .btn:hover { opacity: 0.85; }
-    .btn-primary { background: var(--primary); color: var(--primary-fg); }
-    .btn-outline { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+    .hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
+    .hero-glow{position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(99,102,241,0.08),transparent 70%);pointer-events:none}
+    .dark .hero-glow{background:radial-gradient(ellipse,rgba(99,102,241,0.12),transparent 70%)}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border);border-radius:9999px;font-size:12px;font-weight:500;color:var(--muted-fg);margin-bottom:24px;animation:fadeInUp .6s ease both}
+    .hero-badge-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
+    .hero h1{font-size:clamp(36px,6vw,64px);font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:20px;animation:fadeInUp .6s ease .1s both}
+    .hero h1 span{background:linear-gradient(135deg,var(--muted-fg),var(--fg));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:18px;color:var(--muted-fg);max-width:560px;margin:0 auto 36px;line-height:1.7;animation:fadeInUp .6s ease .2s both}
+    .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .6s ease .3s both}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
+    .btn:hover{opacity:.85;transform:translateY(-1px)}
+    .btn-primary{background:var(--primary);color:var(--primary-fg);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+    .btn-outline{background:var(--bg);color:var(--fg);border:1px solid var(--border)}
 
     /* Features */
-    .features {
-      padding: 60px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-    .feature-card {
-      padding: 24px;
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 4px);
-      background: var(--card);
-      transition: border-color 0.2s;
-    }
-    .feature-card:hover { border-color: var(--ring); }
-    .feature-icon { font-size: 28px; margin-bottom: 12px; }
-    .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-    .feature-card p { font-size: 14px; color: var(--muted-fg); }
+    .features{padding:80px 0;border-top:1px solid var(--border)}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:calc(var(--radius)+4px);overflow:hidden}
+    @media(max-width:768px){.features-grid{grid-template-columns:1fr}}
+    .feature-card{padding:32px;background:var(--bg);transition:background .3s;cursor:default}
+    .feature-card:hover{background:var(--accent)}
+    .feature-icon{width:40px;height:40px;border-radius:calc(var(--radius));display:flex;align-items:center;justify-content:center;background:var(--muted);margin-bottom:16px}
+    .feature-icon svg{width:20px;height:20px;color:var(--fg);stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .feature-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
+    .feature-card p{font-size:13px;color:var(--muted-fg);line-height:1.6}
 
-    /* Components Section */
-    .components { padding: 60px 0; }
-    .section-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .section-header h2 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-    .section-header p { color: var(--muted-fg); font-size: 16px; }
+    /* Stats */
+    .stats{padding:60px 0;border-top:1px solid var(--border)}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+    .stat-num{font-size:36px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+    .stat-label{font-size:13px;color:var(--muted-fg);margin-top:4px}
 
-    /* Component Demo Layout */
-    .comp-nav {
-      display: flex;
-      gap: 4px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 32px;
-      overflow-x: auto;
-    }
-    .comp-nav-item {
-      padding: 10px 16px;
-      font-size: 14px;
-      color: var(--muted-fg);
-      cursor: pointer;
-      position: relative;
-      white-space: nowrap;
-      transition: color 0.2s;
-    }
-    .comp-nav-item:hover { color: var(--fg); }
-    .comp-nav-item.active {
-      color: var(--fg);
-      font-weight: 600;
-    }
-    .comp-nav-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 16px;
-      right: 16px;
-      height: 2px;
-      background: var(--primary);
-      border-radius: 1px;
-    }
-
-    .comp-layout {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 40px;
-      align-items: start;
-    }
-    @media (max-width: 768px) {
-      .comp-layout { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 32px; }
-    }
-
-    .comp-docs h3 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    .comp-docs .desc {
-      color: var(--muted-fg);
-      margin-bottom: 20px;
-      font-size: 15px;
-    }
-    .comp-docs h4 {
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--muted-fg);
-      margin: 24px 0 12px;
-    }
-    .prop-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-    .prop-table th {
-      text-align: left;
-      padding: 8px 12px;
-      background: var(--muted);
-      font-weight: 600;
-      border-bottom: 1px solid var(--border);
-    }
-    .prop-table td {
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* Phone Mockup */
-    .phone-wrapper {
-      position: sticky;
-      top: 24px;
-    }
-    .phone {
-      width: 280px;
-      height: 560px;
-      border: 3px solid var(--border);
-      border-radius: 32px;
-      overflow: hidden;
-      background: var(--bg);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-      margin: 0 auto;
-    }
-    .dark .phone { box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-    .phone-notch {
-      width: 120px;
-      height: 24px;
-      background: var(--border);
-      border-radius: 0 0 16px 16px;
-      margin: 0 auto;
-    }
-    .phone-screen {
-      padding: 8px 16px;
-      height: calc(100% - 24px);
-      overflow-y: auto;
-    }
-    .phone-screen::-webkit-scrollbar { display: none; }
-
-    /* Phone UI Elements */
-    .p-section { margin-bottom: 16px; }
-    .p-label {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--muted-fg);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-    }
-    .p-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
-    .p-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 28px;
-      padding: 0 12px;
-      border-radius: 5px;
-      font-size: 11px;
-      font-weight: 500;
-      font-family: 'Inter', sans-serif;
-      border: none;
-    }
-    .p-btn-default { background: var(--primary); color: var(--primary-fg); }
-    .p-btn-secondary { background: var(--secondary); color: var(--secondary-fg); }
-    .p-btn-destructive { background: var(--destructive); color: #fff; }
-    .p-btn-outline { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
-    .p-btn-ghost { background: transparent; color: var(--fg); }
-    .p-btn-link { background: transparent; color: var(--primary); text-decoration: underline; }
-    .p-input {
-      width: 100%;
-      height: 32px;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 0 10px;
-      font-size: 12px;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: 'Inter', sans-serif;
-      outline: none;
-    }
-    .p-input::placeholder { color: var(--muted-fg); }
-    .p-card {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-      background: var(--card);
-    }
-    .p-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-    .p-card-desc { font-size: 11px; color: var(--muted-fg); }
-    .p-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-    .p-tab {
-      padding: 6px 10px;
-      font-size: 11px;
-      color: var(--muted-fg);
-      cursor: pointer;
-    }
-    .p-tab.active {
-      color: var(--fg);
-      font-weight: 600;
-      border-bottom: 2px solid var(--primary);
-    }
-    .p-navbar {
-      display: flex;
-      align-items: center;
-      height: 36px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-    .p-navbar-back { font-size: 18px; margin-right: 8px; color: var(--fg); }
-    .p-navbar-title { font-size: 14px; font-weight: 600; flex: 1; text-align: center; margin-right: 18px; }
+    /* CTA */
+    .cta{padding:80px 0;text-align:center;border-top:1px solid var(--border)}
+    .cta h2{font-size:32px;font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+    .cta p{color:var(--muted-fg);margin-bottom:28px;font-size:16px}
+    .cta-install{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-family:'SF Mono','Fira Code',monospace;font-size:14px;cursor:pointer;transition:border-color .2s}
+    .cta-install:hover{border-color:var(--ring)}
+    .cta-install span{color:var(--muted-fg)}
 
     /* Footer */
-    .footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .footer p { color: var(--muted-fg); font-size: 14px; }
+    .footer{padding:32px 0;border-top:1px solid var(--border)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center}
+    .footer p{font-size:13px;color:var(--muted-fg)}
+    .footer-links{display:flex;gap:16px}
+    .footer-links a{font-size:13px;color:var(--muted-fg);transition:color .2s}
+    .footer-links a:hover{color:var(--fg)}
 
-    /* Theme Toggle */
-    .theme-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: var(--primary-fg);
-      border: none;
-      cursor: pointer;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-      z-index: 100;
-      transition: transform 0.2s;
-    }
-    .theme-btn:hover { transform: scale(1.1); }
+    /* Animations */
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .fade-in{animation:fadeInUp .5s ease both}
+    .fade-in-d1{animation-delay:.1s}
+    .fade-in-d2{animation-delay:.2s}
+    .fade-in-d3{animation-delay:.3s}
+    .fade-in-d4{animation-delay:.4s}
+    .fade-in-d5{animation-delay:.5s}
 
-    .comp-demo { display: none; }
-    .comp-demo.active { display: block; }
-
-    .install-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      font-family: 'SF Mono', monospace;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    .install-bar span { color: var(--muted-fg); }
+    @media(prefers-reduced-motion:reduce){*{animation-duration:0s!important;transition-duration:0s!important}}
   </style>
 </head>
 <body>
-  <div class="hero">
-    <div class="container">
-      <div class="hero-badge">UniApp + Vue 3 + TypeScript</div>
-      <h1>TT ShadUni<br /><span>Component Library</span></h1>
-      <p>A shadcn-inspired, multi-platform UI component library for UniApp. Build beautiful H5, Mini-program, and App interfaces with one codebase.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://github.com/shetengteng/tt-shaduni">GitHub →</a>
-        <button class="btn btn-outline" onclick="document.querySelector('.components').scrollIntoView({behavior:'smooth'})">View Components</button>
+<div id="app">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+        TT ShadUni
+      </a>
+      <div class="nav-links">
+        <a class="nav-link active" href="index.html">{{ t.home }}</a>
+        <a class="nav-link" href="components.html">{{ t.components }}</a>
+        <a class="nav-link" href="https://github.com/shetengteng/tt-shaduni" target="_blank">GitHub</a>
+        <button class="nav-btn" @click="toggleLang" :title="t.switchLang">{{ lang === 'en' ? '中' : 'En' }}</button>
+        <button class="nav-btn" @click="toggleTheme" :title="t.toggleTheme">
+          <svg v-if="!isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+          <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
       </div>
     </div>
-  </div>
+  </nav>
 
-  <div class="features">
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-badge"><span class="hero-badge-dot"></span>UniApp + Vue 3 + TypeScript</div>
+      <h1>{{ t.heroTitle1 }}<br/><span>{{ t.heroTitle2 }}</span></h1>
+      <p class="hero-sub">{{ t.heroDesc }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="components.html">{{ t.viewComponents }}</a>
+        <a class="btn btn-outline" href="https://github.com/shetengteng/tt-shaduni" target="_blank">GitHub
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l10-10M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
     <div class="container">
       <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🎨</div>
-          <h3>shadcn Style</h3>
-          <p>Semantic CSS Variables with background/foreground token pairs. Clean, minimal, modern design language.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📱</div>
-          <h3>Multi-platform</h3>
-          <p>One codebase for H5, WeChat Mini-program, Alipay Mini-program, and native App via UniApp.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🌗</div>
-          <h3>Dark Mode</h3>
-          <p>Built-in light/dark theme with ConfigProvider injection. Token system with automatic CSS Variable switching.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🌿</div>
-          <h3>Tree Shakable</h3>
-          <p>ESM build with preserveModules. Custom Vite resolver for true per-component on-demand loading.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔧</div>
-          <h3>TypeScript</h3>
-          <p>Full type definitions for all components, composables, and tokens. First-class IDE intellisense support.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Lightweight</h3>
-          <p>No SCSS runtime dependency. Styles self-contained in components. CSS Variables with fallback values.</p>
+        <div class="feature-card fade-in" v-for="(f,i) in features" :key="i" :class="'fade-in-d'+i">
+          <div class="feature-icon" v-html="f.icon"></div>
+          <h3>{{ f.title }}</h3>
+          <p>{{ f.desc }}</p>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="components" id="components">
+  <section class="stats">
     <div class="container">
-      <div class="section-header">
-        <h2>Components</h2>
-        <p>MVP components with full theme support and cross-platform compatibility</p>
-      </div>
-
-      <div class="install-bar">
-        <span>$</span> npm install tt-shaduni
-      </div>
-
-      <div class="comp-nav" id="compNav"></div>
-
-      <div class="comp-layout">
-        <div class="comp-docs" id="compDocs"></div>
-        <div class="phone-wrapper">
-          <div class="phone">
-            <div class="phone-notch"></div>
-            <div class="phone-screen" id="phoneScreen"></div>
-          </div>
+      <div class="stats-grid">
+        <div class="fade-in" v-for="(s,i) in stats" :key="i" :class="'fade-in-d'+i">
+          <div class="stat-num">{{ s.num }}</div>
+          <div class="stat-label">{{ s.label }}</div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="footer">
+  <section class="cta">
     <div class="container">
-      <p>TT ShadUni — Built with Vue 3 + UniApp. MIT License.</p>
+      <h2>{{ t.ctaTitle }}</h2>
+      <p>{{ t.ctaDesc }}</p>
+      <div class="cta-install" @click="copyInstall"><span>$</span> npm install tt-shaduni</div>
     </div>
-  </div>
+  </section>
 
-  <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>TT ShadUni &copy; 2026. MIT License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/shetengteng/tt-shaduni">GitHub</a>
+          <a href="components.html">{{ t.components }}</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
 
-  <script>
+<script>
+const { createApp, ref, computed } = Vue
+
+createApp({
+  setup() {
+    const isDark = ref(false)
+    const lang = ref('en')
+
+    const i18n = {
+      en: {
+        home: 'Home', components: 'Components', switchLang: 'Switch Language', toggleTheme: 'Toggle Theme',
+        heroTitle1: 'TT ShadUni', heroTitle2: 'Component Library',
+        heroDesc: 'A shadcn-inspired, multi-platform UI component library for UniApp. Build beautiful H5, Mini-program, and App interfaces with one codebase.',
+        viewComponents: 'Browse Components',
+        ctaTitle: 'Start Building Today', ctaDesc: 'Install TT ShadUni and build beautiful multi-platform apps.',
+        feat1: 'shadcn Style', feat1d: 'Semantic CSS Variables with background/foreground token pairs. Clean, minimal, modern design.',
+        feat2: 'Multi-platform', feat2d: 'One codebase for H5, WeChat Mini-program, Alipay Mini-program, and native App.',
+        feat3: 'Dark Mode', feat3d: 'Built-in light/dark theme with ConfigProvider injection and automatic switching.',
+        feat4: 'Tree Shakable', feat4d: 'ESM build with easycom auto-import. Per-component on-demand loading.',
+        feat5: 'TypeScript', feat5d: 'Full type definitions for all components, composables, and tokens.',
+        feat6: 'Lightweight', feat6d: 'No SCSS runtime dependency. Styles self-contained with CSS Variable fallbacks.',
+        s1: 'Components', s2: 'Test Cases', s3: 'KB Gzipped', s4: 'Platforms',
+      },
+      zh: {
+        home: '首页', components: '组件', switchLang: '切换语言', toggleTheme: '切换主题',
+        heroTitle1: 'TT ShadUni', heroTitle2: '组件库',
+        heroDesc: '基于 shadcn 设计风格的 UniApp 多端 UI 组件库。一套代码，同时构建 H5、小程序和 App。',
+        viewComponents: '浏览组件',
+        ctaTitle: '立即开始构建', ctaDesc: '安装 TT ShadUni，构建精美的多端应用。',
+        feat1: 'shadcn 风格', feat1d: '语义化 CSS 变量，背景/前景 Token 配对，简洁现代的设计语言。',
+        feat2: '多端适配', feat2d: '一套代码适配 H5、微信小程序、支付宝小程序和原生 App。',
+        feat3: '暗色模式', feat3d: '内置 light/dark 主题，ConfigProvider 注入，自动跟随系统切换。',
+        feat4: '按需加载', feat4d: 'ESM 构建 + easycom 自动导入，组件级别按需加载。',
+        feat5: 'TypeScript', feat5d: '全组件、Composable 和 Token 的完整类型定义。',
+        feat6: '轻量级', feat6d: '无 SCSS 运行时依赖，样式自包含，CSS 变量自带 fallback。',
+        s1: '个组件', s2: '个测试用例', s3: 'KB Gzipped', s4: '个平台',
+      }
+    }
+
+    const t = computed(() => i18n[lang.value])
+
+    const features = computed(() => [
+      { title: t.value.feat1, desc: t.value.feat1d, icon: '<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>' },
+      { title: t.value.feat2, desc: t.value.feat2d, icon: '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>' },
+      { title: t.value.feat3, desc: t.value.feat3d, icon: '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>' },
+      { title: t.value.feat4, desc: t.value.feat4d, icon: '<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>' },
+      { title: t.value.feat5, desc: t.value.feat5d, icon: '<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+      { title: t.value.feat6, desc: t.value.feat6d, icon: '<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
+    ])
+
+    const stats = computed(() => [
+      { num: '38+', label: t.value.s1 },
+      { num: '182', label: t.value.s2 },
+      { num: '~12', label: t.value.s3 },
+      { num: '4', label: t.value.s4 },
+    ])
+
     function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-      const isDark = document.documentElement.classList.contains('dark');
-      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
-      renderPhone();
+      isDark.value = !isDark.value
+      document.documentElement.classList.toggle('dark', isDark.value)
+    }
+    function toggleLang() { lang.value = lang.value === 'en' ? 'zh' : 'en' }
+    function copyInstall() {
+      navigator.clipboard?.writeText('npm install tt-shaduni')
     }
 
-    const components = [
-      {
-        id: 'button',
-        name: 'Button',
-        desc: 'Primary interactive element with 6 variants, 4 sizes, and loading/disabled states.',
-        usage: `<tt-button variant="default">Click me</tt-button>\n<tt-button variant="destructive">Delete</tt-button>\n<tt-button variant="outline" size="sm">Small</tt-button>\n<tt-button loading>Saving...</tt-button>`,
-        props: [
-          ['variant', "'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'", "'default'"],
-          ['size', "'sm' | 'md' | 'lg' | 'icon'", "'md'"],
-          ['disabled', 'boolean', 'false'],
-          ['loading', 'boolean', 'false'],
-          ['block', 'boolean', 'false'],
-        ],
-        phone: () => `
-          <div class="p-section"><div class="p-label">Variants</div>
-            <div class="p-row"><span class="p-btn p-btn-default">Default</span><span class="p-btn p-btn-secondary">Secondary</span><span class="p-btn p-btn-destructive">Destructive</span></div>
-            <div class="p-row"><span class="p-btn p-btn-outline">Outline</span><span class="p-btn p-btn-ghost">Ghost</span><span class="p-btn p-btn-link">Link</span></div>
-          </div>
-          <div class="p-section"><div class="p-label">Sizes</div>
-            <div class="p-row"><span class="p-btn p-btn-default" style="height:24px;font-size:10px;padding:0 8px">Small</span><span class="p-btn p-btn-default">Medium</span><span class="p-btn p-btn-default" style="height:34px;font-size:13px;padding:0 18px">Large</span></div>
-          </div>
-          <div class="p-section"><div class="p-label">States</div>
-            <div class="p-row"><span class="p-btn p-btn-default" style="opacity:0.5">Disabled</span><span class="p-btn p-btn-default" style="opacity:0.7">⟳ Loading</span></div>
-            <div class="p-row"><span class="p-btn p-btn-default" style="width:100%;justify-content:center">Block Button</span></div>
-          </div>`,
-      },
-      {
-        id: 'input',
-        name: 'Input',
-        desc: 'Text input with v-model binding, multiple types, clearable option, and prefix/suffix slots.',
-        usage: `<tt-input v-model="value" placeholder="Enter text" />\n<tt-input v-model="search" clearable />\n<tt-input type="password" placeholder="Password" />`,
-        props: [
-          ['v-model', 'string | number', "''"],
-          ['type', "'text' | 'password' | 'number' | 'digit' | 'tel'", "'text'"],
-          ['placeholder', 'string', "''"],
-          ['disabled', 'boolean', 'false'],
-          ['clearable', 'boolean', 'false'],
-          ['maxlength', 'number', '-1'],
-        ],
-        phone: () => `
-          <div class="p-section"><div class="p-label">Basic</div><input class="p-input" placeholder="Type something..." /></div>
-          <div class="p-section"><div class="p-label">Clearable</div><input class="p-input" value="Hello World" /></div>
-          <div class="p-section"><div class="p-label">Password</div><input class="p-input" type="password" value="secret123" /></div>
-          <div class="p-section"><div class="p-label">Disabled</div><input class="p-input" disabled value="Disabled" style="opacity:0.5" /></div>`,
-      },
-      {
-        id: 'card',
-        name: 'Card',
-        desc: 'Versatile container with header, content, and footer slots. Supports shadow variants.',
-        usage: `<tt-card title="Title" description="Description">\n  <text>Card content</text>\n</tt-card>\n\n<tt-card title="With Footer">\n  <text>Content</text>\n  <template #footer>\n    <tt-button size="sm">Save</tt-button>\n  </template>\n</tt-card>`,
-        props: [
-          ['title', 'string', "''"],
-          ['description', 'string', "''"],
-          ['shadow', "'always' | 'hover' | 'never'", "'always'"],
-        ],
-        phone: () => `
-          <div class="p-section"><div class="p-card"><div class="p-card-title">Card Title</div><div class="p-card-desc">This is a description</div><div style="margin-top:10px;font-size:12px">Card content goes here.</div></div></div>
-          <div class="p-section"><div class="p-card"><div class="p-card-title">With Footer</div><div style="margin:8px 0;font-size:12px">Content area</div><div style="display:flex;gap:6px;padding-top:10px;border-top:1px solid var(--border)"><span class="p-btn p-btn-outline" style="height:24px;font-size:10px">Cancel</span><span class="p-btn p-btn-default" style="height:24px;font-size:10px">Save</span></div></div></div>`,
-      },
-      {
-        id: 'dialog',
-        name: 'Dialog',
-        desc: 'Modal dialog for confirmations, alerts, and custom content. Built on top of Popup.',
-        usage: `<tt-dialog\n  v-model:show="visible"\n  title="Confirm"\n  message="Are you sure?"\n  @confirm="onConfirm"\n  @cancel="onCancel"\n/>`,
-        props: [
-          ['v-model:show', 'boolean', 'false'],
-          ['title', 'string', "''"],
-          ['message', 'string', "''"],
-          ['showCancelButton', 'boolean', 'true'],
-          ['confirmText', 'string', "'Confirm'"],
-          ['cancelText', 'string', "'Cancel'"],
-        ],
-        phone: () => `
-          <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:20px;display:flex;align-items:center;justify-content:center;min-height:200px">
-            <div style="background:var(--bg);border-radius:12px;width:220px;overflow:hidden;">
-              <div style="padding:18px 18px 0;text-align:center;font-size:14px;font-weight:600">Confirm Action</div>
-              <div style="padding:10px 18px 18px;text-align:center;font-size:12px;color:var(--muted-fg)">Are you sure you want to proceed?</div>
-              <div style="display:flex;border-top:1px solid var(--border)">
-                <div style="flex:1;text-align:center;padding:12px;font-size:13px;color:var(--muted-fg);border-right:1px solid var(--border)">Cancel</div>
-                <div style="flex:1;text-align:center;padding:12px;font-size:13px;font-weight:600">Confirm</div>
-              </div>
-            </div>
-          </div>`,
-      },
-      {
-        id: 'popup',
-        name: 'Popup',
-        desc: 'Base popup layer with 5 positions, overlay, close button, and smooth animations.',
-        usage: `<tt-popup v-model:show="visible" position="bottom" round>\n  <view>Bottom sheet content</view>\n</tt-popup>`,
-        props: [
-          ['v-model:show', 'boolean', 'false'],
-          ['position', "'center' | 'top' | 'bottom' | 'left' | 'right'", "'center'"],
-          ['overlay', 'boolean', 'true'],
-          ['closeable', 'boolean', 'false'],
-          ['round', 'boolean', 'false'],
-        ],
-        phone: () => `
-          <div style="position:relative;min-height:200px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;flex-direction:column;justify-content:flex-end">
-            <div style="background:var(--bg);border-radius:12px 12px 0 0;padding:24px;text-align:center">
-              <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px"></div>
-              <div style="font-size:13px;font-weight:600;margin-bottom:8px">Bottom Popup</div>
-              <div style="font-size:11px;color:var(--muted-fg)">Slide up from bottom with overlay</div>
-            </div>
-          </div>`,
-      },
-      {
-        id: 'tabs',
-        name: 'Tabs',
-        desc: 'Tab navigation with scroll support, active indicator, and disabled state.',
-        usage: `<tt-tabs v-model="active" :items="[\n  { label: 'Tab 1', value: 'tab1' },\n  { label: 'Tab 2', value: 'tab2' },\n]" />`,
-        props: [
-          ['v-model', 'string | number', '0'],
-          ['items', 'Array<{ label, value, disabled? }>', '[]'],
-        ],
-        phone: () => `
-          <div class="p-section"><div class="p-tabs"><div class="p-tab active">Tab 1</div><div class="p-tab">Tab 2</div><div class="p-tab" style="opacity:0.4">Disabled</div></div><div style="padding:8px 0;font-size:12px">Active: Tab 1</div></div>
-          <div class="p-section"><div class="p-label">Scrollable</div><div class="p-tabs" style="overflow-x:auto"><div class="p-tab active">Home</div><div class="p-tab">Products</div><div class="p-tab">About</div><div class="p-tab">Contact</div><div class="p-tab">Blog</div></div></div>`,
-      },
-      {
-        id: 'navbar',
-        name: 'Navbar',
-        desc: 'Custom navigation bar with left/right slots, back arrow, and fixed positioning.',
-        usage: `<tt-navbar title="Page" left-arrow left-text="Back" />\n<tt-navbar title="Custom">\n  <template #right>\n    <text>Save</text>\n  </template>\n</tt-navbar>`,
-        props: [
-          ['title', 'string', "''"],
-          ['leftText', 'string', "''"],
-          ['leftArrow', 'boolean', 'false'],
-          ['fixed', 'boolean', 'false'],
-          ['border', 'boolean', 'true'],
-        ],
-        phone: () => `
-          <div class="p-section"><div class="p-navbar"><span class="p-navbar-back">‹</span><span style="font-size:12px">Back</span><span class="p-navbar-title">Page Title</span></div></div>
-          <div class="p-section"><div class="p-navbar" style="border:none"><span class="p-navbar-title" style="margin:0">No Border</span><span style="font-size:12px;color:var(--primary);font-weight:500">Save</span></div></div>`,
-      },
-      {
-        id: 'theme',
-        name: 'ConfigProvider',
-        desc: 'Theme injection component. Wraps pages to provide CSS Variables via inline :style. Supports nested diff-merge.',
-        usage: `<tt-config-provider>\n  <!-- all tt- components inherit theme -->\n  <tt-button>Themed</tt-button>\n</tt-config-provider>\n\n<!-- Custom theme -->\n<tt-config-provider :theme-vars="{\n  primary: '#6366f1',\n  primaryForeground: '#fff'\n}">\n  <tt-button>Indigo</tt-button>\n</tt-config-provider>`,
-        props: [
-          ['theme', "'light' | 'dark'", 'auto (system)'],
-          ['themeVars', 'Record<string, string>', '{}'],
-        ],
-        phone: () => `
-          <div class="p-section"><div class="p-label">Light Theme</div><div class="p-card" style="margin-bottom:8px"><div style="display:flex;gap:4px;margin-bottom:8px"><span class="p-btn p-btn-default">Button</span><span class="p-btn p-btn-secondary">Secondary</span></div><input class="p-input" placeholder="Input..." /></div></div>
-          <div class="p-section"><div class="p-label">Dark Theme</div><div class="p-card" style="background:#0a0a0a;color:#fafafa;border-color:#262626"><div style="display:flex;gap:4px;margin-bottom:8px"><span class="p-btn" style="background:#fafafa;color:#0a0a0a">Button</span><span class="p-btn" style="background:#262626;color:#fafafa">Secondary</span></div><input class="p-input" style="background:#0a0a0a;color:#fafafa;border-color:#262626" placeholder="Input..." /></div></div>
-          <div class="p-section"><div class="p-label">Custom (Indigo)</div><div class="p-card"><div style="display:flex;gap:4px"><span class="p-btn" style="background:#6366f1;color:#fff">Indigo</span><span class="p-btn p-btn-outline">Default</span></div></div></div>`,
-      },
-    ];
-
-    let activeComp = 'button';
-
-    function renderNav() {
-      const nav = document.getElementById('compNav');
-      nav.innerHTML = components.map(c =>
-        `<div class="comp-nav-item ${c.id === activeComp ? 'active' : ''}" onclick="selectComp('${c.id}')">${c.name}</div>`
-      ).join('');
-    }
-
-    function renderDocs() {
-      const c = components.find(x => x.id === activeComp);
-      const propsHtml = c.props.map(([name, type, def]) =>
-        `<tr><td><code>${name}</code></td><td><code>${type}</code></td><td><code>${def}</code></td></tr>`
-      ).join('');
-      document.getElementById('compDocs').innerHTML = `
-        <h3>${c.name}</h3>
-        <p class="desc">${c.desc}</p>
-        <h4>Usage</h4>
-        <pre><code>${c.usage.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre>
-        <h4>Props</h4>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
-          <tbody>${propsHtml}</tbody>
-        </table>
-      `;
-    }
-
-    function renderPhone() {
-      const c = components.find(x => x.id === activeComp);
-      document.getElementById('phoneScreen').innerHTML = c.phone();
-    }
-
-    function selectComp(id) {
-      activeComp = id;
-      renderNav();
-      renderDocs();
-      renderPhone();
-    }
-
-    renderNav();
-    renderDocs();
-    renderPhone();
-  </script>
+    return { isDark, lang, t, features, stats, toggleTheme, toggleLang, copyInstall }
+  }
+}).mount('#app')
+</script>
 </body>
 </html>

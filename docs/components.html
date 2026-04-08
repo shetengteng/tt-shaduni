@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Components — TT ShadUni</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    :root{--bg:#fff;--fg:#0a0a0a;--card:#fff;--card-fg:#0a0a0a;--muted:#f5f5f5;--muted-fg:#737373;--border:#e5e5e5;--primary:#171717;--primary-fg:#fafafa;--destructive:#ef4444;--secondary:#f5f5f5;--secondary-fg:#171717;--accent:#f5f5f5;--radius:8px;--ring:#a3a3a3;--sidebar-w:240px}
+    .dark{--bg:#0a0a0a;--fg:#fafafa;--card:#141414;--card-fg:#fafafa;--muted:#1c1c1c;--muted-fg:#a3a3a3;--border:#262626;--primary:#fafafa;--primary-fg:#0a0a0a;--destructive:#dc2626;--secondary:#262626;--secondary-fg:#fafafa;--accent:#262626;--ring:#525252}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;transition:background .4s,color .4s}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--muted);padding:2px 6px;border-radius:4px}
+    pre{background:var(--muted);border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow-x:auto;font-size:13px;line-height:1.7;font-family:'JetBrains Mono',monospace}
+    pre code{background:none;padding:0}
+
+    /* Nav */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,.85);border-bottom:1px solid var(--border);transition:background .4s;height:56px;display:flex;align-items:center;padding:0 24px}
+    .dark .nav{background:rgba(10,10,10,.85)}
+    .nav-brand{font-size:16px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;margin-right:auto}
+    .nav-brand svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2}
+    .nav-links{display:flex;align-items:center;gap:16px}
+    .nav-link{font-size:14px;color:var(--muted-fg);cursor:pointer;transition:color .2s;font-weight:500}
+    .nav-link:hover,.nav-link.active{color:var(--fg)}
+    .nav-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid var(--border);cursor:pointer;background:var(--bg);color:var(--fg);transition:all .2s;font-size:14px}
+    .nav-btn:hover{background:var(--accent)}
+
+    /* Layout */
+    .layout{display:flex;padding-top:56px;min-height:100vh}
+
+    /* Sidebar */
+    .sidebar{position:fixed;top:56px;left:0;bottom:0;width:var(--sidebar-w);border-right:1px solid var(--border);background:var(--bg);overflow-y:auto;padding:16px 0;transition:background .4s}
+    .sidebar::-webkit-scrollbar{width:4px}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    .sidebar-group{padding:0 16px;margin-bottom:16px}
+    .sidebar-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted-fg);padding:4px 8px;margin-bottom:4px}
+    .sidebar-item{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:calc(var(--radius) - 2px);font-size:13px;color:var(--muted-fg);cursor:pointer;transition:all .15s;font-weight:500}
+    .sidebar-item:hover{color:var(--fg);background:var(--accent)}
+    .sidebar-item.active{color:var(--fg);background:var(--accent);font-weight:600}
+
+    /* Main */
+    .main{margin-left:var(--sidebar-w);flex:1;padding:32px 40px;max-width:calc(100% - var(--sidebar-w))}
+    .main-header{margin-bottom:32px;animation:fadeIn .4s ease}
+    .main-header h1{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+    .main-header p{color:var(--muted-fg);font-size:15px}
+
+    /* Content */
+    .content-grid{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:start}
+    @media(max-width:1024px){.content-grid{grid-template-columns:1fr}.phone-wrap{display:none}}
+
+    .doc-section{margin-bottom:28px;animation:fadeIn .4s ease}
+    .doc-section h3{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted-fg);margin-bottom:12px}
+
+    .prop-table{width:100%;border-collapse:collapse;font-size:13px}
+    .prop-table th{text-align:left;padding:8px 12px;background:var(--muted);font-weight:600;border-bottom:1px solid var(--border)}
+    .prop-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+    .prop-table tr:last-child td{border-bottom:none}
+
+    /* Phone */
+    .phone-wrap{position:sticky;top:88px}
+    .phone{width:280px;height:540px;border:2px solid var(--border);border-radius:32px;overflow:hidden;background:var(--bg);box-shadow:0 20px 60px rgba(0,0,0,.08);margin:0 auto;transition:box-shadow .4s}
+    .dark .phone{box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .phone-notch{width:100px;height:24px;background:var(--border);border-radius:0 0 14px 14px;margin:0 auto}
+    .phone-screen{padding:8px 16px;height:calc(100% - 24px);overflow-y:auto;font-size:12px}
+    .phone-screen::-webkit-scrollbar{display:none}
+
+    /* Phone mini components */
+    .p-sec{margin-bottom:12px}
+    .p-label{font-size:10px;font-weight:600;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .p-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+    .p-btn{display:inline-flex;align-items:center;justify-content:center;height:28px;padding:0 12px;border-radius:5px;font-size:11px;font-weight:500;font-family:'Inter',sans-serif;border:none}
+    .p-btn-default{background:var(--primary);color:var(--primary-fg)}
+    .p-btn-secondary{background:var(--secondary);color:var(--secondary-fg)}
+    .p-btn-destructive{background:var(--destructive);color:#fff}
+    .p-btn-outline{background:var(--bg);color:var(--fg);border:1px solid var(--border)}
+    .p-btn-ghost{background:transparent;color:var(--fg)}
+    .p-input{width:100%;height:32px;border:1px solid var(--border);border-radius:5px;padding:0 10px;font-size:12px;background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;outline:none}
+    .p-input::placeholder{color:var(--muted-fg)}
+    .p-card{border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--card)}
+    .p-card-title{font-size:13px;font-weight:600;margin-bottom:4px}
+    .p-card-desc{font-size:11px;color:var(--muted-fg)}
+    .p-switch{width:36px;height:20px;border-radius:10px;background:var(--muted);position:relative;display:inline-block}
+    .p-switch-on{background:var(--primary)}
+    .p-switch::after{content:'';width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform .2s}
+    .p-switch-on::after{transform:translateX(16px)}
+    .p-tag{display:inline-flex;padding:2px 8px;border-radius:9999px;font-size:10px;font-weight:500;background:var(--muted);color:var(--muted-fg)}
+    .p-tag-primary{background:var(--primary);color:var(--primary-fg)}
+    .p-badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;border-radius:9999px;background:var(--destructive);color:#fff;font-size:10px;font-weight:600}
+    .p-divider{height:1px;background:var(--border);margin:8px 0}
+    .p-progress{height:6px;background:var(--muted);border-radius:3px;overflow:hidden}
+    .p-progress-bar{height:100%;background:var(--primary);border-radius:3px}
+    .p-avatar{width:36px;height:36px;border-radius:50%;background:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted-fg)}
+    .p-skeleton{background:var(--muted);border-radius:4px;animation:skeleton 1.5s infinite}
+    @keyframes skeleton{0%,100%{opacity:1}50%{opacity:.4}}
+    .p-rate-star{color:var(--border);cursor:pointer;font-size:16px}
+    .p-rate-star.active{color:#f59e0b}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*{animation-duration:0s!important;transition-duration:0s!important}}
+    @media(max-width:768px){.sidebar{display:none}.main{margin-left:0}}
+  </style>
+</head>
+<body>
+<div id="app">
+  <nav class="nav">
+    <a class="nav-brand" href="index.html">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+      TT ShadUni
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">{{ t.home }}</a>
+      <a class="nav-link active" href="components.html">{{ t.components }}</a>
+      <a class="nav-link" href="https://github.com/shetengteng/tt-shaduni" target="_blank">GitHub</a>
+      <button class="nav-btn" @click="toggleLang">{{ lang==='en'?'中':'En' }}</button>
+      <button class="nav-btn" @click="toggleTheme">
+        <svg v-if="!isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div v-for="g in groups" :key="g.label" class="sidebar-group">
+        <div class="sidebar-label">{{ g.label }}</div>
+        <div v-for="c in g.items" :key="c.id" class="sidebar-item" :class="{active:active===c.id}" @click="select(c.id)">
+          {{ c.name }}
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main-header" :key="active">
+        <h1>{{ comp.name }}</h1>
+        <p>{{ comp.desc }}</p>
+      </div>
+
+      <div class="content-grid" :key="active+'grid'">
+        <div>
+          <div class="doc-section">
+            <h3>{{ t.usage }}</h3>
+            <pre><code>{{ comp.usage }}</code></pre>
+          </div>
+          <div class="doc-section">
+            <h3>{{ t.props }}</h3>
+            <table class="prop-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr v-for="p in comp.props" :key="p[0]">
+                  <td><code>{{ p[0] }}</code></td>
+                  <td><code>{{ p[1] }}</code></td>
+                  <td><code>{{ p[2] }}</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen" v-html="comp.phone"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const { createApp, ref, computed } = Vue
+
+const allComponents = [
+  { id:'button', cat:'basic', name:'Button', desc:'Primary interactive element with 6 variants, 4 sizes, loading/disabled states.',
+    usage:`<tt-button variant="default">Click me</tt-button>\n<tt-button variant="destructive">Delete</tt-button>\n<tt-button variant="outline" size="sm">Small</tt-button>\n<tt-button loading>Saving...</tt-button>`,
+    props:[['variant',"'default'|'destructive'|'outline'|'secondary'|'ghost'|'link'","'default'"],['size',"'sm'|'md'|'lg'|'icon'","'md'"],['disabled','boolean','false'],['loading','boolean','false'],['block','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Variants</div><div class="p-row"><span class="p-btn p-btn-default">Default</span><span class="p-btn p-btn-secondary">Secondary</span><span class="p-btn p-btn-destructive">Destructive</span></div><div class="p-row"><span class="p-btn p-btn-outline">Outline</span><span class="p-btn p-btn-ghost">Ghost</span></div></div><div class="p-sec"><div class="p-label">Sizes</div><div class="p-row"><span class="p-btn p-btn-default" style="height:22px;font-size:10px;padding:0 8px">Small</span><span class="p-btn p-btn-default">Medium</span><span class="p-btn p-btn-default" style="height:34px;font-size:13px;padding:0 18px">Large</span></div></div><div class="p-sec"><div class="p-label">States</div><div class="p-row"><span class="p-btn p-btn-default" style="opacity:.5">Disabled</span><span class="p-btn p-btn-default" style="opacity:.7">Loading...</span></div></div>`},
+  { id:'icon', cat:'basic', name:'Icon', desc:'Icon component with custom name, size, and color support.',
+    usage:`<tt-icon name="home" />\n<tt-icon name="close" size="24" color="red" />`,
+    props:[['name','string','required'],['size','string|number','16'],['color','string',"''"]],
+    phone:`<div class="p-sec"><div class="p-label">Icons</div><div class="p-row" style="gap:12px;font-size:16px">&#x2302; &#x2716; &#x2714; &#x2606; &#x260E; &#x2709;</div></div>`},
+  { id:'input', cat:'form', name:'Input', desc:'Text input with v-model, multiple types, clearable, prefix/suffix slots.',
+    usage:`<tt-input v-model="value" placeholder="Enter text" />\n<tt-input v-model="search" clearable />\n<tt-input type="password" placeholder="Password" />`,
+    props:[['v-model','string|number',"''"],['type',"'text'|'password'|'number'","'text'"],['placeholder','string',"''"],['disabled','boolean','false'],['clearable','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Basic</div><input class="p-input" placeholder="Type something..."/></div><div class="p-sec"><div class="p-label">Password</div><input class="p-input" type="password" value="secret"/></div><div class="p-sec"><div class="p-label">Disabled</div><input class="p-input" disabled value="Disabled" style="opacity:.5"/></div>`},
+  { id:'textarea', cat:'form', name:'Textarea', desc:'Multi-line text input with auto-height and word count.',
+    usage:`<tt-textarea v-model="text" placeholder="Enter..." />\n<tt-textarea v-model="text" :maxlength="200" show-count />`,
+    props:[['v-model','string',"''"],['placeholder','string',"''"],['maxlength','number','-1'],['disabled','boolean','false'],['autoHeight','boolean','false'],['showCount','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Basic</div><div style="border:1px solid var(--border);border-radius:5px;padding:8px;min-height:60px;font-size:12px;color:var(--muted-fg)">Enter text here...</div></div>`},
+  { id:'checkbox', cat:'form', name:'Checkbox', desc:'Checkbox with label and v-model binding.',
+    usage:`<tt-checkbox v-model="checked" label="Option A" />`,
+    props:[['v-model','boolean','false'],['label','string',"''"],['disabled','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Checkbox</div><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:16px;border:2px solid var(--primary);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--primary-fg);background:var(--primary)">&#10003;</span><span>Option A</span></div><div style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:16px;border:2px solid var(--border);border-radius:3px"></span><span>Option B</span></div><div style="display:flex;align-items:center;gap:6px;opacity:.5"><span style="width:16px;height:16px;border:2px solid var(--border);border-radius:3px"></span><span>Disabled</span></div></div></div>`},
+  { id:'radio', cat:'form', name:'Radio', desc:'Radio button with label.',
+    usage:`<tt-radio v-model="selected" label="Option A" />`,
+    props:[['v-model','boolean','false'],['label','string',"''"],['disabled','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Radio</div><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:16px;border:2px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:var(--primary)"></span></span><span>Selected</span></div><div style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:16px;border:2px solid var(--border);border-radius:50%"></span><span>Option B</span></div></div></div>`},
+  { id:'switch', cat:'form', name:'Switch', desc:'Toggle switch with active color and size variants.',
+    usage:`<tt-switch v-model="on" />\n<tt-switch v-model="on" active-color="#22c55e" size="sm" />`,
+    props:[['v-model','boolean','false'],['disabled','boolean','false'],['activeColor','string',"''"],['size',"'sm'|'md'","'md'"]],
+    phone:`<div class="p-sec"><div class="p-label">Switch</div><div style="display:flex;gap:12px;align-items:center"><span class="p-switch p-switch-on"></span><span class="p-switch"></span><span class="p-switch" style="opacity:.5"></span></div></div>`},
+  { id:'search', cat:'form', name:'Search', desc:'Search input with icon and cancel button.',
+    usage:`<tt-search v-model="keyword" placeholder="Search..." show-cancel />`,
+    props:[['v-model','string',"''"],['placeholder','string',"'Search'"],['showCancel','boolean','false'],['disabled','boolean','false']],
+    phone:`<div class="p-sec"><div style="display:flex;gap:8px;align-items:center"><div style="flex:1;display:flex;gap:6px;align-items:center;height:32px;padding:0 10px;background:var(--muted);border-radius:5px"><span style="font-size:12px">&#x1F50D;</span><span style="font-size:12px;color:var(--muted-fg)">Search...</span></div><span style="font-size:12px;color:var(--primary);font-weight:500">Cancel</span></div></div>`},
+  { id:'card', cat:'display', name:'Card', desc:'Container with header, content, footer slots and shadow variants.',
+    usage:`<tt-card title="Title" description="Desc">\n  <text>Content</text>\n</tt-card>`,
+    props:[['title','string',"''"],['description','string',"''"],['shadow',"'always'|'hover'|'never'","'always'"]],
+    phone:`<div class="p-sec"><div class="p-card"><div class="p-card-title">Card Title</div><div class="p-card-desc">This is a description</div><div style="margin-top:10px;font-size:12px">Card content goes here.</div></div></div>`},
+  { id:'badge', cat:'display', name:'Badge', desc:'Badge with number, max cap, and dot mode.',
+    usage:`<tt-badge :value="5"><tt-button>Messages</tt-button></tt-badge>\n<tt-badge dot />`,
+    props:[['value','string|number',"''"],['max','number','99'],['dot','boolean','false'],['hidden','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Badge</div><div class="p-row" style="gap:16px"><div style="position:relative"><span class="p-btn p-btn-outline">Messages</span><span class="p-badge" style="position:absolute;top:-6px;right:-6px">5</span></div><div style="position:relative"><span class="p-btn p-btn-outline">Notify</span><span class="p-badge" style="position:absolute;top:-6px;right:-6px">99+</span></div><div style="position:relative"><span class="p-btn p-btn-outline">Dot</span><span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--destructive)"></span></div></div></div>`},
+  { id:'tag', cat:'display', name:'Tag', desc:'Tag with type variants, closeable, and round mode.',
+    usage:`<tt-tag type="primary">Primary</tt-tag>\n<tt-tag type="success" closeable />`,
+    props:[['type',"'default'|'primary'|'success'|'warning'|'danger'","'default'"],['closeable','boolean','false'],['round','boolean','false'],['size',"'sm'|'md'","'md'"]],
+    phone:`<div class="p-sec"><div class="p-label">Tags</div><div class="p-row"><span class="p-tag">Default</span><span class="p-tag p-tag-primary">Primary</span><span class="p-tag" style="background:#dcfce7;color:#166534">Success</span><span class="p-tag" style="background:#fef3c7;color:#92400e">Warning</span><span class="p-tag" style="background:#fee2e2;color:#991b1b">Danger</span></div></div>`},
+  { id:'divider', cat:'display', name:'Divider', desc:'Horizontal or vertical divider with content slot.',
+    usage:`<tt-divider />\n<tt-divider content-position="left">Text</tt-divider>`,
+    props:[['direction',"'horizontal'|'vertical'","'horizontal'"],['contentPosition',"'left'|'center'|'right'","'center'"]],
+    phone:`<div class="p-sec"><div class="p-label">Divider</div><div class="p-divider"></div><div style="display:flex;align-items:center;gap:8px;margin:8px 0"><div class="p-divider" style="flex:1"></div><span style="font-size:10px;color:var(--muted-fg)">OR</span><div class="p-divider" style="flex:1"></div></div></div>`},
+  { id:'empty', cat:'display', name:'Empty', desc:'Empty state with description and action slot.',
+    usage:`<tt-empty description="No data" />`,
+    props:[['description','string',"'No data'"],['image','string',"''"]],
+    phone:`<div class="p-sec" style="text-align:center;padding:20px 0"><div style="font-size:32px;margin-bottom:8px;opacity:.3">&#x2205;</div><div style="font-size:12px;color:var(--muted-fg)">No data</div></div>`},
+  { id:'progress', cat:'display', name:'Progress', desc:'Linear progress bar with percentage text.',
+    usage:`<tt-progress :percentage="75" />\n<tt-progress :percentage="30" color="#22c55e" />`,
+    props:[['percentage','number','0'],['strokeWidth','number','8'],['color','string',"''"],['showText','boolean','true']],
+    phone:`<div class="p-sec"><div class="p-label">Progress</div><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;align-items:center;gap:8px"><div class="p-progress" style="flex:1"><div class="p-progress-bar" style="width:75%"></div></div><span style="font-size:11px;color:var(--muted-fg)">75%</span></div><div style="display:flex;align-items:center;gap:8px"><div class="p-progress" style="flex:1"><div class="p-progress-bar" style="width:30%;background:#22c55e"></div></div><span style="font-size:11px;color:var(--muted-fg)">30%</span></div></div></div>`},
+  { id:'skeleton', cat:'display', name:'Skeleton', desc:'Loading placeholder with avatar, title, and rows.',
+    usage:`<tt-skeleton :loading="true" avatar :rows="3" />`,
+    props:[['loading','boolean','true'],['rows','number','3'],['avatar','boolean','false'],['title','boolean','true'],['animate','boolean','true']],
+    phone:`<div class="p-sec"><div class="p-label">Skeleton</div><div style="display:flex;gap:12px"><div class="p-skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0"></div><div style="flex:1;display:flex;flex-direction:column;gap:8px"><div class="p-skeleton" style="width:60%;height:12px"></div><div class="p-skeleton" style="width:100%;height:10px"></div><div class="p-skeleton" style="width:80%;height:10px"></div></div></div></div>`},
+  { id:'avatar', cat:'display', name:'Avatar', desc:'User avatar with image, text fallback, and shape.',
+    usage:`<tt-avatar src="url" />\n<tt-avatar text="JD" shape="square" />`,
+    props:[['src','string',"''"],['size','string|number','40'],['shape',"'circle'|'square'","'circle'"],['text','string',"''"]],
+    phone:`<div class="p-sec"><div class="p-label">Avatar</div><div class="p-row" style="gap:10px"><span class="p-avatar">JD</span><span class="p-avatar" style="border-radius:6px">AB</span><span class="p-avatar" style="width:28px;height:28px;font-size:11px">S</span></div></div>`},
+  { id:'rate', cat:'display', name:'Rate', desc:'Star rating with custom count and readonly mode.',
+    usage:`<tt-rate v-model="score" />\n<tt-rate :model-value="3" readonly />`,
+    props:[['v-model','number','0'],['count','number','5'],['disabled','boolean','false'],['readonly','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Rate</div><div style="display:flex;gap:4px"><span class="p-rate-star active">&#9733;</span><span class="p-rate-star active">&#9733;</span><span class="p-rate-star active">&#9733;</span><span class="p-rate-star">&#9733;</span><span class="p-rate-star">&#9733;</span></div></div>`},
+  { id:'cell', cat:'navigation', name:'Cell', desc:'List cell with title, value, label, and link arrow.',
+    usage:`<tt-cell title="Setting" value="Enabled" is-link />`,
+    props:[['title','string',"''"],['value','string',"''"],['label','string',"''"],['isLink','boolean','false'],['border','boolean','true']],
+    phone:`<div class="p-sec"><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:500">Language</span><span style="font-size:12px;color:var(--muted-fg)">English &#x203A;</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px"><span style="font-size:13px;font-weight:500">Theme</span><span style="font-size:12px;color:var(--muted-fg)">System &#x203A;</span></div></div></div>`},
+  { id:'tabs', cat:'navigation', name:'Tabs', desc:'Tab navigation with active indicator and disabled state.',
+    usage:`<tt-tabs v-model="active" :items="items" />`,
+    props:[['v-model','string|number','0'],['items','Array<{label,value,disabled?}>','[]']],
+    phone:`<div class="p-sec"><div style="display:flex;border-bottom:1px solid var(--border)"><span style="padding:6px 12px;font-size:12px;font-weight:600;border-bottom:2px solid var(--primary)">Tab 1</span><span style="padding:6px 12px;font-size:12px;color:var(--muted-fg)">Tab 2</span><span style="padding:6px 12px;font-size:12px;color:var(--muted-fg);opacity:.4">Disabled</span></div></div>`},
+  { id:'navbar', cat:'navigation', name:'Navbar', desc:'Navigation bar with left/right slots and back arrow.',
+    usage:`<tt-navbar title="Page" left-arrow />`,
+    props:[['title','string',"''"],['leftText','string',"''"],['leftArrow','boolean','false'],['fixed','boolean','false'],['border','boolean','true']],
+    phone:`<div class="p-sec"><div style="display:flex;align-items:center;height:36px;border-bottom:1px solid var(--border)"><span style="font-size:18px;margin-right:6px">&#x2039;</span><span style="font-size:12px">Back</span><span style="flex:1;text-align:center;font-size:14px;font-weight:600">Page Title</span><span style="width:48px"></span></div></div>`},
+  { id:'tabbar', cat:'navigation', name:'Tabbar', desc:'Bottom tab bar with fixed positioning.',
+    usage:`<tt-tabbar v-model="active" />`,
+    props:[['v-model','number','0'],['fixed','boolean','true'],['border','boolean','true']],
+    phone:`<div class="p-sec"><div style="display:flex;justify-content:space-around;align-items:center;height:48px;border:1px solid var(--border);border-radius:6px"><div style="text-align:center;font-size:10px;color:var(--primary);font-weight:600"><div style="font-size:16px;margin-bottom:2px">&#x2302;</div>Home</div><div style="text-align:center;font-size:10px;color:var(--muted-fg)"><div style="font-size:16px;margin-bottom:2px">&#x2606;</div>Explore</div><div style="text-align:center;font-size:10px;color:var(--muted-fg)"><div style="font-size:16px;margin-bottom:2px">&#x2709;</div>Me</div></div></div>`},
+  { id:'steps', cat:'navigation', name:'Steps', desc:'Step indicator with horizontal/vertical layout.',
+    usage:`<tt-steps :active="1" />`,
+    props:[['active','number','0'],['direction',"'horizontal'|'vertical'","'horizontal'"]],
+    phone:`<div class="p-sec"><div class="p-label">Steps</div><div style="display:flex;align-items:center;gap:4px"><div style="width:24px;height:24px;border-radius:50%;background:var(--primary);color:var(--primary-fg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600">1</div><div style="flex:1;height:2px;background:var(--primary)"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--primary);color:var(--primary-fg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600">2</div><div style="flex:1;height:2px;background:var(--border)"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--muted);color:var(--muted-fg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600">3</div></div></div>`},
+  { id:'popup', cat:'feedback', name:'Popup', desc:'Base popup layer with 5 positions and overlay.',
+    usage:`<tt-popup v-model:show="visible" position="bottom" round>\n  <view>Content</view>\n</tt-popup>`,
+    props:[['v-model:show','boolean','false'],['position',"'center'|'top'|'bottom'|'left'|'right'","'center'"],['overlay','boolean','true'],['closeable','boolean','false'],['round','boolean','false']],
+    phone:`<div class="p-sec" style="position:relative;min-height:160px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;flex-direction:column;justify-content:flex-end"><div style="background:var(--bg);border-radius:12px 12px 0 0;padding:20px;text-align:center"><div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 12px"></div><div style="font-size:12px;font-weight:600;margin-bottom:4px">Bottom Popup</div><div style="font-size:11px;color:var(--muted-fg)">Slide up with overlay</div></div></div>`},
+  { id:'dialog', cat:'feedback', name:'Dialog', desc:'Modal dialog for confirmations with confirm/cancel buttons.',
+    usage:`<tt-dialog v-model:show="visible" title="Confirm" message="Sure?" />`,
+    props:[['v-model:show','boolean','false'],['title','string',"''"],['message','string',"''"],['showCancelButton','boolean','true'],['confirmText','string',"'Confirm'"],['cancelText','string',"'Cancel'"]],
+    phone:`<div class="p-sec" style="background:rgba(0,0,0,.2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;min-height:160px"><div style="background:var(--bg);border-radius:12px;width:200px;overflow:hidden"><div style="padding:16px 16px 0;text-align:center;font-size:13px;font-weight:600">Confirm</div><div style="padding:8px 16px 16px;text-align:center;font-size:11px;color:var(--muted-fg)">Are you sure?</div><div style="display:flex;border-top:1px solid var(--border)"><div style="flex:1;text-align:center;padding:10px;font-size:12px;color:var(--muted-fg);border-right:1px solid var(--border)">Cancel</div><div style="flex:1;text-align:center;padding:10px;font-size:12px;font-weight:600">Confirm</div></div></div></div>`},
+  { id:'toast', cat:'feedback', name:'Toast', desc:'Lightweight message popup with success/fail/loading types.',
+    usage:`<tt-toast :show="visible" message="Done!" type="success" />`,
+    props:[['show','boolean','false'],['message','string',"''"],['type',"'text'|'success'|'fail'|'loading'","'text'"],['duration','number','2000']],
+    phone:`<div class="p-sec" style="display:flex;justify-content:center;padding:20px"><div style="background:var(--fg);color:var(--bg);padding:10px 20px;border-radius:8px;font-size:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">&#10003;</div>Success</div></div>`},
+  { id:'actionsheet', cat:'feedback', name:'ActionSheet', desc:'Bottom action menu with cancel button.',
+    usage:`<tt-action-sheet v-model:show="visible" :actions="actions" />`,
+    props:[['v-model:show','boolean','false'],['title','string',"''"],['actions','Array<{name,disabled?,color?}>','[]'],['cancelText','string',"'Cancel'"]],
+    phone:`<div class="p-sec"><div style="border:1px solid var(--border);border-radius:8px;overflow:hidden"><div style="text-align:center;padding:10px;font-size:12px;font-weight:500;border-bottom:1px solid var(--border)">Edit</div><div style="text-align:center;padding:10px;font-size:12px;color:var(--destructive);border-bottom:1px solid var(--border)">Delete</div><div style="height:6px;background:var(--muted)"></div><div style="text-align:center;padding:10px;font-size:12px;color:var(--muted-fg)">Cancel</div></div></div>`},
+  { id:'sheet', cat:'feedback', name:'Sheet', desc:'Bottom/right sheet built on Popup with title and close.',
+    usage:`<tt-sheet v-model:show="visible" title="Options">\n  <text>Content</text>\n</tt-sheet>`,
+    props:[['v-model:show','boolean','false'],['position',"'bottom'|'right'","'bottom'"],['title','string',"''"]],
+    phone:`<div class="p-sec" style="border:1px solid var(--border);border-radius:8px;overflow:hidden"><div style="padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600">Sheet Title</div><div style="padding:14px;font-size:12px;color:var(--muted-fg)">Sheet content area</div></div>`},
+  { id:'noticebar', cat:'feedback', name:'NoticeBar', desc:'Scrollable notification bar with close button.',
+    usage:`<tt-notice-bar text="Notice!" closeable />`,
+    props:[['text','string',"''"],['color','string',"''"],['background','string',"''"],['closeable','boolean','false'],['scrollable','boolean','true']],
+    phone:`<div class="p-sec"><div style="display:flex;align-items:center;padding:8px 12px;background:#fef3c7;color:#92400e;border-radius:5px;font-size:11px;gap:6px"><span>&#x26A0;</span><span style="flex:1">This is a notice bar message</span><span style="cursor:pointer">&#x2716;</span></div></div>`},
+  { id:'loading', cat:'feedback', name:'Loading', desc:'Loading spinner with text and vertical layout.',
+    usage:`<tt-loading text="Loading..." />\n<tt-loading vertical />`,
+    props:[['size','string|number','24'],['color','string',"''"],['text','string',"''"],['vertical','boolean','false']],
+    phone:`<div class="p-sec" style="display:flex;justify-content:center;padding:16px"><div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:24px;height:24px;border:2px solid var(--muted);border-top-color:var(--primary);border-radius:50%;animation:spin .6s linear infinite"></div><span style="font-size:11px;color:var(--muted-fg)">Loading...</span></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>`},
+  { id:'space', cat:'layout', name:'Space', desc:'Spacing component for horizontal/vertical gaps.',
+    usage:`<tt-space direction="horizontal" :size="12">\n  <tt-button>A</tt-button>\n  <tt-button>B</tt-button>\n</tt-space>`,
+    props:[['direction',"'horizontal'|'vertical'","'horizontal'"],['size','string|number','8'],['wrap','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">Horizontal</div><div class="p-row" style="gap:8px"><span class="p-btn p-btn-default">A</span><span class="p-btn p-btn-default">B</span><span class="p-btn p-btn-default">C</span></div></div>`},
+  { id:'safearea', cat:'layout', name:'SafeArea', desc:'Safe area padding for notched devices.',
+    usage:`<tt-safe-area position="bottom" />`,
+    props:[['position',"'top'|'bottom'","'bottom'"]],
+    phone:`<div class="p-sec"><div class="p-label">Safe Area</div><div style="border:1px dashed var(--border);border-radius:5px;padding:12px;text-align:center;font-size:11px;color:var(--muted-fg)">Safe area inset zone</div></div>`},
+  { id:'collapse', cat:'layout', name:'Collapse', desc:'Accordion panels with expand/collapse.',
+    usage:`<tt-collapse v-model="active" accordion>\n  <tt-collapse-item>Content</tt-collapse-item>\n</tt-collapse>`,
+    props:[['v-model','Array','[]'],['accordion','boolean','false']],
+    phone:`<div class="p-sec"><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:500">Section 1</span><span>&#x25BC;</span></div><div style="padding:12px 14px;font-size:12px;color:var(--muted-fg);border-bottom:1px solid var(--border)">Expanded content here.</div><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px"><span style="font-size:13px;font-weight:500">Section 2</span><span>&#x25B6;</span></div></div></div>`},
+  { id:'numberbox', cat:'form', name:'NumberBox', desc:'Stepper with min/max/step controls.',
+    usage:`<tt-number-box v-model="count" :min="0" :max="99" />`,
+    props:[['v-model','number','0'],['min','number','0'],['max','number','99999'],['step','number','1'],['disabled','boolean','false']],
+    phone:`<div class="p-sec"><div class="p-label">NumberBox</div><div style="display:inline-flex;border:1px solid var(--border);border-radius:5px;overflow:hidden"><span style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--muted);cursor:pointer;font-size:14px">−</span><span style="width:40px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px">5</span><span style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--muted);cursor:pointer;font-size:14px">+</span></div></div>`},
+  { id:'countdown', cat:'display', name:'CountDown', desc:'Countdown timer with custom format.',
+    usage:`<tt-count-down :time="3600000" format="HH:mm:ss" />`,
+    props:[['time','number','0'],['format','string',"'HH:mm:ss'"],['autoStart','boolean','true']],
+    phone:`<div class="p-sec"><div class="p-label">CountDown</div><div style="font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px">01:23:45</div></div>`},
+  { id:'form', cat:'form', name:'Form', desc:'Form container with validation and label layout.',
+    usage:`<tt-form :model="form" :rules="rules">\n  <tt-form-item label="Name">\n    <tt-input v-model="form.name" />\n  </tt-form-item>\n</tt-form>`,
+    props:[['model','Object','{}'],['rules','Object','{}'],['labelWidth','string',"'80px'"]],
+    phone:`<div class="p-sec"><div style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;width:50px;flex-shrink:0;font-weight:500">Name</span><input class="p-input" placeholder="Enter name"/></div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;width:50px;flex-shrink:0;font-weight:500">Email</span><input class="p-input" placeholder="Enter email"/></div><span class="p-btn p-btn-default" style="width:100%;justify-content:center;margin-top:4px">Submit</span></div></div>`},
+  { id:'image', cat:'display', name:'Image', desc:'Enhanced image with lazy-load, mode, and radius.',
+    usage:`<tt-image src="url" width="200px" radius="8px" />`,
+    props:[['src','string',"''"],['mode','string',"'aspectFill'"],['width','string',"'100%'"],['height','string',"'auto'"],['radius','string',"'0'"],['lazyLoad','boolean','true']],
+    phone:`<div class="p-sec"><div class="p-label">Image</div><div style="display:flex;gap:8px"><div style="width:60px;height:60px;background:var(--muted);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted-fg)">&#x1F5BC;</div><div style="width:60px;height:60px;background:var(--muted);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted-fg)">&#x1F5BC;</div></div></div>`},
+  { id:'configprovider', cat:'layout', name:'ConfigProvider', desc:'Theme injection via CSS Variables. Supports nested diff-merge.',
+    usage:`<tt-config-provider>\n  <tt-button>Themed</tt-button>\n</tt-config-provider>\n\n<tt-config-provider :theme-vars="{ primary: '#6366f1' }">\n  <tt-button>Indigo</tt-button>\n</tt-config-provider>`,
+    props:[['theme',"'light'|'dark'","'system'"],['themeVars','Record<string,string>','{}']],
+    phone:`<div class="p-sec"><div class="p-label">Light Theme</div><div class="p-card" style="margin-bottom:8px"><div class="p-row"><span class="p-btn p-btn-default">Button</span><span class="p-btn p-btn-secondary">Secondary</span></div></div></div><div class="p-sec"><div class="p-label">Custom (Indigo)</div><div class="p-card"><div class="p-row"><span class="p-btn" style="background:#6366f1;color:#fff">Indigo</span><span class="p-btn p-btn-outline">Default</span></div></div></div>`},
+]
+
+const categories = {
+  en: { basic:'Basic', form:'Form', display:'Display', navigation:'Navigation', feedback:'Feedback', layout:'Layout' },
+  zh: { basic:'基础', form:'表单', display:'展示', navigation:'导航', feedback:'反馈', layout:'布局' }
+}
+
+createApp({
+  setup() {
+    const isDark = ref(false)
+    const lang = ref('en')
+    const active = ref('button')
+
+    const i18n = {
+      en: { home:'Home', components:'Components', usage:'Usage', props:'Props' },
+      zh: { home:'首页', components:'组件', usage:'用法', props:'属性' }
+    }
+    const t = computed(() => i18n[lang.value])
+
+    const groups = computed(() => {
+      const cats = categories[lang.value]
+      const order = ['basic','form','display','navigation','feedback','layout']
+      return order.map(cat => ({
+        label: cats[cat],
+        items: allComponents.filter(c => c.cat === cat)
+      })).filter(g => g.items.length > 0)
+    })
+
+    const comp = computed(() => allComponents.find(c => c.id === active.value) || allComponents[0])
+
+    function select(id) { active.value = id }
+    function toggleTheme() { isDark.value = !isDark.value; document.documentElement.classList.toggle('dark', isDark.value) }
+    function toggleLang() { lang.value = lang.value === 'en' ? 'zh' : 'en' }
+
+    return { isDark, lang, t, active, groups, comp, select, toggleTheme, toggleLang }
+  }
+}).mount('#app')
+</script>
+</body>
+</html>
