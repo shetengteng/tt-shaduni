@@ -79,7 +79,32 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('image') }}</text>
       <text class="demo-desc">{{ t('image.desc') }}</text>
-      <tt-image width="120px" height="80px" radius="8px" />
+      <view class="demo-row">
+        <tt-image src="https://picsum.photos/120/80" width="120px" height="80px" radius="8px" />
+        <tt-image src="https://picsum.photos/80/80" width="80px" height="80px" radius="50%" />
+      </view>
+    </view>
+
+    <view class="demo-block">
+      <text class="demo-label">{{ t('swiper') }}</text>
+      <text class="demo-desc">{{ t('swiper.desc') }}</text>
+      <tt-swiper :autoplay="true" :interval="3000" indicator-dots circular style="height: 300rpx;">
+        <swiper-item v-for="c in ['#3b82f6','#22c55e','#f59e0b']" :key="c">
+          <view class="swiper-slide" :style="{ background: c }">
+            <text class="swiper-slide__text">Slide</text>
+          </view>
+        </swiper-item>
+      </tt-swiper>
+    </view>
+
+    <view class="demo-block">
+      <text class="demo-label">{{ t('scrollView') }}</text>
+      <text class="demo-desc">{{ t('scrollView.desc') }}</text>
+      <tt-scroll-view scroll-y style="height: 200rpx;">
+        <view v-for="i in 8" :key="i" class="scroll-item">
+          <text>Scroll Item {{ i }}</text>
+        </view>
+      </tt-scroll-view>
     </view>
 
     <view class="demo-block">
@@ -124,3 +149,25 @@ const cols = [{ key: 'name', title: 'Name' }, { key: 'age', title: 'Age' }, { ke
 const rows = [{ name: 'Alice', age: 28, role: 'Dev' }, { name: 'Bob', age: 32, role: 'PM' }]
 const descItems = [{ label: 'Name', value: 'Alice' }, { label: 'Age', value: '28' }, { label: 'Email', value: 'alice@example.com' }, { label: 'Role', value: 'Developer' }]
 </script>
+
+<style>
+.swiper-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--tt-radius, 12rpx);
+}
+.swiper-slide__text {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+.scroll-item {
+  padding: 20rpx 24rpx;
+  border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
+  font-size: 28rpx;
+  color: var(--tt-foreground, #0a0a0a);
+}
+</style>

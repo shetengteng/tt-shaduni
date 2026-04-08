@@ -26,16 +26,6 @@
     </view>
 
     <view class="demo-block">
-      <text class="demo-label">{{ t('icon') }}</text>
-      <text class="demo-desc">{{ t('icon.desc') }}</text>
-      <view class="demo-row">
-        <tt-icon name="home" />
-        <tt-icon name="close" size="24" />
-        <tt-icon name="check" />
-      </view>
-    </view>
-
-    <view class="demo-block">
       <text class="demo-label">{{ t('typography') }}</text>
       <text class="demo-desc">{{ t('typography.desc') }}</text>
       <tt-typography type="title" :level="2">Heading H2</tt-typography>

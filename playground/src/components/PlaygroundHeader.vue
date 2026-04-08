@@ -82,8 +82,9 @@ defineEmits(['toggleLang', 'toggleTheme'])
 }
 .pg-hd__btn:active { background: var(--tt-muted, #f5f5f5); }
 .pg-hd__btn-label {
-  font-size: 24rpx;
+  font-size: 36rpx;
   font-weight: 600;
   color: var(--tt-foreground, #0a0a0a);
+  line-height: 1;
 }
 </style>

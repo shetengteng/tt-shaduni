@@ -87,6 +87,10 @@ const dict: Record<string, Record<string, string>> = {
   'list.desc': { en: 'Infinite scroll with loading/finished', zh: '无限滚动，支持加载中/完成状态' },
   'tooltip': { en: 'Tooltip', zh: '提示' },
   'tooltip.desc': { en: '4-direction tooltip popup', zh: '4 方向工具提示弹出' },
+  'swiper': { en: 'Swiper', zh: '轮播' },
+  'swiper.desc': { en: 'Carousel with autoplay and indicators', zh: '轮播图，支持自动播放和指示器' },
+  'scrollView': { en: 'ScrollView', zh: '滚动视图' },
+  'scrollView.desc': { en: 'Scrollable container with pull-to-refresh', zh: '可滚动容器，支持下拉刷新' },
 
   // Nav
   'cell': { en: 'Cell', zh: '单元格' },

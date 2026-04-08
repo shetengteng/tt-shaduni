@@ -15,3 +15,4 @@ allure-results/**
 
 playground/node_modules/
 playground/dist/
+.github/workflows/
