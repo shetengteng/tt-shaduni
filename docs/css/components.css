@@ -50,7 +50,9 @@ pre code{background:none;padding:0}
 .p-btn-destructive{background:var(--destructive);color:#fff}
 .p-btn-outline{background:var(--bg);color:var(--fg);border:1px solid var(--border)}
 .p-btn-ghost{background:transparent;color:var(--fg)}
-.p-input{width:100%;height:32px;border:1px solid var(--border);border-radius:5px;padding:0 10px;font-size:12px;background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;outline:none}
+.p-input{width:100%;height:32px;border:1px solid var(--border);border-radius:5px;padding:0 10px;font-size:12px;background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.p-input:focus{border-color:var(--ring,#a3a3a3);box-shadow:0 0 0 2px rgba(0,0,0,.05)}
+.dark .p-input:focus{box-shadow:0 0 0 2px rgba(255,255,255,.05)}
 .p-input::placeholder{color:var(--muted-fg)}
 .p-card{border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--card)}
 .p-card-title{font-size:13px;font-weight:600;margin-bottom:4px}
