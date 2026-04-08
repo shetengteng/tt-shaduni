@@ -1,14 +1,28 @@
 <template>
   <view class="tt-calendar">
     <view class="tt-calendar__header">
-      <view class="tt-calendar__arrow" @click="showMonthPicker ? viewYear-- : prevMonth()">&#x2039;</view>
-      <text class="tt-calendar__title" @click="showMonthPicker = !showMonthPicker">
-        {{ showMonthPicker ? viewYear : displayTitle }}
+      <view class="tt-calendar__arrow" @click="onPrev">&#x2039;</view>
+      <text class="tt-calendar__title" @click="onTitleClick">
+        {{ headerTitle }}
       </text>
-      <view class="tt-calendar__arrow" @click="showMonthPicker ? viewYear++ : nextMonth()">&#x203A;</view>
+      <view class="tt-calendar__arrow" @click="onNext">&#x203A;</view>
     </view>
 
-    <view v-if="showMonthPicker" class="tt-calendar__picker">
+    <view v-if="pickerMode === 'year'" class="tt-calendar__picker">
+      <view class="tt-calendar__picker-grid tt-calendar__picker-grid--year">
+        <view
+          v-for="y in yearRange"
+          :key="y"
+          class="tt-calendar__picker-item"
+          :class="{ 'tt-calendar__picker-item--active': viewYear === y }"
+          @click="pickYear(y)"
+        >
+          <text>{{ y }}</text>
+        </view>
+      </view>
+    </view>
+
+    <view v-else-if="pickerMode === 'month'" class="tt-calendar__picker">
       <view class="tt-calendar__picker-grid">
         <view
           v-for="(m, i) in loc.months"
@@ -61,7 +75,8 @@ const todayStr = fmt(today.getFullYear(), today.getMonth() + 1, today.getDate())
 
 const viewYear = ref(props.modelValue ? parseInt(props.modelValue.slice(0, 4)) : today.getFullYear())
 const viewMonth = ref(props.modelValue ? parseInt(props.modelValue.slice(5, 7)) : today.getMonth() + 1)
-const showMonthPicker = ref(false)
+const pickerMode = ref<'none' | 'month' | 'year'>('none')
+const yearPageStart = ref(viewYear.value - 5)
 
 const L = {
   en: {
@@ -83,6 +98,18 @@ const weekdays = computed(() => props.firstDayOfWeek === 1 ? loc.value.weekMon :
 
 const displayTitle = computed(() => {
   return loc.value.fmt(loc.value.months[viewMonth.value - 1], viewYear.value)
+})
+
+const headerTitle = computed(() => {
+  if (pickerMode.value === 'year') return `${yearPageStart.value} - ${yearPageStart.value + 11}`
+  if (pickerMode.value === 'month') return `${viewYear.value}`
+  return displayTitle.value
+})
+
+const yearRange = computed(() => {
+  const arr: number[] = []
+  for (let i = 0; i < 12; i++) arr.push(yearPageStart.value + i)
+  return arr
 })
 
 interface CalendarCell {
@@ -141,9 +168,37 @@ function nextMonth() {
   }
 }
 
+function onTitleClick() {
+  if (pickerMode.value === 'none') {
+    pickerMode.value = 'month'
+  } else if (pickerMode.value === 'month') {
+    yearPageStart.value = viewYear.value - 5
+    pickerMode.value = 'year'
+  } else {
+    pickerMode.value = 'none'
+  }
+}
+
+function onPrev() {
+  if (pickerMode.value === 'year') yearPageStart.value -= 12
+  else if (pickerMode.value === 'month') viewYear.value--
+  else prevMonth()
+}
+
+function onNext() {
+  if (pickerMode.value === 'year') yearPageStart.value += 12
+  else if (pickerMode.value === 'month') viewYear.value++
+  else nextMonth()
+}
+
+function pickYear(y: number) {
+  viewYear.value = y
+  pickerMode.value = 'month'
+}
+
 function pickMonth(m: number) {
   viewMonth.value = m
-  showMonthPicker.value = false
+  pickerMode.value = 'none'
 }
 
 function onSelect(cell: CalendarCell) {
@@ -200,13 +255,16 @@ function onSelect(cell: CalendarCell) {
   grid-template-columns: repeat(4, 1fr);
   gap: 8rpx;
 }
+.tt-calendar__picker-grid--year {
+  grid-template-columns: repeat(3, 1fr);
+}
 .tt-calendar__picker-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 72rpx;
+  height: 80rpx;
   border-radius: var(--tt-radius, 12rpx);
-  font-size: 26rpx;
+  font-size: 28rpx;
   color: var(--tt-foreground, #0a0a0a);
   cursor: pointer;
   transition: background .15s;

@@ -78,4 +78,26 @@ describe('TtCalendar', () => {
     await arrows[0].trigger('click')
     expect(wrapper.find('.tt-calendar__title').text()).toBe('Dec 2024')
   })
+
+  it('opens month picker then year picker on title clicks', async () => {
+    const wrapper = mount(TtCalendar, { props: { modelValue: '2025-06-01' } })
+    const title = wrapper.find('.tt-calendar__title')
+    await title.trigger('click')
+    expect(wrapper.find('.tt-calendar__picker').exists()).toBe(true)
+    expect(wrapper.findAll('.tt-calendar__picker-item').length).toBe(12)
+    await title.trigger('click')
+    expect(wrapper.find('.tt-calendar__picker-grid--year').exists()).toBe(true)
+    expect(wrapper.findAll('.tt-calendar__picker-item').length).toBe(12)
+  })
+
+  it('picks a year then returns to month picker', async () => {
+    const wrapper = mount(TtCalendar, { props: { modelValue: '2025-06-01' } })
+    const title = wrapper.find('.tt-calendar__title')
+    await title.trigger('click')
+    await title.trigger('click')
+    const yearItems = wrapper.findAll('.tt-calendar__picker-item')
+    await yearItems[0].trigger('click')
+    expect(wrapper.findAll('.tt-calendar__picker-item').length).toBe(12)
+    expect(wrapper.find('.tt-calendar__picker-grid--year').exists()).toBe(false)
+  })
 })
