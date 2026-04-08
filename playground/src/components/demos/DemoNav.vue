@@ -10,7 +10,7 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('tabs') }}</text>
       <text class="demo-desc">{{ t('tabs.desc') }}</text>
-      <tt-tabs v-model="tabIdx" :items="['Home', 'Profile', 'Setting']" />
+      <tt-tabs v-model="tabIdx" :items="tabItems" />
     </view>
 
     <view class="demo-block">
@@ -22,7 +22,9 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('tabbar') }}</text>
       <text class="demo-desc">{{ t('tabbar.desc') }}</text>
-      <tt-tabbar v-model="tbIdx" :items="tabbarItems" :fixed="false" />
+      <view class="tabbar-demo-wrap">
+        <tt-tabbar v-model="tbIdx" :items="tabbarItems" :fixed="false" />
+      </view>
     </view>
 
     <view class="demo-block">
@@ -78,6 +80,7 @@ import '@/styles/demo-shared.css'
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const tabIdx = ref(0)
+const tabItems = [{ label: 'Home', value: 0 }, { label: 'Profile', value: 1 }, { label: 'Setting', value: 2 }]
 const tbIdx = ref(0)
 const tabbarItems = [{ text: 'Home', icon: 'home' }, { text: 'List', icon: 'list' }, { text: 'Me', icon: 'user' }]
 const stepItems = [{ title: 'Order' }, { title: 'Pay' }, { title: 'Done' }]
@@ -88,6 +91,11 @@ const ddOptions = [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' 
 </script>
 
 <style>
+.tabbar-demo-wrap {
+  border: 2rpx solid var(--tt-border, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
+  overflow: hidden;
+}
 .swipe-demo-cell {
   padding: 40rpx 24rpx;
   background: var(--tt-background, #fff);
