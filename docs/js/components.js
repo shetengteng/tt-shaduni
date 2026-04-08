@@ -219,4 +219,132 @@ window.TTDocs.allComponents = [
 </tt-collapse>`,
     props:[['v-model','Array','[]'],['accordion','boolean','false']]
   },
+  { id:'typography', cat:'basic', name:'Typography',
+    desc:'Text/Title/Link with ellipsis, bold, underline, and delete styles.',
+    usage:`<tt-typography type="title" :level="2">Heading</tt-typography>
+<tt-typography :ellipsis="2">Long text...</tt-typography>
+<tt-typography type="link" href="#">Link</tt-typography>`,
+    props:[['type',"'text'|'title'|'link'","'text'"],['level','1|2|3|4|5','3'],['ellipsis','boolean|number','false'],['bold','boolean','false'],['disabled','boolean','false']]
+  },
+  { id:'slider', cat:'form', name:'Slider',
+    desc:'Single-thumb slider with min/max/step controls.',
+    usage:`<tt-slider v-model="val" :min="0" :max="100" />`,
+    props:[['v-model','number','0'],['min','number','0'],['max','number','100'],['step','number','1'],['disabled','boolean','false']]
+  },
+  { id:'picker', cat:'form', name:'Picker',
+    desc:'Single/multi-column picker with confirm/cancel toolbar.',
+    usage:`<tt-picker v-model:show="visible" :columns="cols" @confirm="onConfirm" />`,
+    props:[['v-model:show','boolean','false'],['columns','Array','[]'],['title','string',"''"],['confirmText','string',"'Confirm'"],['cancelText','string',"'Cancel'"]]
+  },
+  { id:'datepicker', cat:'form', name:'DatePicker',
+    desc:'Date picker with year-month-day columns.',
+    usage:`<tt-date-picker v-model="date" v-model:show="visible" title="Select Date" />`,
+    props:[['v-model','string',"''"],['v-model:show','boolean','false'],['mode',"'date'|'time'|'datetime'","'date'"],['title','string',"''"]]
+  },
+  { id:'upload', cat:'form', name:'Upload',
+    desc:'Image/file uploader with preview, delete, and count limit.',
+    usage:`<tt-upload v-model:file-list="files" :max-count="9" />`,
+    props:[['v-model:fileList','UploadFile[]','[]'],['maxCount','number','9'],['accept','string',"'image'"],['disabled','boolean','false'],['deletable','boolean','true']]
+  },
+  { id:'table', cat:'display', name:'Table',
+    desc:'Simple table with bordered/striped modes and horizontal scroll.',
+    usage:`<tt-table :columns="cols" :data="rows" bordered striped />`,
+    props:[['columns','TableColumn[]','[]'],['data','Record[]','[]'],['bordered','boolean','true'],['striped','boolean','false']]
+  },
+  { id:'descriptions', cat:'display', name:'Descriptions',
+    desc:'Key-value pairs in grid layout with title and bordered mode.',
+    usage:`<tt-descriptions title="Info" :items="items" :column="2" />`,
+    props:[['title','string',"''"],['items','DescriptionItem[]','[]'],['column','number','2'],['bordered','boolean','false']]
+  },
+  { id:'list', cat:'display', name:'List',
+    desc:'List with loading and finished states for infinite scroll.',
+    usage:`<tt-list :loading="loading" :finished="finished" @load="onLoad">
+  <view v-for="item in items">...</view>
+</tt-list>`,
+    props:[['loading','boolean','false'],['finished','boolean','false'],['loadingText','string',"'Loading...'"],['finishedText','string',"'No more data'"],['offset','number','300']]
+  },
+  { id:'tooltip', cat:'display', name:'Tooltip',
+    desc:'Tooltip popup with 4 placement directions.',
+    usage:`<tt-tooltip content="Tip text" placement="top">
+  <tt-button>Hover me</tt-button>
+</tt-tooltip>`,
+    props:[['content','string',"''"],['placement',"'top'|'bottom'|'left'|'right'","'top'"],['show','boolean','false']]
+  },
+  { id:'sidebar', cat:'navigation', name:'Sidebar',
+    desc:'Category navigation with active indicator and badge.',
+    usage:`<tt-sidebar v-model="active" :items="items" />`,
+    props:[['v-model','number','0'],['items','SidebarItem[]','[]']]
+  },
+  { id:'breadcrumb', cat:'navigation', name:'Breadcrumb',
+    desc:'Hierarchy navigation breadcrumb trail.',
+    usage:`<tt-breadcrumb :items="[{text:'Home',to:'/'},{text:'Page'}]" />`,
+    props:[['items','BreadcrumbItem[]','[]'],['separator','string',"'/'"]]
+  },
+  { id:'pagination', cat:'navigation', name:'Pagination',
+    desc:'Data pagination with number and simple modes.',
+    usage:`<tt-pagination v-model="page" :total-items="100" :items-per-page="10" />`,
+    props:[['v-model','number','1'],['totalItems','number','0'],['itemsPerPage','number','10'],['mode',"'number'|'simple'","'number'"]]
+  },
+  { id:'indexbar', cat:'navigation', name:'IndexBar',
+    desc:'Alphabetical index sidebar for quick navigation.',
+    usage:`<tt-index-bar @select="onSelect">
+  <view>Content</view>
+</tt-index-bar>`,
+    props:[['indexList','string[]','A-Z'],['activeIndex','string',"''"]]
+  },
+  { id:'dropdownmenu', cat:'navigation', name:'DropdownMenu',
+    desc:'Dropdown filter/sort menu with option selection.',
+    usage:`<tt-dropdown-menu v-model="val" :options="opts" title="Sort" />`,
+    props:[['v-model','string|number',"''"],['options','DropdownOption[]','[]'],['title','string',"''"],['disabled','boolean','false']]
+  },
+  { id:'transition', cat:'feedback', name:'Transition',
+    desc:'Enter/leave animations: fade, slide-up/down/left/right, zoom.',
+    usage:`<tt-transition :show="visible" name="fade">
+  <view>Content</view>
+</tt-transition>`,
+    props:[['show','boolean','false'],['name',"'fade'|'slide-up'|'slide-down'|'zoom'","'fade'"],['duration','number','300']]
+  },
+  { id:'swipeaction', cat:'feedback', name:'SwipeAction',
+    desc:'Left/right swipe to reveal action buttons.',
+    usage:`<tt-swipe-action>
+  <tt-cell title="Swipe me" />
+</tt-swipe-action>`,
+    props:[['leftActions','SwipeActionButton[]','[]'],['rightActions','SwipeActionButton[]','[Delete]'],['disabled','boolean','false'],['autoClose','boolean','true']]
+  },
+  { id:'row', cat:'layout', name:'Row',
+    desc:'Flex row container for 12-column grid layout.',
+    usage:`<tt-row :gutter="16">
+  <tt-col :span="12">Left</tt-col>
+  <tt-col :span="12">Right</tt-col>
+</tt-row>`,
+    props:[['gutter','number','0'],['justify',"'start'|'end'|'center'|'space-around'|'space-between'","'start'"],['align',"'top'|'middle'|'bottom'","'top'"],['wrap','boolean','true']]
+  },
+  { id:'grid', cat:'layout', name:'Grid',
+    desc:'Grid layout with configurable columns and optional border.',
+    usage:`<tt-grid :column-num="4" border>
+  <view>Item 1</view>
+</tt-grid>`,
+    props:[['columnNum','number','4'],['border','boolean','true'],['square','boolean','false'],['gutter','number','0']]
+  },
+  { id:'scrollview', cat:'layout', name:'ScrollView',
+    desc:'Enhanced scroll-view with pull-refresh and infinite scroll.',
+    usage:`<tt-scroll-view refresher-enabled @refresh="onRefresh" @scrolltolower="onLoad">
+  <view>Content</view>
+</tt-scroll-view>`,
+    props:[['scrollX','boolean','false'],['scrollY','boolean','true'],['refresherEnabled','boolean','false'],['refresherTriggered','boolean','false'],['lowerThreshold','number','50']]
+  },
+  { id:'swiper', cat:'layout', name:'Swiper',
+    desc:'Carousel/swiper with autoplay and indicator dots.',
+    usage:`<tt-swiper autoplay :interval="3000" indicator-dots>
+  <swiper-item>Slide 1</swiper-item>
+</tt-swiper>`,
+    props:[['autoplay','boolean','false'],['interval','number','3000'],['circular','boolean','true'],['indicatorDots','boolean','true'],['current','number','0']]
+  },
+  { id:'sticky', cat:'layout', name:'Sticky',
+    desc:'Sticky positioning component with offset-top.',
+    usage:`<tt-sticky :offset-top="56">
+  <view>Sticks to top</view>
+</tt-sticky>`,
+    props:[['offsetTop','number','0'],['zIndex','number','99'],['disabled','boolean','false']]
+  },
 ]

@@ -391,6 +391,166 @@
         </tt-card>
       </view>
 
+      <!-- Typography -->
+      <view v-if="activeTab === 'typography'" class="demo-section">
+        <tt-card title="Typography">
+          <tt-typography type="title" :level="2">Heading H2</tt-typography>
+          <tt-typography type="title" :level="4">Heading H4</tt-typography>
+          <tt-typography>Regular body text content.</tt-typography>
+          <tt-typography bold>Bold text</tt-typography>
+          <tt-typography underline>Underlined text</tt-typography>
+          <tt-typography delete>Deleted text</tt-typography>
+          <tt-typography type="link">Link text</tt-typography>
+          <tt-typography :ellipsis="1">This is a very long text that should be truncated to one line only, demonstrating the ellipsis feature of the typography component.</tt-typography>
+        </tt-card>
+      </view>
+
+      <!-- Slider -->
+      <view v-if="activeTab === 'slider'" class="demo-section">
+        <tt-card title="Slider">
+          <tt-slider v-model="sliderVal" />
+          <text class="demo-text">Value: {{ sliderVal }}</text>
+        </tt-card>
+        <tt-card title="Disabled">
+          <tt-slider :model-value="70" disabled />
+        </tt-card>
+      </view>
+
+      <!-- Picker -->
+      <view v-if="activeTab === 'picker'" class="demo-section">
+        <tt-card title="Picker">
+          <tt-button @click="showPicker = true">Open Picker</tt-button>
+        </tt-card>
+        <tt-picker v-model:show="showPicker" :columns="pickerColumns" title="Select" />
+      </view>
+
+      <!-- DatePicker -->
+      <view v-if="activeTab === 'datepicker'" class="demo-section">
+        <tt-card title="DatePicker">
+          <tt-button @click="showDatePicker = true">{{ dateVal || 'Select Date' }}</tt-button>
+        </tt-card>
+        <tt-date-picker v-model="dateVal" v-model:show="showDatePicker" title="Select Date" />
+      </view>
+
+      <!-- Upload -->
+      <view v-if="activeTab === 'upload'" class="demo-section">
+        <tt-card title="Upload">
+          <tt-upload v-model:file-list="uploadFiles" :max-count="6" />
+        </tt-card>
+      </view>
+
+      <!-- Table -->
+      <view v-if="activeTab === 'table'" class="demo-section">
+        <tt-card title="Table">
+          <tt-table :columns="tableCols" :data="tableData" bordered striped />
+        </tt-card>
+      </view>
+
+      <!-- Descriptions -->
+      <view v-if="activeTab === 'descriptions'" class="demo-section">
+        <tt-card title="Descriptions">
+          <tt-descriptions title="User Info" :items="descItems" :column="2" bordered />
+        </tt-card>
+      </view>
+
+      <!-- List -->
+      <view v-if="activeTab === 'list'" class="demo-section">
+        <tt-card title="List">
+          <tt-list :finished="true" finished-text="No more data">
+            <tt-cell title="Item 1" value="Detail" is-link />
+            <tt-cell title="Item 2" value="Detail" is-link />
+            <tt-cell title="Item 3" value="Detail" is-link />
+          </tt-list>
+        </tt-card>
+      </view>
+
+      <!-- Tooltip -->
+      <view v-if="activeTab === 'tooltip'" class="demo-section">
+        <tt-card title="Tooltip">
+          <view class="demo-row" style="padding-top: 40px;">
+            <tt-tooltip content="Top tip" placement="top"><tt-button size="sm">Top</tt-button></tt-tooltip>
+            <tt-tooltip content="Bottom tip" placement="bottom"><tt-button size="sm">Bottom</tt-button></tt-tooltip>
+          </view>
+        </tt-card>
+      </view>
+
+      <!-- Sidebar -->
+      <view v-if="activeTab === 'sidebar'" class="demo-section">
+        <tt-card title="Sidebar">
+          <view style="display: flex; height: 160px;">
+            <tt-sidebar v-model="sidebarIdx" :items="sidebarItems" />
+            <view style="flex: 1; padding: 16px; font-size: 13px;">Content for: {{ sidebarItems[sidebarIdx].text }}</view>
+          </view>
+        </tt-card>
+      </view>
+
+      <!-- Breadcrumb -->
+      <view v-if="activeTab === 'breadcrumb'" class="demo-section">
+        <tt-card title="Breadcrumb">
+          <tt-breadcrumb :items="[{text:'Home',to:'/'},{text:'Category',to:'/cat'},{text:'Current Page'}]" />
+        </tt-card>
+      </view>
+
+      <!-- Pagination -->
+      <view v-if="activeTab === 'pagination'" class="demo-section">
+        <tt-card title="Pagination">
+          <tt-pagination v-model="pageNum" :total-items="50" :items-per-page="10" />
+          <text class="demo-text">Page: {{ pageNum }}</text>
+        </tt-card>
+      </view>
+
+      <!-- DropdownMenu -->
+      <view v-if="activeTab === 'dropdown'" class="demo-section">
+        <tt-card title="DropdownMenu">
+          <tt-dropdown-menu v-model="dropdownVal" :options="dropdownOpts" title="Sort By" />
+          <text class="demo-text">Selected: {{ dropdownVal }}</text>
+        </tt-card>
+      </view>
+
+      <!-- Transition -->
+      <view v-if="activeTab === 'transition'" class="demo-section">
+        <tt-card title="Transition">
+          <view class="demo-row">
+            <tt-button size="sm" @click="showTransition = !showTransition">Toggle</tt-button>
+          </view>
+          <tt-transition :show="showTransition" name="fade">
+            <view style="padding: 16px; background: var(--tt-muted, #f5f5f5); border-radius: 8px; margin-top: 8px;">
+              <text class="demo-text">Fade transition content</text>
+            </view>
+          </tt-transition>
+        </tt-card>
+      </view>
+
+      <!-- Grid / Row / Col -->
+      <view v-if="activeTab === 'grid'" class="demo-section">
+        <tt-card title="Row / Col">
+          <tt-row :gutter="8">
+            <tt-col :span="12"><view class="grid-demo-cell primary">12</view></tt-col>
+            <tt-col :span="12"><view class="grid-demo-cell secondary">12</view></tt-col>
+          </tt-row>
+          <view style="height: 8px;" />
+          <tt-row :gutter="8">
+            <tt-col :span="8"><view class="grid-demo-cell primary">8</view></tt-col>
+            <tt-col :span="16"><view class="grid-demo-cell secondary">16</view></tt-col>
+          </tt-row>
+        </tt-card>
+        <tt-card title="Grid">
+          <tt-grid :column-num="4" border>
+            <view class="grid-item">A</view>
+            <view class="grid-item">B</view>
+            <view class="grid-item">C</view>
+            <view class="grid-item">D</view>
+          </tt-grid>
+        </tt-card>
+      </view>
+
+      <!-- Sticky -->
+      <view v-if="activeTab === 'sticky'" class="demo-section">
+        <tt-card title="Sticky">
+          <text class="demo-text">The Sticky component makes its child stick to the top of the scroll container when scrolled past.</text>
+        </tt-card>
+      </view>
+
       <!-- Theme -->
       <view v-if="activeTab === 'theme'" class="demo-section">
         <tt-card title="Theme System" description="shadcn-style CSS Variables">
@@ -465,6 +625,22 @@ const tabs = [
   { label: 'Notice', value: 'notice' },
   { label: 'Collapse', value: 'collapse' },
   { label: 'Space', value: 'space' },
+  { label: 'Typography', value: 'typography' },
+  { label: 'Slider', value: 'slider' },
+  { label: 'Picker', value: 'picker' },
+  { label: 'DatePicker', value: 'datepicker' },
+  { label: 'Upload', value: 'upload' },
+  { label: 'Table', value: 'table' },
+  { label: 'Desc', value: 'descriptions' },
+  { label: 'List', value: 'list' },
+  { label: 'Tooltip', value: 'tooltip' },
+  { label: 'Sidebar', value: 'sidebar' },
+  { label: 'Breadcrumb', value: 'breadcrumb' },
+  { label: 'Pagination', value: 'pagination' },
+  { label: 'Dropdown', value: 'dropdown' },
+  { label: 'Transition', value: 'transition' },
+  { label: 'Grid', value: 'grid' },
+  { label: 'Sticky', value: 'sticky' },
   { label: 'Theme', value: 'theme' },
 ]
 
@@ -504,6 +680,21 @@ const demoTabs = [
   { label: 'Tab 2', value: 'tab2' },
   { label: 'Disabled', value: 'tab3', disabled: true },
 ]
+const sliderVal = ref(40)
+const showPicker = ref(false)
+const pickerColumns = [{ text: 'Option A', value: 'a' }, { text: 'Option B', value: 'b' }, { text: 'Option C', value: 'c' }]
+const showDatePicker = ref(false)
+const dateVal = ref('')
+const uploadFiles = ref<Array<{ url: string }>>([])
+const tableCols = [{ key: 'name', title: 'Name' }, { key: 'age', title: 'Age' }, { key: 'role', title: 'Role' }]
+const tableData = [{ name: 'Alice', age: 28, role: 'Dev' }, { name: 'Bob', age: 32, role: 'PM' }, { name: 'Carol', age: 25, role: 'QA' }]
+const descItems = [{ label: 'Name', value: 'Alice' }, { label: 'Age', value: '28' }, { label: 'Email', value: 'alice@example.com' }, { label: 'Role', value: 'Developer' }]
+const pageNum = ref(1)
+const sidebarIdx = ref(0)
+const sidebarItems = [{ text: 'All' }, { text: 'Hot' }, { text: 'New' }, { text: 'Sale' }]
+const dropdownVal = ref('newest')
+const dropdownOpts = [{ text: 'Newest', value: 'newest' }, { text: 'Popular', value: 'popular' }, { text: 'Price', value: 'price' }]
+const showTransition = ref(true)
 </script>
 
 <style>
@@ -527,4 +718,8 @@ const demoTabs = [
 .color-label { font-size: 13px; color: var(--tt-foreground, #0a0a0a); }
 .theme-card-inner { display: flex; align-items: center; justify-content: space-between; }
 .theme-mode { font-size: 15px; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
+.grid-demo-cell { padding: 10px; text-align: center; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.grid-demo-cell.primary { background: var(--tt-primary, #171717); color: var(--tt-primary-foreground, #fafafa); }
+.grid-demo-cell.secondary { background: var(--tt-secondary, #f5f5f5); color: var(--tt-secondary-foreground, #171717); }
+.grid-item { padding: 12px; text-align: center; font-size: 13px; }
 </style>
