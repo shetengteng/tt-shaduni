@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TT ShadUni — shadcn-style UniApp Component Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0a0a0a;
+      --card: #ffffff;
+      --card-fg: #0a0a0a;
+      --muted: #f5f5f5;
+      --muted-fg: #737373;
+      --border: #e5e5e5;
+      --primary: #171717;
+      --primary-fg: #fafafa;
+      --destructive: #ef4444;
+      --secondary: #f5f5f5;
+      --secondary-fg: #171717;
+      --accent: #f5f5f5;
+      --radius: 8px;
+      --ring: #a3a3a3;
+    }
+    .dark {
+      --bg: #0a0a0a;
+      --fg: #fafafa;
+      --card: #0a0a0a;
+      --card-fg: #fafafa;
+      --muted: #262626;
+      --muted-fg: #a3a3a3;
+      --border: #262626;
+      --primary: #fafafa;
+      --primary-fg: #0a0a0a;
+      --destructive: #dc2626;
+      --secondary: #262626;
+      --secondary-fg: #fafafa;
+      --accent: #262626;
+      --ring: #525252;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+    a { color: inherit; text-decoration: none; }
+    code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.85em;
+      background: var(--muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--fg);
+    }
+    pre {
+      background: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    pre code { background: none; padding: 0; }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Hero */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted-fg);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--muted-fg); }
+    .hero p {
+      font-size: 18px;
+      color: var(--muted-fg);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); }
+    .btn-outline { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+
+    /* Features */
+    .features {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px);
+      background: var(--card);
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--ring); }
+    .feature-icon { font-size: 28px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .feature-card p { font-size: 14px; color: var(--muted-fg); }
+
+    /* Components Section */
+    .components { padding: 60px 0; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .section-header p { color: var(--muted-fg); font-size: 16px; }
+
+    /* Component Demo Layout */
+    .comp-nav {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+    .comp-nav-item {
+      padding: 10px 16px;
+      font-size: 14px;
+      color: var(--muted-fg);
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+    .comp-nav-item:hover { color: var(--fg); }
+    .comp-nav-item.active {
+      color: var(--fg);
+      font-weight: 600;
+    }
+    .comp-nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+    }
+
+    .comp-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .comp-layout { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; }
+    }
+
+    .comp-docs h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .comp-docs .desc {
+      color: var(--muted-fg);
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    .comp-docs h4 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted-fg);
+      margin: 24px 0 12px;
+    }
+    .prop-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .prop-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    .prop-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Phone Mockup */
+    .phone-wrapper {
+      position: sticky;
+      top: 24px;
+    }
+    .phone {
+      width: 280px;
+      height: 560px;
+      border: 3px solid var(--border);
+      border-radius: 32px;
+      overflow: hidden;
+      background: var(--bg);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      margin: 0 auto;
+    }
+    .dark .phone { box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .phone-notch {
+      width: 120px;
+      height: 24px;
+      background: var(--border);
+      border-radius: 0 0 16px 16px;
+      margin: 0 auto;
+    }
+    .phone-screen {
+      padding: 8px 16px;
+      height: calc(100% - 24px);
+      overflow-y: auto;
+    }
+    .phone-screen::-webkit-scrollbar { display: none; }
+
+    /* Phone UI Elements */
+    .p-section { margin-bottom: 16px; }
+    .p-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted-fg);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .p-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+    .p-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      border: none;
+    }
+    .p-btn-default { background: var(--primary); color: var(--primary-fg); }
+    .p-btn-secondary { background: var(--secondary); color: var(--secondary-fg); }
+    .p-btn-destructive { background: var(--destructive); color: #fff; }
+    .p-btn-outline { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+    .p-btn-ghost { background: transparent; color: var(--fg); }
+    .p-btn-link { background: transparent; color: var(--primary); text-decoration: underline; }
+    .p-input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0 10px;
+      font-size: 12px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      outline: none;
+    }
+    .p-input::placeholder { color: var(--muted-fg); }
+    .p-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--card);
+    }
+    .p-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .p-card-desc { font-size: 11px; color: var(--muted-fg); }
+    .p-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .p-tab {
+      padding: 6px 10px;
+      font-size: 11px;
+      color: var(--muted-fg);
+      cursor: pointer;
+    }
+    .p-tab.active {
+      color: var(--fg);
+      font-weight: 600;
+      border-bottom: 2px solid var(--primary);
+    }
+    .p-navbar {
+      display: flex;
+      align-items: center;
+      height: 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .p-navbar-back { font-size: 18px; margin-right: 8px; color: var(--fg); }
+    .p-navbar-title { font-size: 14px; font-weight: 600; flex: 1; text-align: center; margin-right: 18px; }
+
+    /* Footer */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer p { color: var(--muted-fg); font-size: 14px; }
+
+    /* Theme Toggle */
+    .theme-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--primary-fg);
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      z-index: 100;
+      transition: transform 0.2s;
+    }
+    .theme-btn:hover { transform: scale(1.1); }
+
+    .comp-demo { display: none; }
+    .comp-demo.active { display: block; }
+
+    .install-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-family: 'SF Mono', monospace;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .install-bar span { color: var(--muted-fg); }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="container">
+      <div class="hero-badge">UniApp + Vue 3 + TypeScript</div>
+      <h1>TT ShadUni<br /><span>Component Library</span></h1>
+      <p>A shadcn-inspired, multi-platform UI component library for UniApp. Build beautiful H5, Mini-program, and App interfaces with one codebase.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://github.com/shetengteng/tt-shaduni">GitHub →</a>
+        <button class="btn btn-outline" onclick="document.querySelector('.components').scrollIntoView({behavior:'smooth'})">View Components</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>shadcn Style</h3>
+          <p>Semantic CSS Variables with background/foreground token pairs. Clean, minimal, modern design language.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Multi-platform</h3>
+          <p>One codebase for H5, WeChat Mini-program, Alipay Mini-program, and native App via UniApp.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌗</div>
+          <h3>Dark Mode</h3>
+          <p>Built-in light/dark theme with ConfigProvider injection. Token system with automatic CSS Variable switching.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌿</div>
+          <h3>Tree Shakable</h3>
+          <p>ESM build with preserveModules. Custom Vite resolver for true per-component on-demand loading.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>TypeScript</h3>
+          <p>Full type definitions for all components, composables, and tokens. First-class IDE intellisense support.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightweight</h3>
+          <p>No SCSS runtime dependency. Styles self-contained in components. CSS Variables with fallback values.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="components" id="components">
+    <div class="container">
+      <div class="section-header">
+        <h2>Components</h2>
+        <p>MVP components with full theme support and cross-platform compatibility</p>
+      </div>
+
+      <div class="install-bar">
+        <span>$</span> npm install tt-shaduni
+      </div>
+
+      <div class="comp-nav" id="compNav"></div>
+
+      <div class="comp-layout">
+        <div class="comp-docs" id="compDocs"></div>
+        <div class="phone-wrapper">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen" id="phoneScreen"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <p>TT ShadUni — Built with Vue 3 + UniApp. MIT License.</p>
+    </div>
+  </div>
+
+  <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+      renderPhone();
+    }
+
+    const components = [
+      {
+        id: 'button',
+        name: 'Button',
+        desc: 'Primary interactive element with 6 variants, 4 sizes, and loading/disabled states.',
+        usage: `<tt-button variant="default">Click me</tt-button>\n<tt-button variant="destructive">Delete</tt-button>\n<tt-button variant="outline" size="sm">Small</tt-button>\n<tt-button loading>Saving...</tt-button>`,
+        props: [
+          ['variant', "'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'", "'default'"],
+          ['size', "'sm' | 'md' | 'lg' | 'icon'", "'md'"],
+          ['disabled', 'boolean', 'false'],
+          ['loading', 'boolean', 'false'],
+          ['block', 'boolean', 'false'],
+        ],
+        phone: () => `
+          <div class="p-section"><div class="p-label">Variants</div>
+            <div class="p-row"><span class="p-btn p-btn-default">Default</span><span class="p-btn p-btn-secondary">Secondary</span><span class="p-btn p-btn-destructive">Destructive</span></div>
+            <div class="p-row"><span class="p-btn p-btn-outline">Outline</span><span class="p-btn p-btn-ghost">Ghost</span><span class="p-btn p-btn-link">Link</span></div>
+          </div>
+          <div class="p-section"><div class="p-label">Sizes</div>
+            <div class="p-row"><span class="p-btn p-btn-default" style="height:24px;font-size:10px;padding:0 8px">Small</span><span class="p-btn p-btn-default">Medium</span><span class="p-btn p-btn-default" style="height:34px;font-size:13px;padding:0 18px">Large</span></div>
+          </div>
+          <div class="p-section"><div class="p-label">States</div>
+            <div class="p-row"><span class="p-btn p-btn-default" style="opacity:0.5">Disabled</span><span class="p-btn p-btn-default" style="opacity:0.7">⟳ Loading</span></div>
+            <div class="p-row"><span class="p-btn p-btn-default" style="width:100%;justify-content:center">Block Button</span></div>
+          </div>`,
+      },
+      {
+        id: 'input',
+        name: 'Input',
+        desc: 'Text input with v-model binding, multiple types, clearable option, and prefix/suffix slots.',
+        usage: `<tt-input v-model="value" placeholder="Enter text" />\n<tt-input v-model="search" clearable />\n<tt-input type="password" placeholder="Password" />`,
+        props: [
+          ['v-model', 'string | number', "''"],
+          ['type', "'text' | 'password' | 'number' | 'digit' | 'tel'", "'text'"],
+          ['placeholder', 'string', "''"],
+          ['disabled', 'boolean', 'false'],
+          ['clearable', 'boolean', 'false'],
+          ['maxlength', 'number', '-1'],
+        ],
+        phone: () => `
+          <div class="p-section"><div class="p-label">Basic</div><input class="p-input" placeholder="Type something..." /></div>
+          <div class="p-section"><div class="p-label">Clearable</div><input class="p-input" value="Hello World" /></div>
+          <div class="p-section"><div class="p-label">Password</div><input class="p-input" type="password" value="secret123" /></div>
+          <div class="p-section"><div class="p-label">Disabled</div><input class="p-input" disabled value="Disabled" style="opacity:0.5" /></div>`,
+      },
+      {
+        id: 'card',
+        name: 'Card',
+        desc: 'Versatile container with header, content, and footer slots. Supports shadow variants.',
+        usage: `<tt-card title="Title" description="Description">\n  <text>Card content</text>\n</tt-card>\n\n<tt-card title="With Footer">\n  <text>Content</text>\n  <template #footer>\n    <tt-button size="sm">Save</tt-button>\n  </template>\n</tt-card>`,
+        props: [
+          ['title', 'string', "''"],
+          ['description', 'string', "''"],
+          ['shadow', "'always' | 'hover' | 'never'", "'always'"],
+        ],
+        phone: () => `
+          <div class="p-section"><div class="p-card"><div class="p-card-title">Card Title</div><div class="p-card-desc">This is a description</div><div style="margin-top:10px;font-size:12px">Card content goes here.</div></div></div>
+          <div class="p-section"><div class="p-card"><div class="p-card-title">With Footer</div><div style="margin:8px 0;font-size:12px">Content area</div><div style="display:flex;gap:6px;padding-top:10px;border-top:1px solid var(--border)"><span class="p-btn p-btn-outline" style="height:24px;font-size:10px">Cancel</span><span class="p-btn p-btn-default" style="height:24px;font-size:10px">Save</span></div></div></div>`,
+      },
+      {
+        id: 'dialog',
+        name: 'Dialog',
+        desc: 'Modal dialog for confirmations, alerts, and custom content. Built on top of Popup.',
+        usage: `<tt-dialog\n  v-model:show="visible"\n  title="Confirm"\n  message="Are you sure?"\n  @confirm="onConfirm"\n  @cancel="onCancel"\n/>`,
+        props: [
+          ['v-model:show', 'boolean', 'false'],
+          ['title', 'string', "''"],
+          ['message', 'string', "''"],
+          ['showCancelButton', 'boolean', 'true'],
+          ['confirmText', 'string', "'Confirm'"],
+          ['cancelText', 'string', "'Cancel'"],
+        ],
+        phone: () => `
+          <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:20px;display:flex;align-items:center;justify-content:center;min-height:200px">
+            <div style="background:var(--bg);border-radius:12px;width:220px;overflow:hidden;">
+              <div style="padding:18px 18px 0;text-align:center;font-size:14px;font-weight:600">Confirm Action</div>
+              <div style="padding:10px 18px 18px;text-align:center;font-size:12px;color:var(--muted-fg)">Are you sure you want to proceed?</div>
+              <div style="display:flex;border-top:1px solid var(--border)">
+                <div style="flex:1;text-align:center;padding:12px;font-size:13px;color:var(--muted-fg);border-right:1px solid var(--border)">Cancel</div>
+                <div style="flex:1;text-align:center;padding:12px;font-size:13px;font-weight:600">Confirm</div>
+              </div>
+            </div>
+          </div>`,
+      },
+      {
+        id: 'popup',
+        name: 'Popup',
+        desc: 'Base popup layer with 5 positions, overlay, close button, and smooth animations.',
+        usage: `<tt-popup v-model:show="visible" position="bottom" round>\n  <view>Bottom sheet content</view>\n</tt-popup>`,
+        props: [
+          ['v-model:show', 'boolean', 'false'],
+          ['position', "'center' | 'top' | 'bottom' | 'left' | 'right'", "'center'"],
+          ['overlay', 'boolean', 'true'],
+          ['closeable', 'boolean', 'false'],
+          ['round', 'boolean', 'false'],
+        ],
+        phone: () => `
+          <div style="position:relative;min-height:200px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;flex-direction:column;justify-content:flex-end">
+            <div style="background:var(--bg);border-radius:12px 12px 0 0;padding:24px;text-align:center">
+              <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px"></div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px">Bottom Popup</div>
+              <div style="font-size:11px;color:var(--muted-fg)">Slide up from bottom with overlay</div>
+            </div>
+          </div>`,
+      },
+      {
+        id: 'tabs',
+        name: 'Tabs',
+        desc: 'Tab navigation with scroll support, active indicator, and disabled state.',
+        usage: `<tt-tabs v-model="active" :items="[\n  { label: 'Tab 1', value: 'tab1' },\n  { label: 'Tab 2', value: 'tab2' },\n]" />`,
+        props: [
+          ['v-model', 'string | number', '0'],
+          ['items', 'Array<{ label, value, disabled? }>', '[]'],
+        ],
+        phone: () => `
+          <div class="p-section"><div class="p-tabs"><div class="p-tab active">Tab 1</div><div class="p-tab">Tab 2</div><div class="p-tab" style="opacity:0.4">Disabled</div></div><div style="padding:8px 0;font-size:12px">Active: Tab 1</div></div>
+          <div class="p-section"><div class="p-label">Scrollable</div><div class="p-tabs" style="overflow-x:auto"><div class="p-tab active">Home</div><div class="p-tab">Products</div><div class="p-tab">About</div><div class="p-tab">Contact</div><div class="p-tab">Blog</div></div></div>`,
+      },
+      {
+        id: 'navbar',
+        name: 'Navbar',
+        desc: 'Custom navigation bar with left/right slots, back arrow, and fixed positioning.',
+        usage: `<tt-navbar title="Page" left-arrow left-text="Back" />\n<tt-navbar title="Custom">\n  <template #right>\n    <text>Save</text>\n  </template>\n</tt-navbar>`,
+        props: [
+          ['title', 'string', "''"],
+          ['leftText', 'string', "''"],
+          ['leftArrow', 'boolean', 'false'],
+          ['fixed', 'boolean', 'false'],
+          ['border', 'boolean', 'true'],
+        ],
+        phone: () => `
+          <div class="p-section"><div class="p-navbar"><span class="p-navbar-back">‹</span><span style="font-size:12px">Back</span><span class="p-navbar-title">Page Title</span></div></div>
+          <div class="p-section"><div class="p-navbar" style="border:none"><span class="p-navbar-title" style="margin:0">No Border</span><span style="font-size:12px;color:var(--primary);font-weight:500">Save</span></div></div>`,
+      },
+      {
+        id: 'theme',
+        name: 'ConfigProvider',
+        desc: 'Theme injection component. Wraps pages to provide CSS Variables via inline :style. Supports nested diff-merge.',
+        usage: `<tt-config-provider>\n  <!-- all tt- components inherit theme -->\n  <tt-button>Themed</tt-button>\n</tt-config-provider>\n\n<!-- Custom theme -->\n<tt-config-provider :theme-vars="{\n  primary: '#6366f1',\n  primaryForeground: '#fff'\n}">\n  <tt-button>Indigo</tt-button>\n</tt-config-provider>`,
+        props: [
+          ['theme', "'light' | 'dark'", 'auto (system)'],
+          ['themeVars', 'Record<string, string>', '{}'],
+        ],
+        phone: () => `
+          <div class="p-section"><div class="p-label">Light Theme</div><div class="p-card" style="margin-bottom:8px"><div style="display:flex;gap:4px;margin-bottom:8px"><span class="p-btn p-btn-default">Button</span><span class="p-btn p-btn-secondary">Secondary</span></div><input class="p-input" placeholder="Input..." /></div></div>
+          <div class="p-section"><div class="p-label">Dark Theme</div><div class="p-card" style="background:#0a0a0a;color:#fafafa;border-color:#262626"><div style="display:flex;gap:4px;margin-bottom:8px"><span class="p-btn" style="background:#fafafa;color:#0a0a0a">Button</span><span class="p-btn" style="background:#262626;color:#fafafa">Secondary</span></div><input class="p-input" style="background:#0a0a0a;color:#fafafa;border-color:#262626" placeholder="Input..." /></div></div>
+          <div class="p-section"><div class="p-label">Custom (Indigo)</div><div class="p-card"><div style="display:flex;gap:4px"><span class="p-btn" style="background:#6366f1;color:#fff">Indigo</span><span class="p-btn p-btn-outline">Default</span></div></div></div>`,
+      },
+    ];
+
+    let activeComp = 'button';
+
+    function renderNav() {
+      const nav = document.getElementById('compNav');
+      nav.innerHTML = components.map(c =>
+        `<div class="comp-nav-item ${c.id === activeComp ? 'active' : ''}" onclick="selectComp('${c.id}')">${c.name}</div>`
+      ).join('');
+    }
+
+    function renderDocs() {
+      const c = components.find(x => x.id === activeComp);
+      const propsHtml = c.props.map(([name, type, def]) =>
+        `<tr><td><code>${name}</code></td><td><code>${type}</code></td><td><code>${def}</code></td></tr>`
+      ).join('');
+      document.getElementById('compDocs').innerHTML = `
+        <h3>${c.name}</h3>
+        <p class="desc">${c.desc}</p>
+        <h4>Usage</h4>
+        <pre><code>${c.usage.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre>
+        <h4>Props</h4>
+        <table class="prop-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+          <tbody>${propsHtml}</tbody>
+        </table>
+      `;
+    }
+
+    function renderPhone() {
+      const c = components.find(x => x.id === activeComp);
+      document.getElementById('phoneScreen').innerHTML = c.phone();
+    }
+
+    function selectComp(id) {
+      activeComp = id;
+      renderNav();
+      renderDocs();
+      renderPhone();
+    }
+
+    renderNav();
+    renderDocs();
+    renderPhone();
+  </script>
+</body>
+</html>

@@ -49,7 +49,8 @@ function handleClick(e: Event) {
   border: none;
   border-radius: var(--tt-radius, 6px);
   font-weight: 500;
-  font-family: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   line-height: 1.2;
   transition: opacity 0.15s, background-color 0.15s;
   box-sizing: border-box;

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "baseUrl": ".",
+    "paths": {
+      "vue": ["./playground/node_modules/vue"],
+      "@dcloudio/uni-app": ["./playground/node_modules/@dcloudio/uni-app"]
+    },
+    "types": ["./playground/node_modules/@dcloudio/types"]
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.vue"
+  ],
+  "exclude": ["node_modules", "dist", "playground"]
+}

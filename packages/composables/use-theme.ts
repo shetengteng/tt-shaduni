@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
 
-const STORAGE_KEY = 'tt-ui-theme'
+const STORAGE_KEY = 'tt-shaduni-theme'
 
 const themeMode = ref<ThemeMode>('system')
 const systemTheme = ref<'light' | 'dark'>('light')
