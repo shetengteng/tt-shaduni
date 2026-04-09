@@ -1,6 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import TtToast from '../tt-toast.vue'
+
+afterEach(() => {
+  vi.useRealTimers()
+})
 
 describe('TtToast', () => {
   it('is hidden when show=false', () => {
@@ -40,5 +45,44 @@ describe('TtToast', () => {
       props: { show: true, type: 'fail' },
     })
     expect(wrapper.text()).toContain('✕')
+  })
+
+  it('auto closes after duration', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(TtToast, {
+      props: { show: true, duration: 1000 },
+    })
+
+    vi.advanceTimersByTime(1000)
+    await nextTick()
+    expect(wrapper.find('.tt-toast').classes()).toContain('tt-toast--fade')
+
+    vi.advanceTimersByTime(200)
+    await nextTick()
+    expect(wrapper.emitted('update:show')?.[0]).toEqual([false])
+  })
+
+  it('does not auto close when loading', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(TtToast, {
+      props: { show: true, type: 'loading', duration: 1000 },
+    })
+
+    vi.advanceTimersByTime(2000)
+    await nextTick()
+    expect(wrapper.emitted('update:show')).toBeUndefined()
+    expect(wrapper.find('.tt-toast--fade').exists()).toBe(false)
+  })
+
+  it('does not auto close when duration is not positive', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(TtToast, {
+      props: { show: true, duration: 0 },
+    })
+
+    vi.advanceTimersByTime(2000)
+    await nextTick()
+    expect(wrapper.emitted('update:show')).toBeUndefined()
+    expect(wrapper.find('.tt-toast--fade').exists()).toBe(false)
   })
 })

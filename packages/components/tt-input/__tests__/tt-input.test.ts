@@ -16,10 +16,9 @@ describe('TtInput', () => {
   it('emits update:modelValue on input', async () => {
     const wrapper = mount(TtInput, { props: { modelValue: '' } })
     const input = wrapper.find('input')
-    if (input.exists()) {
-      await input.trigger('input', { detail: { value: 'hello' } })
-    }
-    // UniApp input event uses e.detail.value
+    expect(input.exists()).toBe(true)
+    await input.trigger('input', { detail: { value: 'hello' } })
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['hello'])
   })
 
   it('emits clear event', async () => {
@@ -27,11 +26,24 @@ describe('TtInput', () => {
       props: { modelValue: 'text', clearable: true },
     })
     const clearBtn = wrapper.find('.tt-input__clear')
-    if (clearBtn.exists()) {
-      await clearBtn.trigger('click')
-      expect(wrapper.emitted('clear')).toBeTruthy()
-      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([''])
-    }
+    expect(clearBtn.exists()).toBe(true)
+    await clearBtn.trigger('click')
+    expect(wrapper.emitted('clear')).toHaveLength(1)
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([''])
+  })
+
+  it('toggles focused class on focus and blur', async () => {
+    const wrapper = mount(TtInput, { props: { modelValue: '' } })
+    const input = wrapper.find('input')
+    expect(input.exists()).toBe(true)
+
+    await input.trigger('focus')
+    expect(wrapper.find('.tt-input').classes()).toContain('tt-input--focused')
+    expect(wrapper.emitted('focus')).toHaveLength(1)
+
+    await input.trigger('blur')
+    expect(wrapper.find('.tt-input').classes()).not.toContain('tt-input--focused')
+    expect(wrapper.emitted('blur')).toHaveLength(1)
   })
 
   it('shows clear button when clearable and has value', () => {

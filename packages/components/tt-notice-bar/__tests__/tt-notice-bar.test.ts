@@ -20,10 +20,10 @@ describe('TtNoticeBar', () => {
       props: { text: 'Info', closeable: true },
     })
     const close = wrapper.find('.tt-notice-bar__close')
-    if (close.exists()) {
-      await close.trigger('click')
-      expect(wrapper.emitted('close')).toBeTruthy()
-    }
+    expect(close.exists()).toBe(true)
+    await close.trigger('click')
+    expect(wrapper.emitted('close')).toHaveLength(1)
+    expect(wrapper.find('.tt-notice-bar').exists()).toBe(false)
   })
 
   it('applies custom color and background', () => {
@@ -33,5 +33,12 @@ describe('TtNoticeBar', () => {
     const style = wrapper.find('.tt-notice-bar').attributes('style') || ''
     expect(style).toContain('#fff')
     expect(style).toContain('#f00')
+  })
+
+  it('applies scrollable text class', () => {
+    const wrapper = mount(TtNoticeBar, {
+      props: { text: 'Long notice', scrollable: true },
+    })
+    expect(wrapper.find('.tt-notice-bar__text').classes()).toContain('tt-notice-bar__text--scroll')
   })
 })

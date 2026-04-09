@@ -24,12 +24,15 @@ describe('TtTabs', () => {
     const wrapper = mount(TtTabs, { props: { items, modelValue: 'a' } })
     await wrapper.findAll('.tt-tabs__item')[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['b'])
+    expect(wrapper.emitted('change')?.[0]).toEqual(['b'])
   })
 
   it('does not emit on disabled tab click', async () => {
     const wrapper = mount(TtTabs, { props: { items, modelValue: 'a' } })
     await wrapper.findAll('.tt-tabs__item')[2].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.findAll('.tt-tabs__item')[0].classes()).toContain('tt-tabs__item--active')
   })
 
   it('applies disabled class to disabled tabs', () => {

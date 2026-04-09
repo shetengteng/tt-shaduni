@@ -5,11 +5,28 @@ config.global.stubs = {
   text: { template: '<span class="text"><slot /></span>' },
   image: { template: '<img class="image" />' },
   input: {
-    template: '<input class="input" />',
-    emits: ['input', 'focus', 'blur'],
+    template: `
+      <input
+        class="input"
+        v-bind="$attrs"
+        @input="$emit('input', $event)"
+        @focus="$emit('focus', $event)"
+        @blur="$emit('blur', $event)"
+        @keyup.enter="$emit('confirm')"
+      />
+    `,
+    emits: ['input', 'focus', 'blur', 'confirm'],
   },
   textarea: {
-    template: '<textarea class="textarea" />',
+    template: `
+      <textarea
+        class="textarea"
+        v-bind="$attrs"
+        @input="$emit('input', $event)"
+        @focus="$emit('focus', $event)"
+        @blur="$emit('blur', $event)"
+      />
+    `,
     emits: ['input', 'focus', 'blur'],
   },
   button: false,

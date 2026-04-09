@@ -36,6 +36,15 @@ describe('TtCell', () => {
   it('emits click', async () => {
     const wrapper = mount(TtCell)
     await wrapper.find('.tt-cell').trigger('click')
-    expect(wrapper.emitted('click')).toBeTruthy()
+    expect(wrapper.emitted('click')).toHaveLength(1)
+  })
+
+  it('renders icon slot content', () => {
+    const wrapper = mount(TtCell, {
+      slots: {
+        icon: '<span class="custom-icon">I</span>',
+      },
+    })
+    expect(wrapper.find('.custom-icon').exists()).toBe(true)
   })
 })

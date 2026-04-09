@@ -25,6 +25,8 @@ describe('TtCheckbox', () => {
     })
     await wrapper.find('.tt-checkbox').trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('.tt-checkbox').classes()).toContain('tt-checkbox--disabled')
+    expect(wrapper.find('.tt-checkbox__check').exists()).toBe(false)
   })
 
   it('applies disabled class', () => {

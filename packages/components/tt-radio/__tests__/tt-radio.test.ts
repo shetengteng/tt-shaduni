@@ -25,6 +25,8 @@ describe('TtRadio', () => {
     })
     await wrapper.find('.tt-radio').trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('.tt-radio').classes()).toContain('tt-radio--disabled')
+    expect(wrapper.find('.tt-radio__dot').exists()).toBe(false)
   })
 
   it('applies disabled class', () => {

@@ -27,10 +27,9 @@ describe('TtTag', () => {
   it('emits close on close click', async () => {
     const wrapper = mount(TtTag, { props: { closeable: true } })
     const close = wrapper.find('.tt-tag__close')
-    if (close.exists()) {
-      await close.trigger('click')
-      expect(wrapper.emitted('close')).toBeTruthy()
-    }
+    expect(close.exists()).toBe(true)
+    await close.trigger('click')
+    expect(wrapper.emitted('close')).toHaveLength(1)
   })
 
   it('applies round class', () => {

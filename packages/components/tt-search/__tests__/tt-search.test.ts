@@ -22,11 +22,28 @@ describe('TtSearch', () => {
   it('emits cancel on cancel click', async () => {
     const wrapper = mount(TtSearch, { props: { showCancel: true } })
     await wrapper.find('.tt-search__cancel').trigger('click')
-    expect(wrapper.emitted('cancel')).toBeTruthy()
+    expect(wrapper.emitted('cancel')).toHaveLength(1)
   })
 
   it('hides cancel button by default', () => {
     const wrapper = mount(TtSearch)
     expect(wrapper.find('.tt-search__cancel').exists()).toBe(false)
+  })
+
+  it('emits update:modelValue on input', async () => {
+    const wrapper = mount(TtSearch, { props: { modelValue: '' } })
+    const input = wrapper.find('input')
+    expect(input.exists()).toBe(true)
+    await input.trigger('input', { detail: { value: 'keyword' } })
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['keyword'])
+  })
+
+  it('emits search on confirm', async () => {
+    const wrapper = mount(TtSearch, { props: { modelValue: 'keyword' } })
+    const input = wrapper.find('input')
+    expect(input.exists()).toBe(true)
+    await input.trigger('confirm')
+    expect(wrapper.emitted('search')).toHaveLength(1)
+    expect(wrapper.emitted('search')?.[0]).toEqual(['keyword'])
   })
 })

@@ -28,8 +28,10 @@ describe('TtCalendar', () => {
       const day = c.find('.tt-calendar__day')
       return day.exists() && day.text() === '15'
     })
+    expect(dayCells).toHaveLength(1)
     await dayCells[0].trigger('click')
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['2025-06-15'])
+    expect(wrapper.emitted('select')?.[0]).toEqual(['2025-06-15'])
   })
 
   it('does not emit on disabled date', async () => {
@@ -40,10 +42,11 @@ describe('TtCalendar', () => {
       const day = c.find('.tt-calendar__day')
       return day.exists() && day.text() === '5'
     })
-    if (dayCells.length) {
-      await dayCells[0].trigger('click')
-      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-    }
+    expect(dayCells).toHaveLength(1)
+    expect(dayCells[0].classes()).toContain('tt-calendar__cell--disabled')
+    await dayCells[0].trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('select')).toBeUndefined()
   })
 
   it('does not emit when readonly', async () => {
@@ -52,8 +55,10 @@ describe('TtCalendar', () => {
       const day = c.find('.tt-calendar__day')
       return day.exists() && day.text() === '15'
     })
+    expect(dayCells).toHaveLength(1)
     await dayCells[0].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('select')).toBeUndefined()
   })
 
   it('uses Monday as first day when firstDayOfWeek is 1', () => {

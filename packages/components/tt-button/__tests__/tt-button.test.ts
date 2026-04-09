@@ -31,6 +31,8 @@ describe('TtButton', () => {
     const wrapper = mount(TtButton, { props: { loading: true } })
     expect(wrapper.classes()).toContain('tt-button--loading')
     expect(wrapper.find('.tt-button__spinner').exists()).toBe(true)
+    expect(wrapper.attributes('disabled')).toBeDefined()
+    expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
   it('applies block class', () => {
@@ -48,12 +50,14 @@ describe('TtButton', () => {
     const wrapper = mount(TtButton, { props: { disabled: true } })
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
+    expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
   it('does not emit click when loading', async () => {
     const wrapper = mount(TtButton, { props: { loading: true } })
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
+    expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
   it('hides native ::after border', () => {

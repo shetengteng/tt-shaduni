@@ -36,18 +36,28 @@ describe('TtActionSheet', () => {
     const items = wrapper.findAll('.tt-action-sheet__item')
     await items[0].trigger('click')
     expect(wrapper.emitted('select')?.[0]).toEqual([actions[0]])
+    expect(wrapper.emitted('update:show')?.[0]).toEqual([false])
   })
 
   it('emits cancel on cancel click', async () => {
     const wrapper = mount(TtActionSheet, { props: { show: true, actions } })
     const cancel = wrapper.find('.tt-action-sheet__cancel')
     await cancel.trigger('click')
-    expect(wrapper.emitted('cancel')).toBeTruthy()
+    expect(wrapper.emitted('cancel')).toHaveLength(1)
+    expect(wrapper.emitted('update:show')?.[0]).toEqual([false])
   })
 
   it('applies disabled class to disabled items', () => {
     const wrapper = mount(TtActionSheet, { props: { show: true, actions } })
     const items = wrapper.findAll('.tt-action-sheet__item')
     expect(items[2].classes()).toContain('tt-action-sheet__item--disabled')
+  })
+
+  it('does not emit select for disabled actions', async () => {
+    const wrapper = mount(TtActionSheet, { props: { show: true, actions } })
+    const items = wrapper.findAll('.tt-action-sheet__item')
+    await items[2].trigger('click')
+    expect(wrapper.emitted('select')).toBeUndefined()
+    expect(wrapper.emitted('update:show')).toBeUndefined()
   })
 })

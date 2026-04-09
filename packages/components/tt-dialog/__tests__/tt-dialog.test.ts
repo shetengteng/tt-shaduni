@@ -2,15 +2,33 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import TtDialog from '../tt-dialog.vue'
 
+const popupStub = {
+  props: ['show'],
+  template: '<div v-if="show" class="tt-popup"><slot /></div>',
+}
+
 describe('TtDialog', () => {
   it('is hidden when show=false', () => {
-    const wrapper = mount(TtDialog, { props: { show: false } })
-    expect(wrapper.find('.tt-dialog--visible').exists()).toBe(false)
+    const wrapper = mount(TtDialog, {
+      props: { show: false },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
+    })
+    expect(wrapper.find('.tt-popup').exists()).toBe(false)
+    expect(wrapper.find('.tt-dialog').exists()).toBe(false)
   })
 
   it('renders title', () => {
     const wrapper = mount(TtDialog, {
       props: { show: true, title: 'Confirm' },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
     })
     expect(wrapper.text()).toContain('Confirm')
   })
@@ -18,18 +36,35 @@ describe('TtDialog', () => {
   it('renders message', () => {
     const wrapper = mount(TtDialog, {
       props: { show: true, message: 'Are you sure?' },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
     })
     expect(wrapper.text()).toContain('Are you sure?')
   })
 
   it('shows cancel button by default', () => {
-    const wrapper = mount(TtDialog, { props: { show: true } })
+    const wrapper = mount(TtDialog, {
+      props: { show: true },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
+    })
     expect(wrapper.text()).toContain('Cancel')
   })
 
   it('hides cancel button when showCancelButton=false', () => {
     const wrapper = mount(TtDialog, {
       props: { show: true, showCancelButton: false },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
     })
     const buttons = wrapper.findAll('.tt-dialog__btn')
     const hasCancel = buttons.some(b => b.text().includes('Cancel'))
@@ -39,26 +74,45 @@ describe('TtDialog', () => {
   it('uses custom button text', () => {
     const wrapper = mount(TtDialog, {
       props: { show: true, confirmText: 'OK', cancelText: 'No' },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
     })
     expect(wrapper.text()).toContain('OK')
     expect(wrapper.text()).toContain('No')
   })
 
   it('emits confirm on confirm click', async () => {
-    const wrapper = mount(TtDialog, { props: { show: true } })
+    const wrapper = mount(TtDialog, {
+      props: { show: true },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
+    })
     const confirmBtn = wrapper.find('.tt-dialog__btn--confirm')
-    if (confirmBtn.exists()) {
-      await confirmBtn.trigger('click')
-      expect(wrapper.emitted('confirm')).toBeTruthy()
-    }
+    expect(confirmBtn.exists()).toBe(true)
+    await confirmBtn.trigger('click')
+    expect(wrapper.emitted('confirm')).toHaveLength(1)
+    expect(wrapper.emitted('update:show')?.[0]).toEqual([false])
   })
 
   it('emits cancel on cancel click', async () => {
-    const wrapper = mount(TtDialog, { props: { show: true } })
+    const wrapper = mount(TtDialog, {
+      props: { show: true },
+      global: {
+        stubs: {
+          TtPopup: popupStub,
+        },
+      },
+    })
     const cancelBtn = wrapper.find('.tt-dialog__btn--cancel')
-    if (cancelBtn.exists()) {
-      await cancelBtn.trigger('click')
-      expect(wrapper.emitted('cancel')).toBeTruthy()
-    }
+    expect(cancelBtn.exists()).toBe(true)
+    await cancelBtn.trigger('click')
+    expect(wrapper.emitted('cancel')).toHaveLength(1)
+    expect(wrapper.emitted('update:show')?.[0]).toEqual([false])
   })
 })

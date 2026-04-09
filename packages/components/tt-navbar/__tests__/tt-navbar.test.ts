@@ -32,6 +32,6 @@ describe('TtNavbar', () => {
     const wrapper = mount(TtNavbar, { props: { leftArrow: true } })
     const left = wrapper.find('.tt-navbar__left')
     await left.trigger('click')
-    expect(wrapper.emitted('clickLeft')).toBeTruthy()
+    expect(wrapper.emitted('clickLeft')).toHaveLength(1)
   })
 })

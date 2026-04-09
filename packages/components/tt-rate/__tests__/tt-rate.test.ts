@@ -17,31 +17,30 @@ describe('TtRate', () => {
   it('emits update:modelValue on star click', async () => {
     const wrapper = mount(TtRate, { props: { modelValue: 0, count: 5 } })
     const stars = wrapper.findAll('.tt-rate__star')
-    if (stars.length >= 4) {
-      await stars[3].trigger('click')
-      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([4])
-    }
+    expect(stars).toHaveLength(5)
+    await stars[3].trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([4])
   })
 
   it('does not emit when disabled', async () => {
     const wrapper = mount(TtRate, {
-      props: { modelValue: 0, disabled: true },
+      props: { modelValue: 0, disabled: true, count: 5 },
     })
     const stars = wrapper.findAll('.tt-rate__star')
-    if (stars.length > 0) {
-      await stars[0].trigger('click')
-      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-    }
+    expect(stars).toHaveLength(5)
+    await stars[0].trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.findAll('.tt-rate__star--active')).toHaveLength(0)
   })
 
   it('does not emit when readonly', async () => {
     const wrapper = mount(TtRate, {
-      props: { modelValue: 3, readonly: true },
+      props: { modelValue: 3, readonly: true, count: 5 },
     })
     const stars = wrapper.findAll('.tt-rate__star')
-    if (stars.length > 0) {
-      await stars[0].trigger('click')
-      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-    }
+    expect(stars).toHaveLength(5)
+    await stars[0].trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.findAll('.tt-rate__star--active')).toHaveLength(3)
   })
 })

@@ -24,6 +24,7 @@ describe('TtSwitch', () => {
     const wrapper = mount(TtSwitch, { props: { disabled: true } })
     await wrapper.find('.tt-switch').trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('.tt-switch').classes()).toContain('tt-switch--disabled')
   })
 
   it('applies disabled class', () => {
@@ -34,5 +35,12 @@ describe('TtSwitch', () => {
   it('applies size class', () => {
     const wrapper = mount(TtSwitch, { props: { size: 'sm' } })
     expect(wrapper.find('.tt-switch--sm').exists()).toBe(true)
+  })
+
+  it('applies activeColor style when on', () => {
+    const wrapper = mount(TtSwitch, {
+      props: { modelValue: true, activeColor: '#00ff00' },
+    })
+    expect(wrapper.attributes('style')).toContain('background-color: #00ff00')
   })
 })

@@ -30,6 +30,7 @@ describe('TtNumberBox', () => {
     const btns = wrapper.findAll('.tt-number-box__btn')
     await btns[0].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('.tt-number-box__value').text()).toBe('0')
   })
 
   it('does not go above max', async () => {
@@ -39,6 +40,7 @@ describe('TtNumberBox', () => {
     const btns = wrapper.findAll('.tt-number-box__btn')
     await btns[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('.tt-number-box__value').text()).toBe('10')
   })
 
   it('respects step', async () => {
@@ -57,5 +59,7 @@ describe('TtNumberBox', () => {
     const btns = wrapper.findAll('.tt-number-box__btn')
     await btns[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('.tt-number-box').classes()).toContain('tt-number-box--disabled')
+    expect(wrapper.find('.tt-number-box__value').text()).toBe('5')
   })
 })
