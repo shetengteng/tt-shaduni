@@ -1,1 +1,0 @@
-import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as m}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=o({__name:"form",setup:o=>(o,r)=>(t(),a(m,{cat:"form",target:"form"}))});export{r as default};

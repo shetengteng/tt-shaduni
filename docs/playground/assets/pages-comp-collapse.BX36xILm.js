@@ -1,1 +1,0 @@
-import{d as a,c as o,o as t}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=a({__name:"collapse",setup:a=>(a,e)=>(t(),o(s,{cat:"layout",target:"collapse"}))});export{e as default};

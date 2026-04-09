@@ -1,1 +1,0 @@
-import{d as t,c as o,o as a}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=t({__name:"button",setup:t=>(t,e)=>(a(),o(s,{cat:"basic",target:"button"}))});export{e as default};

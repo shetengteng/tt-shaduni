@@ -1,1 +1,0 @@
-import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as r}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=o({__name:"configprovider",setup:o=>(o,e)=>(t(),a(r,{cat:"layout",target:"configprovider"}))});export{e as default};

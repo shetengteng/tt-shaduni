@@ -1,7 +1,10 @@
 <template>
-  <CompPageLayout cat="feedback" target="noticebar" />
+  <CompPageLayout>
+    <DemoFeedback only="noticebar" />
+  </CompPageLayout>
 </template>
 
 <script setup lang="ts">
 import CompPageLayout from '@/components/CompPageLayout.vue'
+import DemoFeedback from '@/components/demos/DemoFeedback.vue'
 </script>

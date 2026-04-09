@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block" id="demo-card">
+    <view class="demo-block" id="demo-card" v-if="!only || only === 'card'">
       <text class="demo-label">{{ t('card') }}</text>
       <text class="demo-desc">{{ t('card.desc') }}</text>
       <tt-card title="Card Title" description="With description">
@@ -8,7 +8,7 @@
       </tt-card>
     </view>
 
-    <view class="demo-block" id="demo-badge">
+    <view class="demo-block" id="demo-badge" v-if="!only || only === 'badge'">
       <text class="demo-label">{{ t('badge') }}</text>
       <text class="demo-desc">{{ t('badge.desc') }}</text>
       <view class="demo-row">
@@ -18,7 +18,7 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-tag">
+    <view class="demo-block" id="demo-tag" v-if="!only || only === 'tag'">
       <text class="demo-label">{{ t('tag') }}</text>
       <text class="demo-desc">{{ t('tag.desc') }}</text>
       <view class="demo-row">
@@ -30,7 +30,7 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-divider">
+    <view class="demo-block" id="demo-divider" v-if="!only || only === 'divider'">
       <text class="demo-label">{{ t('divider') }}</text>
       <text class="demo-desc">{{ t('divider.desc') }}</text>
       <text class="demo-hint">Above</text>
@@ -38,13 +38,13 @@
       <tt-divider>OR</tt-divider>
     </view>
 
-    <view class="demo-block" id="demo-empty">
+    <view class="demo-block" id="demo-empty" v-if="!only || only === 'empty'">
       <text class="demo-label">{{ t('empty') }}</text>
       <text class="demo-desc">{{ t('empty.desc') }}</text>
       <tt-empty description="No data found" />
     </view>
 
-    <view class="demo-block" id="demo-progress">
+    <view class="demo-block" id="demo-progress" v-if="!only || only === 'progress'">
       <text class="demo-label">{{ t('progress') }}</text>
       <text class="demo-desc">{{ t('progress.desc') }}</text>
       <tt-progress :percentage="30" />
@@ -54,13 +54,13 @@
       <tt-progress :percentage="100" />
     </view>
 
-    <view class="demo-block" id="demo-skeleton">
+    <view class="demo-block" id="demo-skeleton" v-if="!only || only === 'skeleton'">
       <text class="demo-label">{{ t('skeleton') }}</text>
       <text class="demo-desc">{{ t('skeleton.desc') }}</text>
       <tt-skeleton :loading="true" avatar :rows="3" />
     </view>
 
-    <view class="demo-block" id="demo-avatar">
+    <view class="demo-block" id="demo-avatar" v-if="!only || only === 'avatar'">
       <text class="demo-label">{{ t('avatar') }}</text>
       <text class="demo-desc">{{ t('avatar.desc') }}</text>
       <view class="demo-row">
@@ -70,13 +70,13 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-countdown">
+    <view class="demo-block" id="demo-countdown" v-if="!only || only === 'countdown'">
       <text class="demo-label">{{ t('countdown') }}</text>
       <text class="demo-desc">{{ t('countdown.desc') }}</text>
       <tt-count-down :time="86400000" />
     </view>
 
-    <view class="demo-block" id="demo-image">
+    <view class="demo-block" id="demo-image" v-if="!only || only === 'image'">
       <text class="demo-label">{{ t('image') }}</text>
       <text class="demo-desc">{{ t('image.desc') }}</text>
       <view class="demo-row">
@@ -85,7 +85,7 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-swiper">
+    <view class="demo-block" id="demo-swiper" v-if="!only || only === 'swiper'">
       <text class="demo-label">{{ t('swiper') }}</text>
       <text class="demo-desc">{{ t('swiper.desc') }}</text>
       <view style="height: 300rpx;">
@@ -99,7 +99,7 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-scrollview">
+    <view class="demo-block" id="demo-scrollview" v-if="!only || only === 'scrollview'">
       <text class="demo-label">{{ t('scrollView') }}</text>
       <text class="demo-desc">{{ t('scrollView.desc') }}</text>
       <tt-scroll-view scroll-y style="height: 200rpx;">
@@ -109,19 +109,19 @@
       </tt-scroll-view>
     </view>
 
-    <view class="demo-block" id="demo-table">
+    <view class="demo-block" id="demo-table" v-if="!only || only === 'table'">
       <text class="demo-label">{{ t('table') }}</text>
       <text class="demo-desc">{{ t('table.desc') }}</text>
       <tt-table :columns="cols" :data="rows" bordered striped />
     </view>
 
-    <view class="demo-block" id="demo-descriptions">
+    <view class="demo-block" id="demo-descriptions" v-if="!only || only === 'descriptions'">
       <text class="demo-label">{{ t('descriptions') }}</text>
       <text class="demo-desc">{{ t('descriptions.desc') }}</text>
       <tt-descriptions title="User Info" :items="descItems" :column="2" bordered />
     </view>
 
-    <view class="demo-block" id="demo-list">
+    <view class="demo-block" id="demo-list" v-if="!only || only === 'list'">
       <text class="demo-label">{{ t('list') }}</text>
       <text class="demo-desc">{{ t('list.desc') }}</text>
       <tt-list :finished="true" finished-text="No more">
@@ -131,7 +131,7 @@
       </tt-list>
     </view>
 
-    <view class="demo-block" id="demo-tooltip">
+    <view class="demo-block" id="demo-tooltip" v-if="!only || only === 'tooltip'">
       <text class="demo-label">{{ t('tooltip') }}</text>
       <text class="demo-desc">{{ t('tooltip.desc') }}</text>
       <view class="demo-row" style="padding-top: 36px;">
@@ -145,6 +145,7 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import '@/styles/demo-shared.css'
+defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const cols = [{ key: 'name', title: 'Name' }, { key: 'age', title: 'Age' }, { key: 'role', title: 'Role' }]

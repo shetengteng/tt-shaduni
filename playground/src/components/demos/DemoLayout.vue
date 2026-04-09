@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block" id="demo-row">
+    <view class="demo-block" id="demo-row" v-if="!only || only === 'row'">
       <text class="demo-label">{{ t('row_col') }}</text>
       <text class="demo-desc">{{ t('row_col.desc') }}</text>
       <tt-row :gutter="8">
@@ -15,7 +15,7 @@
       </tt-row>
     </view>
 
-    <view class="demo-block" id="demo-grid">
+    <view class="demo-block" id="demo-grid" v-if="!only || only === 'grid'">
       <text class="demo-label">{{ t('grid') }}</text>
       <text class="demo-desc">{{ t('grid.desc') }}</text>
       <tt-grid :column="4" border>
@@ -25,7 +25,7 @@
       </tt-grid>
     </view>
 
-    <view class="demo-block" id="demo-space">
+    <view class="demo-block" id="demo-space" v-if="!only || only === 'space'">
       <text class="demo-label">{{ t('space') }}</text>
       <text class="demo-desc">{{ t('space.desc') }}</text>
       <tt-space :size="12">
@@ -41,7 +41,7 @@
       </tt-space>
     </view>
 
-    <view class="demo-block" id="demo-collapse">
+    <view class="demo-block" id="demo-collapse" v-if="!only || only === 'collapse'">
       <text class="demo-label">{{ t('collapse') }}</text>
       <text class="demo-desc">{{ t('collapse.desc') }}</text>
       <tt-collapse v-model="collapseVal">
@@ -54,7 +54,7 @@
       </tt-collapse>
     </view>
 
-    <view class="demo-block" id="demo-sticky">
+    <view class="demo-block" id="demo-sticky" v-if="!only || only === 'sticky'">
       <text class="demo-label">{{ t('sticky') }}</text>
       <text class="demo-desc">{{ t('sticky.desc') }}</text>
       <tt-sticky :offset-top="200">
@@ -64,7 +64,7 @@
       </tt-sticky>
     </view>
 
-    <view class="demo-block" id="demo-safearea">
+    <view class="demo-block" id="demo-safearea" v-if="!only || only === 'safearea'">
       <text class="demo-label">{{ t('safearea') }}</text>
       <text class="demo-desc">{{ t('safearea.desc') }}</text>
       <view class="safe-area-demo">
@@ -76,7 +76,7 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-configprovider">
+    <view class="demo-block" id="demo-configprovider" v-if="!only || only === 'configprovider'">
       <text class="demo-label">{{ t('theme') }}</text>
       <text class="demo-desc">{{ t('theme.desc') }}</text>
       <view class="demo-row">
@@ -92,6 +92,7 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import '@/styles/demo-shared.css'
+defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const collapseVal = ref(['a'])

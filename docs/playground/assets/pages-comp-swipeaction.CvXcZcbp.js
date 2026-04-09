@@ -1,0 +1,1 @@
+import{d as a,c as s,w as o,o as t,a as e}from"./index-DV-LnFYt.js";import{C as i}from"./CompPageLayout.Bq0xxb3w.js";import{D as m}from"./DemoNav.MtU5uzPn.js";import"./use-i18n.Cucy90rm.js";import"./tt-cell.CbdreIfP.js";const p=a({__name:"swipeaction",setup:a=>(a,p)=>(t(),s(i,null,{default:o(()=>[e(m,{only:"swipeaction"})]),_:1}))});export{p as default};

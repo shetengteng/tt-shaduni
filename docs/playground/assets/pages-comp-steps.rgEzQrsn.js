@@ -1,1 +1,0 @@
-import{d as s,c as t,o as a}from"./index-D7qMvrjd.js";import{C as o}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=s({__name:"steps",setup:s=>(s,e)=>(a(),t(o,{cat:"nav",target:"steps"}))});export{e as default};

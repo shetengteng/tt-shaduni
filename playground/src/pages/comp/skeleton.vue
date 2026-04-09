@@ -1,7 +1,10 @@
 <template>
-  <CompPageLayout cat="display" target="skeleton" />
+  <CompPageLayout>
+    <DemoDisplay only="skeleton" />
+  </CompPageLayout>
 </template>
 
 <script setup lang="ts">
 import CompPageLayout from '@/components/CompPageLayout.vue'
+import DemoDisplay from '@/components/demos/DemoDisplay.vue'
 </script>

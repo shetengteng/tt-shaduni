@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block" id="demo-loading">
+    <view class="demo-block" id="demo-loading" v-if="!only || only === 'loading'">
       <text class="demo-label">{{ t('loading') }}</text>
       <text class="demo-desc">{{ t('loading.desc') }}</text>
       <view class="demo-row">
@@ -9,21 +9,21 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-toast">
+    <view class="demo-block" id="demo-toast" v-if="!only || only === 'toast'">
       <text class="demo-label">{{ t('toast') }}</text>
       <text class="demo-desc">{{ t('toast.desc') }}</text>
       <tt-button size="sm" @click="showToast = true">Show Toast</tt-button>
       <tt-toast v-model:show="showToast" message="Saved!" />
     </view>
 
-    <view class="demo-block" id="demo-dialog">
+    <view class="demo-block" id="demo-dialog" v-if="!only || only === 'dialog'">
       <text class="demo-label">{{ t('dialog') }}</text>
       <text class="demo-desc">{{ t('dialog.desc') }}</text>
       <tt-button size="sm" @click="showDlg = true">Open Dialog</tt-button>
       <tt-dialog v-model:show="showDlg" title="Confirm" message="Are you sure?" show-cancel-button />
     </view>
 
-    <view class="demo-block" id="demo-popup">
+    <view class="demo-block" id="demo-popup" v-if="!only || only === 'popup'">
       <text class="demo-label">{{ t('popup') }}</text>
       <text class="demo-desc">{{ t('popup.desc') }}</text>
       <view class="demo-row">
@@ -53,14 +53,14 @@
       </tt-popup>
     </view>
 
-    <view class="demo-block" id="demo-actionsheet">
+    <view class="demo-block" id="demo-actionsheet" v-if="!only || only === 'actionsheet'">
       <text class="demo-label">{{ t('actionsheet') }}</text>
       <text class="demo-desc">{{ t('actionsheet.desc') }}</text>
       <tt-button size="sm" @click="showAS = true">Open ActionSheet</tt-button>
       <tt-action-sheet v-model:show="showAS" :actions="[{name:'Edit'},{name:'Delete',color:'#ef4444'}]" cancel-text="Cancel" />
     </view>
 
-    <view class="demo-block" id="demo-sheet">
+    <view class="demo-block" id="demo-sheet" v-if="!only || only === 'sheet'">
       <text class="demo-label">{{ t('sheet') }}</text>
       <text class="demo-desc">{{ t('sheet.desc') }}</text>
       <tt-button size="sm" @click="showSheet = true">Open Sheet</tt-button>
@@ -69,13 +69,13 @@
       </tt-sheet>
     </view>
 
-    <view class="demo-block" id="demo-noticebar">
+    <view class="demo-block" id="demo-noticebar" v-if="!only || only === 'noticebar'">
       <text class="demo-label">{{ t('noticebar') }}</text>
       <text class="demo-desc">{{ t('noticebar.desc') }}</text>
       <tt-notice-bar text="This is a notice bar with scrollable text." closeable />
     </view>
 
-    <view class="demo-block" id="demo-transition">
+    <view class="demo-block" id="demo-transition" v-if="!only || only === 'transition'">
       <text class="demo-label">{{ t('transition') }}</text>
       <text class="demo-desc">{{ t('transition.desc') }}</text>
       <tt-button size="sm" @click="showTransition = !showTransition">Toggle</tt-button>
@@ -91,6 +91,7 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import '@/styles/demo-shared.css'
+defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const showToast = ref(false)

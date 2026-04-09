@@ -1,25 +1,25 @@
 <template>
   <view class="demo">
-    <view class="demo-block" id="demo-cell">
+    <view class="demo-block" id="demo-cell" v-if="!only || only === 'cell'">
       <text class="demo-label">{{ t('cell') }}</text>
       <text class="demo-desc">{{ t('cell.desc') }}</text>
       <tt-cell title="Setting" value="Go" is-link />
       <tt-cell title="About" value="v1.0" is-link />
     </view>
 
-    <view class="demo-block" id="demo-tabs">
+    <view class="demo-block" id="demo-tabs" v-if="!only || only === 'tabs'">
       <text class="demo-label">{{ t('tabs') }}</text>
       <text class="demo-desc">{{ t('tabs.desc') }}</text>
       <tt-tabs v-model="tabIdx" :items="tabItems" />
     </view>
 
-    <view class="demo-block" id="demo-navbar">
+    <view class="demo-block" id="demo-navbar" v-if="!only || only === 'navbar'">
       <text class="demo-label">{{ t('navbar') }}</text>
       <text class="demo-desc">{{ t('navbar.desc') }}</text>
       <tt-navbar title="Page Title" left-arrow />
     </view>
 
-    <view class="demo-block" id="demo-tabbar">
+    <view class="demo-block" id="demo-tabbar" v-if="!only || only === 'tabbar'">
       <text class="demo-label">{{ t('tabbar') }}</text>
       <text class="demo-desc">{{ t('tabbar.desc') }}</text>
       <view class="tabbar-demo-wrap">
@@ -27,7 +27,7 @@
       </view>
     </view>
 
-    <view class="demo-block" id="demo-steps">
+    <view class="demo-block" id="demo-steps" v-if="!only || only === 'steps'">
       <text class="demo-label">{{ t('steps') }}</text>
       <text class="demo-desc">{{ t('steps.desc') }}</text>
       <tt-steps :active="1">
@@ -40,31 +40,31 @@
       </tt-steps>
     </view>
 
-    <view class="demo-block" id="demo-sidebar">
+    <view class="demo-block" id="demo-sidebar" v-if="!only || only === 'sidebar'">
       <text class="demo-label">{{ t('sidebar') }}</text>
       <text class="demo-desc">{{ t('sidebar.desc') }}</text>
       <tt-sidebar v-model="sideIdx" width="200rpx" :items="[{text:'Category 1'},{text:'Category 2'},{text:'Category 3'}]" />
     </view>
 
-    <view class="demo-block" id="demo-breadcrumb">
+    <view class="demo-block" id="demo-breadcrumb" v-if="!only || only === 'breadcrumb'">
       <text class="demo-label">{{ t('breadcrumb') }}</text>
       <text class="demo-desc">{{ t('breadcrumb.desc') }}</text>
       <tt-breadcrumb :items="[{text:'Home',link:true},{text:'Category',link:true},{text:'Page'}]" />
     </view>
 
-    <view class="demo-block" id="demo-pagination">
+    <view class="demo-block" id="demo-pagination" v-if="!only || only === 'pagination'">
       <text class="demo-label">{{ t('pagination') }}</text>
       <text class="demo-desc">{{ t('pagination.desc') }}</text>
       <tt-pagination v-model="page" :total="50" :page-size="10" />
     </view>
 
-    <view class="demo-block" id="demo-dropdownmenu">
+    <view class="demo-block" id="demo-dropdownmenu" v-if="!only || only === 'dropdownmenu'">
       <text class="demo-label">{{ t('dropdown') }}</text>
       <text class="demo-desc">{{ t('dropdown.desc') }}</text>
       <tt-dropdown-menu v-model="ddVal" title="Sort" :options="ddOptions" />
     </view>
 
-    <view class="demo-block" id="demo-swipeaction">
+    <view class="demo-block" id="demo-swipeaction" v-if="!only || only === 'swipeaction'">
       <text class="demo-label">{{ t('swipeAction') }}</text>
       <text class="demo-desc">{{ t('swipeAction.desc') }}</text>
       <tt-swipe-action :right-actions="[{ text: 'Delete', bgColor: '#ef4444' }]">
@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import '@/styles/demo-shared.css'
+defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
 
 const tabIdx = ref(0)

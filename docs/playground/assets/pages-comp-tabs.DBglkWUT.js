@@ -1,1 +1,0 @@
-import{d as a,c as t,o}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=a({__name:"tabs",setup:a=>(a,e)=>(o(),t(s,{cat:"nav",target:"tabs"}))});export{e as default};

@@ -1,1 +1,0 @@
-import{d as a,c as o,o as t}from"./index-D7qMvrjd.js";import{C as e}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const s=a({__name:"dialog",setup:a=>(a,s)=>(t(),o(e,{cat:"feedback",target:"dialog"}))});export{s as default};

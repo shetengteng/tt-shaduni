@@ -1,1 +1,0 @@
-import{d as a,c as o,o as t}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=a({__name:"card",setup:a=>(a,r)=>(t(),o(s,{cat:"display",target:"card"}))});export{r as default};

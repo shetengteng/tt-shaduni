@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block" id="demo-button">
+    <view class="demo-block" id="demo-button" v-if="!only || only === 'button'">
       <text class="demo-label">{{ t('button') }}</text>
       <text class="demo-desc">{{ t('button.desc') }}</text>
       <view class="demo-row">
@@ -25,7 +25,7 @@
       <tt-button block>Block</tt-button>
     </view>
 
-    <view class="demo-block" id="demo-typography">
+    <view class="demo-block" id="demo-typography" v-if="!only || only === 'typography'">
       <text class="demo-label">{{ t('typography') }}</text>
       <text class="demo-desc">{{ t('typography.desc') }}</text>
       <tt-typography type="title" :level="2">Heading H2</tt-typography>
@@ -41,5 +41,6 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import '@/styles/demo-shared.css'
+defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
 </script>

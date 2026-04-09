@@ -1,1 +1,0 @@
-import{d as o,c as t,o as a}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=o({__name:"countdown",setup:o=>(o,e)=>(a(),t(s,{cat:"display",target:"countdown"}))});export{e as default};

@@ -1,1 +1,0 @@
-import{d as t,c as a,o}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=t({__name:"empty",setup:t=>(t,e)=>(o(),a(s,{cat:"display",target:"empty"}))});export{e as default};

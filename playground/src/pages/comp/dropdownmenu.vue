@@ -1,7 +1,10 @@
 <template>
-  <CompPageLayout cat="nav" target="dropdownmenu" />
+  <CompPageLayout>
+    <DemoNav only="dropdownmenu" />
+  </CompPageLayout>
 </template>
 
 <script setup lang="ts">
 import CompPageLayout from '@/components/CompPageLayout.vue'
+import DemoNav from '@/components/demos/DemoNav.vue'
 </script>

@@ -5,6 +5,16 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const pagesDir = join(__dirname, '../src/pages/comp')
 
+const demoFileMap = {
+  icon:     { file: 'DemoIcon',     path: '@/components/demos/DemoIcon.vue' },
+  basic:    { file: 'DemoBasic',    path: '@/components/demos/DemoBasic.vue' },
+  form:     { file: 'DemoForm',     path: '@/components/demos/DemoForm.vue' },
+  display:  { file: 'DemoDisplay',  path: '@/components/demos/DemoDisplay.vue' },
+  nav:      { file: 'DemoNav',      path: '@/components/demos/DemoNav.vue' },
+  feedback: { file: 'DemoFeedback', path: '@/components/demos/DemoFeedback.vue' },
+  layout:   { file: 'DemoLayout',   path: '@/components/demos/DemoLayout.vue' },
+}
+
 const components = [
   { id: 'button', cat: 'basic' },
   { id: 'typography', cat: 'basic' },
@@ -66,18 +76,20 @@ const components = [
   { id: 'sticky', cat: 'layout' },
 ]
 
-const scrollOverrides = { radio: 'checkbox' }
-
 mkdirSync(pagesDir, { recursive: true })
 
 for (const comp of components) {
-  const target = scrollOverrides[comp.id] || comp.id
+  const demo = demoFileMap[comp.cat]
+  const onlyAttr = comp.cat === 'icon' ? '' : ` only="${comp.id}"`
   const content = `<template>
-  <CompPageLayout cat="${comp.cat}" target="${target}" />
+  <CompPageLayout>
+    <${demo.file}${onlyAttr} />
+  </CompPageLayout>
 </template>
 
 <script setup lang="ts">
 import CompPageLayout from '@/components/CompPageLayout.vue'
+import ${demo.file} from '${demo.path}'
 </script>
 `
   writeFileSync(join(pagesDir, `${comp.id}.vue`), content)
