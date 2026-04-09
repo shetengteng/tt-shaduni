@@ -99,7 +99,11 @@ const tabIdx = ref(0)
 const tabItems = [{ label: 'Home', value: 0 }, { label: 'Profile', value: 1 }, { label: 'Setting', value: 2 }]
 const tbIdx = ref(0)
 const tabbarItems = [{ text: 'Home', icon: 'home' }, { text: 'List', icon: 'list' }, { text: 'Me', icon: 'user' }]
-const stepItems = [{ title: 'Order' }, { title: 'Pay' }, { title: 'Done' }]
+const stepItems = [
+  { title: 'Order', description: 'Place order' },
+  { title: 'Pay', description: 'Make payment' },
+  { title: 'Done', description: 'Completed' },
+]
 const sideIdx = ref(0)
 const page = ref(1)
 const ddVal = ref('')

@@ -61,7 +61,7 @@ defineProps(stepsProps)
   flex: 1;
   height: 2px;
   background: var(--tt-border, #e5e5e5);
-  min-width: 16px;
+  min-width: 8px;
 }
 .tt-steps__line--done {
   background: var(--tt-primary, #171717);
@@ -86,6 +86,7 @@ defineProps(stepsProps)
   background: var(--tt-muted, #f5f5f5);
   border: 1px solid var(--tt-border, #e5e5e5);
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 .tt-steps__circle--done {
   background: var(--tt-primary, #171717);
