@@ -1,0 +1,1 @@
+import{d as a,c as t,o}from"./index-D7qMvrjd.js";import{C as e}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=a({__name:"rate",setup:a=>(a,r)=>(o(),t(e,{cat:"form",target:"rate"}))});export{r as default};

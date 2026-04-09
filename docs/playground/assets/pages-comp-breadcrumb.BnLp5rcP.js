@@ -1,0 +1,1 @@
+import{d as a,c as o,o as t}from"./index-D7qMvrjd.js";import{C as r}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=a({__name:"breadcrumb",setup:a=>(a,e)=>(t(),o(r,{cat:"nav",target:"breadcrumb"}))});export{e as default};

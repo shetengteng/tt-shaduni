@@ -48,11 +48,12 @@ pre code{background:none;padding:0}
 .phone-panel__tip{margin-top:4px;font-size:12px;line-height:1.45;color:var(--fg)}
 .preview-reset{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--bg);color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap}
 .preview-reset:hover{background:var(--accent)}
-.phone{width:280px;height:540px;border:2px solid var(--border);border-radius:32px;overflow:hidden;background:var(--bg);box-shadow:0 20px 60px rgba(0,0,0,.08);margin:0 auto;transition:box-shadow .4s}
+.phone{width:280px;height:540px;border:2px solid var(--border);border-radius:32px;overflow:hidden;background:var(--bg);box-shadow:0 20px 60px rgba(0,0,0,.08);margin:0 auto;transition:box-shadow .4s;touch-action:pan-y}
 .dark .phone{box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .phone-notch{width:100px;height:24px;background:var(--border);border-radius:0 0 14px 14px;margin:0 auto}
-.phone-screen{padding:8px 16px;height:calc(100% - 24px);overflow-y:auto;font-size:12px}
+.phone-screen{height:calc(100% - 24px);overflow:hidden}
 .phone-screen::-webkit-scrollbar{display:none}
+.phone-iframe{border:none;width:100%;display:block;-webkit-overflow-scrolling:touch;touch-action:auto}
 
 /* Phone mini components */
 .p-sec{margin-bottom:12px}

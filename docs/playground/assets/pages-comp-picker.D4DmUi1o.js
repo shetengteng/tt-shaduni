@@ -1,0 +1,1 @@
+import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as e}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=o({__name:"picker",setup:o=>(o,r)=>(t(),a(e,{cat:"form",target:"picker"}))});export{r as default};

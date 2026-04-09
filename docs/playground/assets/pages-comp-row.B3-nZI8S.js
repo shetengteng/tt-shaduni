@@ -1,0 +1,1 @@
+import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=o({__name:"row",setup:o=>(o,r)=>(t(),a(s,{cat:"layout",target:"row"}))});export{r as default};

@@ -3,6 +3,7 @@ import path from "path";
 import uni from "@dcloudio/vite-plugin-uni";
 
 export default defineConfig({
+  base: './',
   plugins: [uni()],
   resolve: {
     alias: {

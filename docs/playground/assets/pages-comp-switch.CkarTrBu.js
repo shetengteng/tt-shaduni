@@ -1,0 +1,1 @@
+import{d as t,c as o,o as a}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const m=t({__name:"switch",setup:t=>(t,m)=>(a(),o(s,{cat:"form",target:"switch"}))});export{m as default};

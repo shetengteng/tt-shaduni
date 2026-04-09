@@ -1,0 +1,1 @@
+import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=o({__name:"radio",setup:o=>(o,e)=>(t(),a(s,{cat:"form",target:"checkbox"}))});export{e as default};

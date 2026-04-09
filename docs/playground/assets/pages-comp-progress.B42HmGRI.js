@@ -1,0 +1,1 @@
+import{d as s,c as o,o as a}from"./index-D7qMvrjd.js";import{C as t}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=s({__name:"progress",setup:s=>(s,r)=>(a(),o(t,{cat:"display",target:"progress"}))});export{r as default};

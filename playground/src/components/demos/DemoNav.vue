@@ -1,25 +1,25 @@
 <template>
   <view class="demo">
-    <view class="demo-block">
+    <view class="demo-block" id="demo-cell">
       <text class="demo-label">{{ t('cell') }}</text>
       <text class="demo-desc">{{ t('cell.desc') }}</text>
       <tt-cell title="Setting" value="Go" is-link />
       <tt-cell title="About" value="v1.0" is-link />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-tabs">
       <text class="demo-label">{{ t('tabs') }}</text>
       <text class="demo-desc">{{ t('tabs.desc') }}</text>
       <tt-tabs v-model="tabIdx" :items="tabItems" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-navbar">
       <text class="demo-label">{{ t('navbar') }}</text>
       <text class="demo-desc">{{ t('navbar.desc') }}</text>
       <tt-navbar title="Page Title" left-arrow />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-tabbar">
       <text class="demo-label">{{ t('tabbar') }}</text>
       <text class="demo-desc">{{ t('tabbar.desc') }}</text>
       <view class="tabbar-demo-wrap">
@@ -27,7 +27,7 @@
       </view>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-steps">
       <text class="demo-label">{{ t('steps') }}</text>
       <text class="demo-desc">{{ t('steps.desc') }}</text>
       <tt-steps :active="1">
@@ -40,31 +40,31 @@
       </tt-steps>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-sidebar">
       <text class="demo-label">{{ t('sidebar') }}</text>
       <text class="demo-desc">{{ t('sidebar.desc') }}</text>
       <tt-sidebar v-model="sideIdx" width="200rpx" :items="[{text:'Category 1'},{text:'Category 2'},{text:'Category 3'}]" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-breadcrumb">
       <text class="demo-label">{{ t('breadcrumb') }}</text>
       <text class="demo-desc">{{ t('breadcrumb.desc') }}</text>
       <tt-breadcrumb :items="[{text:'Home',link:true},{text:'Category',link:true},{text:'Page'}]" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-pagination">
       <text class="demo-label">{{ t('pagination') }}</text>
       <text class="demo-desc">{{ t('pagination.desc') }}</text>
       <tt-pagination v-model="page" :total="50" :page-size="10" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-dropdownmenu">
       <text class="demo-label">{{ t('dropdown') }}</text>
       <text class="demo-desc">{{ t('dropdown.desc') }}</text>
       <tt-dropdown-menu v-model="ddVal" title="Sort" :options="ddOptions" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-swipeaction">
       <text class="demo-label">{{ t('swipeAction') }}</text>
       <text class="demo-desc">{{ t('swipeAction.desc') }}</text>
       <tt-swipe-action :right-actions="[{ text: 'Delete', bgColor: '#ef4444' }]">

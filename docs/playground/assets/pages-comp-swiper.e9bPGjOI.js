@@ -1,0 +1,1 @@
+import{d as a,c as s,o}from"./index-D7qMvrjd.js";import{C as t}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=a({__name:"swiper",setup:a=>(a,e)=>(o(),s(t,{cat:"display",target:"swiper"}))});export{e as default};

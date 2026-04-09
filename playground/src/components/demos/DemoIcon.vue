@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block">
+    <view class="demo-block" id="demo-icon">
       <text class="demo-label">{{ t('icon.gallery') }}</text>
       <text class="demo-desc">{{ t('icon.gallery.desc') }}</text>
       <view class="icon-grid">
@@ -22,7 +22,7 @@
       </view>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-icon-sizes">
       <text class="demo-label">{{ t('icon.sizes') }}</text>
       <text class="demo-desc">{{ t('icon.sizes.desc') }}</text>
       <view class="icon-showcase">
@@ -35,7 +35,7 @@
       </view>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-icon-colors">
       <text class="demo-label">{{ t('icon.colors') }}</text>
       <text class="demo-desc">{{ t('icon.colors.desc') }}</text>
       <view class="icon-colors">

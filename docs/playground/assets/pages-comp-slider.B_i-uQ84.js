@@ -1,0 +1,1 @@
+import{d as o,c as a,o as s}from"./index-D7qMvrjd.js";import{C as t}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=o({__name:"slider",setup:o=>(o,e)=>(s(),a(t,{cat:"form",target:"slider"}))});export{e as default};

@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block">
+    <view class="demo-block" id="demo-input">
       <text class="demo-label">{{ t('input') }}</text>
       <text class="demo-desc">{{ t('input.desc') }}</text>
       <tt-input v-model="inputVal" placeholder="Type something..." />
@@ -8,14 +8,14 @@
       <tt-input v-model="pwdVal" type="password" placeholder="Password" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-textarea">
       <text class="demo-label">{{ t('textarea') }}</text>
       <text class="demo-desc">{{ t('textarea.desc') }}</text>
       <tt-textarea v-model="textVal" placeholder="Enter text..." />
       <tt-textarea v-model="textVal" :maxlength="200" show-count />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-checkbox">
       <text class="demo-label">{{ t('checkbox_radio') }}</text>
       <text class="demo-desc">{{ t('checkbox_radio.desc') }}</text>
       <tt-checkbox v-model="c1" label="Option A" />
@@ -25,7 +25,7 @@
       <tt-radio v-model="r2" label="Choice B" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-switch">
       <text class="demo-label">{{ t('switch') }}</text>
       <text class="demo-desc">{{ t('switch.desc') }}</text>
       <view class="demo-row">
@@ -34,13 +34,13 @@
       </view>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-search">
       <text class="demo-label">{{ t('search') }}</text>
       <text class="demo-desc">{{ t('search.desc') }}</text>
       <tt-search v-model="searchVal" placeholder="Search..." show-cancel @cancel="searchVal = ''" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-numberbox">
       <text class="demo-label">{{ t('numberbox') }}</text>
       <text class="demo-desc">{{ t('numberbox.desc') }}</text>
       <view class="demo-row">
@@ -49,28 +49,28 @@
       </view>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-rate">
       <text class="demo-label">{{ t('rate') }}</text>
       <text class="demo-desc">{{ t('rate.desc') }}</text>
       <tt-rate v-model="rate" />
       <text class="demo-hint">Score: {{ rate }}</text>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-slider">
       <text class="demo-label">{{ t('slider') }}</text>
       <text class="demo-desc">{{ t('slider.desc') }}</text>
       <tt-slider v-model="slider" />
       <text class="demo-hint">Value: {{ slider }}</text>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-picker">
       <text class="demo-label">{{ t('picker') }}</text>
       <text class="demo-desc">{{ t('picker.desc') }}</text>
       <tt-button size="sm" @click="showPicker = true">Open Picker</tt-button>
       <tt-picker v-model:show="showPicker" :columns="pickerCols" title="Select" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-datepicker">
       <text class="demo-label">{{ t('datepicker') }}</text>
       <text class="demo-desc">{{ t('datepicker.desc') }}</text>
       <view class="demo-row">
@@ -80,20 +80,20 @@
       <tt-date-picker v-model="dateVal" v-model:show="showDate" :locale="lang" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-calendar">
       <text class="demo-label">{{ t('calendar') }}</text>
       <text class="demo-desc">{{ t('calendar.desc') }}</text>
       <tt-calendar v-model="calendarDate" :locale="lang" />
       <text v-if="calendarDate" class="demo-hint">Selected: {{ calendarDate }}</text>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-upload">
       <text class="demo-label">{{ t('upload') }}</text>
       <text class="demo-desc">{{ t('upload.desc') }}</text>
       <tt-upload v-model:file-list="files" :max-count="6" />
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-form">
       <text class="demo-label">{{ t('form') }}</text>
       <text class="demo-desc">{{ t('form.desc') }}</text>
       <tt-form>

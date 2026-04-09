@@ -1,0 +1,1 @@
+import{d as t,c as a,o as e}from"./index-D7qMvrjd.js";import{C as o}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const s=t({__name:"actionsheet",setup:t=>(t,s)=>(e(),a(o,{cat:"feedback",target:"actionsheet"}))});export{s as default};

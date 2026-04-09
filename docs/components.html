@@ -93,7 +93,7 @@
           </div>
           <div class="phone">
             <div class="phone-notch"></div>
-            <div ref="phoneScreen" class="phone-screen" :key="phoneKey" v-html="phoneHtml"></div>
+            <iframe ref="phoneFrame" class="phone-screen phone-iframe" :src="frameSrc" :key="phoneKey" frameborder="0"></iframe>
           </div>
         </div>
       </div>
@@ -104,9 +104,14 @@
 <script src="./js/i18n.js"></script>
 <script src="./js/modules/component-loader.js"></script>
 <script src="./js/components.js"></script>
-<script src="./js/phone-renders.js"></script>
 <script>
-const { createApp, ref, computed, watch, nextTick, onMounted, onBeforeUnmount } = Vue
+const PLAYGROUND_BASE = './playground'
+
+const compPageFallback = {
+  indexbar: { cat: 'nav', id: 'indexbar' }
+}
+
+const { createApp, ref, computed, watch, nextTick } = Vue
 
 createApp({
   setup() {
@@ -114,8 +119,7 @@ createApp({
     const lang = ref('en')
     const active = ref('button')
     const demoSeed = ref(0)
-    const phoneScreen = ref(null)
-    let teardownDemo = null
+    const phoneFrame = ref(null)
 
     const t = computed(() => {
       const base = TTDocs.i18n[lang.value] || TTDocs.i18n.en
@@ -140,25 +144,30 @@ createApp({
 
     const comp = computed(() => TTDocs.allComponents.find(c => c.id === active.value) || TTDocs.allComponents[0])
     const exampleBlocks = computed(() => comp.value.examples || [{ title: 'Quick Start', titleZh: '快速开始', code: comp.value.usage }])
-    const demoMeta = computed(() => TTDocs.getPhoneDemoMeta(active.value, lang.value))
-    const phoneHtml = computed(() => TTDocs.getPhoneRender(active.value, { lang: lang.value, seed: demoSeed.value }))
-    const phoneKey = computed(() => `${active.value}-${lang.value}-${demoSeed.value}`)
 
-    async function bindDemo() {
-      await nextTick()
-      if (typeof teardownDemo === 'function') {
-        teardownDemo()
-        teardownDemo = null
+    const demoMeta = computed(() => ({
+      tip: lang.value === 'zh' && comp.value.descZh ? comp.value.descZh : comp.value.desc
+    }))
+
+    function buildFrameSrc() {
+      const id = active.value
+      const langParam = lang.value !== 'en' ? `&lang=${lang.value}` : ''
+      const themeParam = isDark.value ? '&theme=dark' : ''
+      if (compPageFallback[id]) {
+        const f = compPageFallback[id]
+        return `${PLAYGROUND_BASE}/#/pages/embed/embed?cat=${f.cat}&id=${f.id}${langParam}${themeParam}`
       }
-      if (phoneScreen.value && typeof TTDocs.mountPhoneDemo === 'function') {
-        teardownDemo = TTDocs.mountPhoneDemo(phoneScreen.value, active.value, { lang: lang.value }) || null
-      }
+      return `${PLAYGROUND_BASE}/#/pages/comp/${id}?_=${demoSeed.value}${langParam}${themeParam}`
     }
 
-    watch([active, lang, demoSeed], () => { bindDemo() }, { flush: 'post' })
-    onMounted(() => { bindDemo() })
-    onBeforeUnmount(() => {
-      if (typeof teardownDemo === 'function') teardownDemo()
+    const frameSrc = computed(() => buildFrameSrc())
+    const phoneKey = computed(() => `${active.value}-${lang.value}-${demoSeed.value}`)
+
+    watch(isDark, (dark) => {
+      try { phoneFrame.value?.contentWindow?.postMessage({ type: 'setTheme', dark }, '*') } catch(e) {}
+    })
+    watch(lang, (l) => {
+      try { phoneFrame.value?.contentWindow?.postMessage({ type: 'setLang', lang: l }, '*') } catch(e) {}
     })
 
     function select(id) {
@@ -181,9 +190,9 @@ createApp({
       comp,
       exampleBlocks,
       demoMeta,
-      phoneHtml,
+      frameSrc,
       phoneKey,
-      phoneScreen,
+      phoneFrame,
       select,
       toggleTheme,
       toggleLang,

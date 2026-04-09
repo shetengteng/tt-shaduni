@@ -1,0 +1,1 @@
+import{d as a,c as o,o as t}from"./index-D7qMvrjd.js";import{C as e}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const r=a({__name:"calendar",setup:a=>(a,r)=>(t(),o(e,{cat:"form",target:"calendar"}))});export{r as default};

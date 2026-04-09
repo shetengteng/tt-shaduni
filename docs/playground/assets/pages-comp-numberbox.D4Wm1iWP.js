@@ -1,0 +1,1 @@
+import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as m}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=o({__name:"numberbox",setup:o=>(o,e)=>(t(),a(m,{cat:"form",target:"numberbox"}))});export{e as default};

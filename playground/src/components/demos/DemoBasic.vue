@@ -1,6 +1,6 @@
 <template>
   <view class="demo">
-    <view class="demo-block">
+    <view class="demo-block" id="demo-button">
       <text class="demo-label">{{ t('button') }}</text>
       <text class="demo-desc">{{ t('button.desc') }}</text>
       <view class="demo-row">
@@ -25,7 +25,7 @@
       <tt-button block>Block</tt-button>
     </view>
 
-    <view class="demo-block">
+    <view class="demo-block" id="demo-typography">
       <text class="demo-label">{{ t('typography') }}</text>
       <text class="demo-desc">{{ t('typography.desc') }}</text>
       <tt-typography type="title" :level="2">Heading H2</tt-typography>

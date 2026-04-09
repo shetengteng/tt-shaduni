@@ -1,0 +1,1 @@
+import{d as o,c as t,o as a}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const p=o({__name:"tooltip",setup:o=>(o,p)=>(a(),t(s,{cat:"display",target:"tooltip"}))});export{p as default};

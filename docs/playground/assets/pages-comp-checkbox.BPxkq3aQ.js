@@ -1,0 +1,1 @@
+import{d as o,c as a,o as t}from"./index-D7qMvrjd.js";import{C as e}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const s=o({__name:"checkbox",setup:o=>(o,s)=>(t(),a(e,{cat:"form",target:"checkbox"}))});export{s as default};

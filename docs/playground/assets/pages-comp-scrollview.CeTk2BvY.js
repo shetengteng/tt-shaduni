@@ -1,0 +1,1 @@
+import{d as o,c as a,o as s}from"./index-D7qMvrjd.js";import{C as t}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const e=o({__name:"scrollview",setup:o=>(o,e)=>(s(),a(t,{cat:"display",target:"scrollview"}))});export{e as default};

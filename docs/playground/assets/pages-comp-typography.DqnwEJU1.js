@@ -1,0 +1,1 @@
+import{d as a,c as o,o as t}from"./index-D7qMvrjd.js";import{C as s}from"./CompPageLayout.K59rOz_U.js";import"./DemoLayout.BwToSM7F.js";const p=a({__name:"typography",setup:a=>(a,p)=>(t(),o(s,{cat:"basic",target:"typography"}))});export{p as default};
