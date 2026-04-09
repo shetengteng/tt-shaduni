@@ -26,10 +26,29 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('popup') }}</text>
       <text class="demo-desc">{{ t('popup.desc') }}</text>
-      <tt-button size="sm" @click="showPopup = true">Open Popup</tt-button>
+      <view class="demo-row">
+        <tt-button size="sm" @click="showPopup = true">Bottom</tt-button>
+        <tt-button size="sm" variant="outline" @click="showPopupCenter = true">Center</tt-button>
+      </view>
       <tt-popup v-model:show="showPopup" position="bottom">
-        <view style="padding: 20px;">
-          <text class="demo-hint">Popup Content</text>
+        <view class="popup-content">
+          <view class="popup-header">
+            <text class="popup-header__title">Select Option</text>
+            <text class="popup-header__close" @click="showPopup = false">×</text>
+          </view>
+          <tt-cell title="Option A" value="Recommended" is-link />
+          <tt-cell title="Option B" is-link />
+          <tt-cell title="Option C" is-link />
+          <view style="padding: 24rpx;">
+            <tt-button block @click="showPopup = false">Confirm</tt-button>
+          </view>
+        </view>
+      </tt-popup>
+      <tt-popup v-model:show="showPopupCenter" position="center">
+        <view class="popup-center-box">
+          <text class="popup-center-box__title">Centered Popup</text>
+          <text class="popup-center-box__desc">This popup appears in the center of the screen with a fade animation.</text>
+          <tt-button size="sm" @click="showPopupCenter = false">Got it</tt-button>
         </view>
       </tt-popup>
     </view>
@@ -77,7 +96,54 @@ const t = inject<(key: string) => string>('t', (k) => k)
 const showToast = ref(false)
 const showDlg = ref(false)
 const showPopup = ref(false)
+const showPopupCenter = ref(false)
 const showAS = ref(false)
 const showSheet = ref(false)
 const showTransition = ref(true)
 </script>
+
+<style>
+.popup-content {
+  background: var(--tt-background, #fff);
+  border-radius: 24rpx 24rpx 0 0;
+}
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
+}
+.popup-header__title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--tt-foreground, #0a0a0a);
+}
+.popup-header__close {
+  font-size: 40rpx;
+  color: var(--tt-muted-foreground, #737373);
+  cursor: pointer;
+  line-height: 1;
+}
+.popup-center-box {
+  width: 500rpx;
+  padding: 48rpx 40rpx;
+  background: var(--tt-background, #fff);
+  border-radius: var(--tt-radius, 12rpx);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+}
+.popup-center-box__title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--tt-foreground, #0a0a0a);
+}
+.popup-center-box__desc {
+  font-size: 26rpx;
+  color: var(--tt-muted-foreground, #737373);
+  text-align: center;
+  line-height: 1.5;
+}
+</style>

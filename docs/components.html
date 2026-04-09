@@ -49,8 +49,22 @@
       <div class="content-grid" :key="active+'grid'">
         <div>
           <div class="doc-section">
-            <h3>{{ t.usage }}</h3>
-            <pre><code>{{ comp.usage }}</code></pre>
+            <h3>{{ t.examples }}</h3>
+            <div class="example-stack">
+              <article v-for="(example, index) in exampleBlocks" :key="example.title + index" class="example-card">
+                <div class="example-card__head">
+                  <div>
+                    <div class="example-card__eyebrow">{{ t.usage }}</div>
+                    <h4>{{ lang==='zh' && example.titleZh ? example.titleZh : example.title }}</h4>
+                  </div>
+                  <span class="example-card__index">{{ String(index + 1).padStart(2, '0') }}</span>
+                </div>
+                <p v-if="example.desc || example.descZh" class="example-card__desc">
+                  {{ lang==='zh' && example.descZh ? example.descZh : example.desc }}
+                </p>
+                <pre><code>{{ example.code }}</code></pre>
+              </article>
+            </div>
           </div>
           <div class="doc-section">
             <h3>{{ t.props }}</h3>
@@ -67,9 +81,18 @@
           </div>
         </div>
         <div class="phone-wrap">
+          <div class="phone-panel">
+            <div class="phone-panel__head">
+              <div>
+                <div class="phone-panel__label">{{ t.liveDemo }}</div>
+                <div class="phone-panel__tip">{{ demoMeta.tip }}</div>
+              </div>
+              <button class="preview-reset" @click="resetDemo">{{ t.resetDemo }}</button>
+            </div>
+          </div>
           <div class="phone">
             <div class="phone-notch"></div>
-            <div class="phone-screen" v-html="phoneHtml"></div>
+            <div ref="phoneScreen" class="phone-screen" :key="phoneKey" v-html="phoneHtml"></div>
           </div>
         </div>
       </div>
@@ -78,20 +101,31 @@
 </div>
 
 <script src="./js/i18n.js"></script>
+<script src="./js/modules/component-loader.js"></script>
 <script src="./js/components.js"></script>
 <script src="./js/phone-renders.js"></script>
 <script>
-const { createApp, ref, computed } = Vue
+const { createApp, ref, computed, watch, nextTick, onMounted, onBeforeUnmount } = Vue
 
 createApp({
   setup() {
     const isDark = ref(false)
     const lang = ref('en')
     const active = ref('button')
+    const demoSeed = ref(0)
+    const phoneScreen = ref(null)
+    let teardownDemo = null
 
     const t = computed(() => {
       const base = TTDocs.i18n[lang.value] || TTDocs.i18n.en
-      return { ...base, usage: base.usage || 'Usage', props: base.props || 'Props' }
+      return {
+        ...base,
+        usage: base.usage || 'Usage',
+        props: base.props || 'Props',
+        examples: base.examples || 'Examples',
+        liveDemo: base.liveDemo || 'Live Demo',
+        resetDemo: base.resetDemo || 'Reset Demo',
+      }
     })
 
     const groups = computed(() => {
@@ -104,13 +138,56 @@ createApp({
     })
 
     const comp = computed(() => TTDocs.allComponents.find(c => c.id === active.value) || TTDocs.allComponents[0])
-    const phoneHtml = computed(() => TTDocs.getPhoneRender(active.value, {}))
+    const exampleBlocks = computed(() => comp.value.examples || [{ title: 'Quick Start', titleZh: '快速开始', code: comp.value.usage }])
+    const demoMeta = computed(() => TTDocs.getPhoneDemoMeta(active.value, lang.value))
+    const phoneHtml = computed(() => TTDocs.getPhoneRender(active.value, { lang: lang.value, seed: demoSeed.value }))
+    const phoneKey = computed(() => `${active.value}-${lang.value}-${demoSeed.value}`)
 
-    function select(id) { active.value = id }
+    async function bindDemo() {
+      await nextTick()
+      if (typeof teardownDemo === 'function') {
+        teardownDemo()
+        teardownDemo = null
+      }
+      if (phoneScreen.value && typeof TTDocs.mountPhoneDemo === 'function') {
+        teardownDemo = TTDocs.mountPhoneDemo(phoneScreen.value, active.value, { lang: lang.value }) || null
+      }
+    }
+
+    watch([active, lang, demoSeed], () => { bindDemo() }, { flush: 'post' })
+    onMounted(() => { bindDemo() })
+    onBeforeUnmount(() => {
+      if (typeof teardownDemo === 'function') teardownDemo()
+    })
+
+    function select(id) {
+      active.value = id
+      demoSeed.value += 1
+    }
     function toggleTheme() { isDark.value = !isDark.value; document.documentElement.classList.toggle('dark', isDark.value) }
-    function toggleLang() { lang.value = lang.value === 'en' ? 'zh' : 'en' }
+    function toggleLang() {
+      lang.value = lang.value === 'en' ? 'zh' : 'en'
+      demoSeed.value += 1
+    }
+    function resetDemo() { demoSeed.value += 1 }
 
-    return { isDark, lang, t, active, groups, comp, phoneHtml, select, toggleTheme, toggleLang }
+    return {
+      isDark,
+      lang,
+      t,
+      active,
+      groups,
+      comp,
+      exampleBlocks,
+      demoMeta,
+      phoneHtml,
+      phoneKey,
+      phoneScreen,
+      select,
+      toggleTheme,
+      toggleLang,
+      resetDemo,
+    }
   }
 }).mount('#app')
 </script>

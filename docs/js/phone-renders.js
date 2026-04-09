@@ -1,92 +1,1328 @@
 window.TTDocs = window.TTDocs || {}
 
-window.TTDocs.getPhoneRender = function(id, state) {
-  const renders = {
-    button: () => {
-      const v = state.btnVariant || 'default'
-      const cls = { default:'p-btn-default', secondary:'p-btn-secondary', destructive:'p-btn-destructive', outline:'p-btn-outline', ghost:'p-btn-ghost', link:'p-btn-link' }
-      return `<div class="p-sec"><div class="p-label">Variants</div>
-        <div class="p-row">${['default','secondary','destructive'].map(k=>`<span class="p-btn ${cls[k]}" style="cursor:pointer">${k}</span>`).join('')}</div>
-        <div class="p-row">${['outline','ghost','link'].map(k=>`<span class="p-btn ${cls[k]}" style="cursor:pointer">${k}</span>`).join('')}</div></div>
-        <div class="p-sec"><div class="p-label">Sizes</div>
-        <div class="p-row"><span class="p-btn p-btn-default" style="height:22px;font-size:10px;padding:0 8px">Small</span><span class="p-btn p-btn-default">Medium</span><span class="p-btn p-btn-default" style="height:34px;font-size:13px;padding:0 18px">Large</span></div></div>
-        <div class="p-sec"><div class="p-label">States</div>
-        <div class="p-row"><span class="p-btn p-btn-default" style="opacity:.5">Disabled</span><span class="p-btn p-btn-default" style="opacity:.7">Loading...</span></div>
-        <span class="p-btn p-btn-default" style="width:100%;justify-content:center">Block</span></div>`
-    },
-    icon: () => `<div class="p-sec"><div class="p-label">Icons</div><div class="p-row" style="gap:14px;font-size:18px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>`,
-    input: () => `<div class="p-sec"><div class="p-label">Basic</div><input class="p-input" placeholder="Type something..." value="${state.inputVal||''}"/></div><div class="p-sec"><div class="p-label">Password</div><input class="p-input" type="password" value="secret"/></div><div class="p-sec"><div class="p-label">Disabled</div><input class="p-input" disabled value="Disabled" style="opacity:.5"/></div>`,
-    textarea: () => `<div class="p-sec"><div class="p-label">Basic</div><textarea class="p-input" style="min-height:60px;padding:8px;resize:vertical;font-family:inherit" placeholder="Enter text here..."></textarea></div><div class="p-sec"><div class="p-label">With Count</div><div style="position:relative"><textarea class="p-input" style="min-height:60px;padding:8px;resize:vertical;font-family:inherit" maxlength="200" oninput="this.parentNode.querySelector('.cnt').textContent=this.value.length+'/200'">Hello world</textarea><span class="cnt" style="position:absolute;bottom:6px;right:10px;font-size:10px;color:var(--muted-fg);pointer-events:none">11/200</span></div></div>`,
-    checkbox: () => `<div class="p-sec"><div class="p-label">Checkbox</div><div style="display:flex;flex-direction:column;gap:8px"><div onclick="var b=this.querySelector('.cb');var on=b.dataset.on==='1';b.dataset.on=on?'0':'1';b.style.background=on?'transparent':'var(--primary)';b.style.borderColor=on?'var(--border)':'var(--primary)';b.innerHTML=on?'':'&#10003;';b.style.color=on?'':'var(--primary-fg)'" style="display:flex;align-items:center;gap:6px;cursor:pointer"><span class="cb" data-on="1" style="width:16px;height:16px;border:2px solid var(--primary);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--primary-fg);background:var(--primary);transition:all .15s">&#10003;</span><span style="font-size:12px">Option A</span></div><div onclick="var b=this.querySelector('.cb');var on=b.dataset.on==='1';b.dataset.on=on?'0':'1';b.style.background=on?'transparent':'var(--primary)';b.style.borderColor=on?'var(--border)':'var(--primary)';b.innerHTML=on?'':'&#10003;';b.style.color=on?'':'var(--primary-fg)'" style="display:flex;align-items:center;gap:6px;cursor:pointer"><span class="cb" data-on="0" style="width:16px;height:16px;border:2px solid var(--border);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s"></span><span style="font-size:12px">Option B</span></div><div style="display:flex;align-items:center;gap:6px;opacity:.5"><span style="width:16px;height:16px;border:2px solid var(--border);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px"></span><span style="font-size:12px">Disabled</span></div></div></div>`,
-    radio: () => `<div class="p-sec"><div class="p-label">Radio</div><div class="radio-group" style="display:flex;flex-direction:column;gap:8px"><div onclick="this.parentNode.querySelectorAll('.rd').forEach(function(r){r.style.borderColor='var(--border)';r.innerHTML=''});var d=this.querySelector('.rd');d.style.borderColor='var(--primary)';d.innerHTML='<span style=\\'width:8px;height:8px;border-radius:50%;background:var(--primary)\\'></span>'" style="display:flex;align-items:center;gap:6px;cursor:pointer"><span class="rd" style="width:16px;height:16px;border:2px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .15s"><span style="width:8px;height:8px;border-radius:50%;background:var(--primary)"></span></span><span style="font-size:12px">Option A</span></div><div onclick="this.parentNode.querySelectorAll('.rd').forEach(function(r){r.style.borderColor='var(--border)';r.innerHTML=''});var d=this.querySelector('.rd');d.style.borderColor='var(--primary)';d.innerHTML='<span style=\\'width:8px;height:8px;border-radius:50%;background:var(--primary)\\'></span>'" style="display:flex;align-items:center;gap:6px;cursor:pointer"><span class="rd" style="width:16px;height:16px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .15s"></span><span style="font-size:12px">Option B</span></div></div></div>`,
-    switch: () => { const on = state.switchOn ?? true; return `<div class="p-sec"><div class="p-label">Switch</div><div style="display:flex;gap:16px;align-items:center"><span class="p-switch ${on?'p-switch-on':''}" onclick="this.classList.toggle('p-switch-on')" style="cursor:pointer"></span><span class="p-switch" onclick="this.classList.toggle('p-switch-on')" style="cursor:pointer"></span><span class="p-switch" style="opacity:.5"></span></div></div>` },
-    search: () => `<div class="p-sec"><div style="display:flex;gap:8px;align-items:center"><div style="flex:1;display:flex;gap:6px;align-items:center;height:32px;padding:0 10px;background:var(--muted);border-radius:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted-fg)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span style="font-size:12px;color:var(--muted-fg)">Search...</span></div><span style="font-size:12px;color:var(--primary);font-weight:500;cursor:pointer">Cancel</span></div></div>`,
-    numberbox: () => `<div class="p-sec"><div class="p-label">NumberBox</div><div style="display:inline-flex;border:1px solid var(--border);border-radius:5px;overflow:hidden"><span onclick="var v=this.nextElementSibling;var n=Math.max(0,parseInt(v.textContent)-1);v.textContent=n" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--muted);cursor:pointer;font-size:14px;user-select:none" data-interactive>−</span><span style="width:40px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;font-variant-numeric:tabular-nums">5</span><span onclick="var v=this.previousElementSibling;var n=Math.min(99,parseInt(v.textContent)+1);v.textContent=n" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--muted);cursor:pointer;font-size:14px;user-select:none" data-interactive>+</span></div></div>`,
-    form: () => `<div class="p-sec"><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;width:44px;flex-shrink:0;font-weight:500">Name</span><input class="p-input" placeholder="Your name"/></div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;width:44px;flex-shrink:0;font-weight:500">Email</span><input class="p-input" placeholder="Email"/></div><span class="p-btn p-btn-default" style="width:100%;justify-content:center;margin-top:4px;cursor:pointer">Submit</span></div></div>`,
-    rate: () => `<div class="p-sec"><div class="p-label">Rate</div><div class="rate-row" style="display:flex;gap:4px">${[1,2,3,4,5].map(i=>`<span data-star="${i}" onclick="var row=this.parentNode;var v=${i};row.querySelectorAll('[data-star]').forEach(function(s){s.style.color=parseInt(s.dataset.star)<=v?'#f59e0b':'var(--border)'})" style="font-size:18px;cursor:pointer;color:${i<=3?'#f59e0b':'var(--border)'};transition:color .15s">&#9733;</span>`).join('')}</div></div>`,
-    card: () => `<div class="p-sec"><div class="p-card"><div class="p-card-title">Card Title</div><div class="p-card-desc">Description text</div><div style="margin-top:10px;font-size:12px">Content area</div></div></div><div class="p-sec"><div class="p-card"><div class="p-card-title">With Footer</div><div style="margin:8px 0;font-size:12px">Content</div><div style="display:flex;gap:6px;padding-top:10px;border-top:1px solid var(--border)"><span class="p-btn p-btn-outline" style="height:24px;font-size:10px;cursor:pointer">Cancel</span><span class="p-btn p-btn-default" style="height:24px;font-size:10px;cursor:pointer">Save</span></div></div></div>`,
-    badge: () => `<div class="p-sec"><div class="p-label">Badge</div><div class="p-row" style="gap:16px"><div style="position:relative"><span class="p-btn p-btn-outline" style="cursor:pointer">Messages</span><span class="p-badge" style="position:absolute;top:-6px;right:-6px">5</span></div><div style="position:relative"><span class="p-btn p-btn-outline">Notify</span><span class="p-badge" style="position:absolute;top:-6px;right:-6px">99+</span></div><div style="position:relative"><span class="p-btn p-btn-outline">Dot</span><span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--destructive)"></span></div></div></div>`,
-    tag: () => `<div class="p-sec"><div class="p-label">Tags</div><div class="p-row"><span class="p-tag">Default</span><span class="p-tag p-tag-primary">Primary</span><span class="p-tag" style="background:#dcfce7;color:#166534">Success</span><span class="p-tag" style="background:#fef3c7;color:#92400e">Warning</span><span class="p-tag" style="background:#fee2e2;color:#991b1b">Danger</span></div></div>`,
-    divider: () => `<div class="p-sec"><div class="p-label">Divider</div><div class="p-divider"></div><div style="display:flex;align-items:center;gap:8px;margin:8px 0"><div class="p-divider" style="flex:1"></div><span style="font-size:10px;color:var(--muted-fg)">OR</span><div class="p-divider" style="flex:1"></div></div></div>`,
-    empty: () => `<div class="p-sec" style="text-align:center;padding:20px 0"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--muted-fg)" stroke-width="1" style="opacity:.3"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg><div style="font-size:12px;color:var(--muted-fg);margin-top:8px">No data</div></div>`,
-    progress: () => `<div class="p-sec"><div class="p-label">Progress</div><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;align-items:center;gap:8px"><div class="p-progress" style="flex:1"><div class="p-progress-bar" style="width:75%"></div></div><span style="font-size:11px;color:var(--muted-fg)">75%</span></div><div style="display:flex;align-items:center;gap:8px"><div class="p-progress" style="flex:1"><div class="p-progress-bar" style="width:30%;background:#22c55e"></div></div><span style="font-size:11px;color:var(--muted-fg)">30%</span></div><div style="display:flex;align-items:center;gap:8px"><div class="p-progress" style="flex:1"><div class="p-progress-bar" style="width:100%"></div></div><span style="font-size:11px;color:var(--muted-fg)">100%</span></div></div></div>`,
-    skeleton: () => `<div class="p-sec"><div class="p-label">Skeleton</div><div style="display:flex;gap:12px"><div class="p-skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0"></div><div style="flex:1;display:flex;flex-direction:column;gap:8px"><div class="p-skeleton" style="width:60%;height:12px"></div><div class="p-skeleton" style="width:100%;height:10px"></div><div class="p-skeleton" style="width:80%;height:10px"></div></div></div></div>`,
-    avatar: () => `<div class="p-sec"><div class="p-label">Avatar</div><div class="p-row" style="gap:10px"><span class="p-avatar">JD</span><span class="p-avatar" style="border-radius:6px">AB</span><span class="p-avatar" style="width:28px;height:28px;font-size:11px">S</span></div></div>`,
-    image: () => `<div class="p-sec"><div class="p-label">Image</div><div style="display:flex;gap:8px"><div style="width:60px;height:60px;background:var(--muted);border-radius:6px;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted-fg)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><div style="width:60px;height:60px;background:var(--muted);border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted-fg)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div></div>`,
-    countdown: () => `<div class="p-sec"><div class="p-label">CountDown</div><div style="font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px">01:23:45</div></div>`,
-    cell: () => `<div class="p-sec"><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s"><span style="font-size:13px;font-weight:500">Language</span><span style="font-size:12px;color:var(--muted-fg)">English &#x203A;</span></div><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;transition:background .1s"><span style="font-size:13px;font-weight:500">Theme</span><span style="font-size:12px;color:var(--muted-fg)">System &#x203A;</span></div></div></div>`,
-    tabs: () => `<div class="p-sec"><div class="tab-bar" style="display:flex;border-bottom:1px solid var(--border)"><span onclick="var tabs=this.parentNode.querySelectorAll('span:not([data-disabled])');tabs.forEach(function(t){t.style.fontWeight='400';t.style.color='var(--muted-fg)';t.style.borderBottom='2px solid transparent'});this.style.fontWeight='600';this.style.color='var(--fg)';this.style.borderBottom='2px solid var(--primary)';this.parentNode.nextElementSibling.textContent='Active: '+this.textContent" style="padding:6px 12px;font-size:12px;font-weight:600;color:var(--fg);border-bottom:2px solid var(--primary);cursor:pointer;transition:all .15s">Tab 1</span><span onclick="var tabs=this.parentNode.querySelectorAll('span:not([data-disabled])');tabs.forEach(function(t){t.style.fontWeight='400';t.style.color='var(--muted-fg)';t.style.borderBottom='2px solid transparent'});this.style.fontWeight='600';this.style.color='var(--fg)';this.style.borderBottom='2px solid var(--primary)';this.parentNode.nextElementSibling.textContent='Active: '+this.textContent" style="padding:6px 12px;font-size:12px;color:var(--muted-fg);border-bottom:2px solid transparent;cursor:pointer;transition:all .15s">Tab 2</span><span data-disabled style="padding:6px 12px;font-size:12px;color:var(--muted-fg);opacity:.4">Disabled</span></div><div style="padding:8px 0;font-size:12px">Active: Tab 1</div></div>`,
-    navbar: () => `<div class="p-sec"><div style="display:flex;align-items:center;height:36px;border-bottom:1px solid var(--border)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;cursor:pointer"><polyline points="15 18 9 12 15 6"/></svg><span style="font-size:12px">Back</span><span style="flex:1;text-align:center;font-size:14px;font-weight:600">Page Title</span><span style="width:48px"></span></div></div>`,
-    tabbar: () => `<div class="p-sec"><div class="tabbar-row" style="display:flex;justify-content:space-around;align-items:center;height:48px;border:1px solid var(--border);border-radius:6px"><div onclick="this.parentNode.querySelectorAll('[data-tab]').forEach(function(t){t.style.color='var(--muted-fg)';t.style.fontWeight='400'});this.style.color='var(--primary)';this.style.fontWeight='600'" data-tab style="text-align:center;font-size:10px;color:var(--primary);font-weight:600;cursor:pointer;transition:color .15s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><div>Home</div></div><div onclick="this.parentNode.querySelectorAll('[data-tab]').forEach(function(t){t.style.color='var(--muted-fg)';t.style.fontWeight='400'});this.style.color='var(--primary)';this.style.fontWeight='600'" data-tab style="text-align:center;font-size:10px;color:var(--muted-fg);cursor:pointer;transition:color .15s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><div>Explore</div></div><div onclick="this.parentNode.querySelectorAll('[data-tab]').forEach(function(t){t.style.color='var(--muted-fg)';t.style.fontWeight='400'});this.style.color='var(--primary)';this.style.fontWeight='600'" data-tab style="text-align:center;font-size:10px;color:var(--muted-fg);cursor:pointer;transition:color .15s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div>Me</div></div></div></div>`,
-    steps: () => `<div class="p-sec"><div class="p-label">Steps</div><div style="display:flex;align-items:center;gap:4px"><div style="width:24px;height:24px;border-radius:50%;background:var(--primary);color:var(--primary-fg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600">1</div><div style="flex:1;height:2px;background:var(--primary)"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--primary);color:var(--primary-fg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600">2</div><div style="flex:1;height:2px;background:var(--border)"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--muted);color:var(--muted-fg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600">3</div></div></div>`,
-    popup: () => `<div class="p-sec" style="position:relative;min-height:160px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden"><div style="background:var(--bg);border-radius:12px 12px 0 0;padding:20px;text-align:center"><div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 12px"></div><div style="font-size:12px;font-weight:600;margin-bottom:4px">Bottom Popup</div><div style="font-size:11px;color:var(--muted-fg)">Slide up with overlay</div></div></div>`,
-    dialog: () => `<div class="p-sec" style="background:rgba(0,0,0,.2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;min-height:160px"><div style="background:var(--bg);border-radius:12px;width:200px;overflow:hidden;transition:transform .2s" id="phone-dialog"><div style="padding:16px 16px 0;text-align:center;font-size:13px;font-weight:600">Confirm</div><div style="padding:8px 16px 16px;text-align:center;font-size:11px;color:var(--muted-fg)">Are you sure?</div><div style="display:flex;border-top:1px solid var(--border)"><div onclick="var d=document.getElementById('phone-dialog');d.style.transform='scale(.9)';d.style.opacity='.5';setTimeout(function(){d.style.transform='';d.style.opacity=''},400)" style="flex:1;text-align:center;padding:10px;font-size:12px;color:var(--muted-fg);border-right:1px solid var(--border);cursor:pointer;transition:background .15s" onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''">Cancel</div><div onclick="var d=document.getElementById('phone-dialog');d.style.transform='scale(.9)';d.style.opacity='.5';setTimeout(function(){d.style.transform='';d.style.opacity=''},400)" style="flex:1;text-align:center;padding:10px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s" onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''">Confirm</div></div></div></div>`,
-    toast: () => `<div class="p-sec" style="display:flex;justify-content:center;padding:20px"><div style="background:var(--fg);color:var(--bg);padding:10px 20px;border-radius:8px;font-size:12px;text-align:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin:0 auto 4px;display:block"><polyline points="20 6 9 17 4 12"/></svg>Success</div></div>`,
-    actionsheet: () => `<div class="p-sec"><div style="border:1px solid var(--border);border-radius:8px;overflow:hidden"><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="text-align:center;padding:10px;font-size:12px;font-weight:500;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s">Edit</div><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="text-align:center;padding:10px;font-size:12px;color:var(--destructive);border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s">Delete</div><div style="height:6px;background:var(--muted)"></div><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="text-align:center;padding:10px;font-size:12px;color:var(--muted-fg);cursor:pointer;transition:background .1s">Cancel</div></div></div>`,
-    sheet: () => `<div class="p-sec" style="border:1px solid var(--border);border-radius:8px;overflow:hidden"><div style="padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600">Sheet Title</div><div style="padding:14px;font-size:12px;color:var(--muted-fg)">Sheet content area</div></div>`,
-    noticebar: () => `<div class="p-sec"><div id="phone-notice" style="display:flex;align-items:center;padding:8px 12px;background:#fef3c7;color:#92400e;border-radius:5px;font-size:11px;gap:6px;transition:opacity .3s,max-height .3s;max-height:40px;overflow:hidden"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span style="flex:1">This is a notice bar message</span><svg onclick="var n=document.getElementById('phone-notice');n.style.opacity='0';n.style.maxHeight='0';n.style.padding='0';n.style.margin='0'" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;flex-shrink:0"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>`,
-    loading: () => `<div class="p-sec" style="display:flex;justify-content:center;padding:16px"><div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:24px;height:24px;border:2px solid var(--muted);border-top-color:var(--primary);border-radius:50%;animation:spin .6s linear infinite"></div><span style="font-size:11px;color:var(--muted-fg)">Loading...</span></div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>`,
-    configprovider: () => `<div class="p-sec"><div class="p-label">Light Theme</div><div class="p-card" style="margin-bottom:8px"><div class="p-row"><span class="p-btn p-btn-default">Button</span><span class="p-btn p-btn-secondary">Secondary</span></div></div></div><div class="p-sec"><div class="p-label">Custom (Indigo)</div><div class="p-card"><div class="p-row"><span class="p-btn" style="background:#6366f1;color:#fff">Indigo</span><span class="p-btn p-btn-outline">Default</span></div></div></div>`,
-    space: () => `<div class="p-sec"><div class="p-label">Horizontal</div><div class="p-row" style="gap:8px"><span class="p-btn p-btn-default">A</span><span class="p-btn p-btn-default">B</span><span class="p-btn p-btn-default">C</span></div></div><div class="p-sec"><div class="p-label">Vertical</div><div style="display:flex;flex-direction:column;gap:8px"><span class="p-btn p-btn-default" style="justify-content:center">Row 1</span><span class="p-btn p-btn-default" style="justify-content:center">Row 2</span></div></div>`,
-    safearea: () => `<div class="p-sec"><div class="p-label">Safe Area</div><div style="border:1px dashed var(--border);border-radius:5px;padding:12px;text-align:center;font-size:11px;color:var(--muted-fg)">Safe area inset zone</div></div>`,
-    collapse: () => `<div class="p-sec"><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div onclick="var c=this.nextElementSibling;var open=c.style.display!=='none';c.style.display=open?'none':'block';this.querySelector('svg').style.transform=open?'rotate(-90deg)':'rotate(0)'" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer"><span style="font-size:13px;font-weight:500">Section 1</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg></div><div style="padding:12px 14px;font-size:12px;color:var(--muted-fg);border-bottom:1px solid var(--border)">Expanded content here.</div><div onclick="var c=this.nextElementSibling;var open=c.style.display!=='none';c.style.display=open?'none':'block';this.querySelector('svg').style.transform=open?'rotate(-90deg)':'rotate(0)'" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer"><span style="font-size:13px;font-weight:500">Section 2</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(-90deg);transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg></div><div style="display:none;padding:12px 14px;font-size:12px;color:var(--muted-fg)">Section 2 content.</div></div></div>`,
-    typography: () => `<div class="p-sec"><div class="p-label">Typography</div><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:20px;font-weight:700">Heading H2</span><span style="font-size:16px;font-weight:700">Heading H3</span><span style="font-size:14px;line-height:1.6">Regular body text with normal weight.</span><span style="font-size:14px;font-weight:700">Bold text</span><span style="font-size:14px;text-decoration:underline">Underlined text</span><span style="font-size:14px;text-decoration:line-through;color:var(--muted-fg)">Deleted text</span><span style="font-size:14px;color:var(--primary);cursor:pointer">Link text →</span></div></div>`,
-    slider: () => `<div class="p-sec"><div class="p-label">Slider</div><div style="padding:8px 0"><div id="phone-slider" style="position:relative;height:4px;background:var(--muted);border-radius:2px;cursor:pointer" onclick="var r=this.getBoundingClientRect();var p=Math.round(Math.max(0,Math.min(100,(event.clientX-r.left)/r.width*100)));this.querySelector('.sl-fill').style.width=p+'%';this.querySelector('.sl-thumb').style.left=p+'%';document.getElementById('sl-val').textContent=p"><div class="sl-fill" style="position:absolute;left:0;top:0;width:60%;height:100%;background:var(--primary);border-radius:2px;transition:width .1s"></div><div class="sl-thumb" style="position:absolute;left:60%;top:50%;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid var(--primary);transform:translate(-50%,-50%);box-shadow:0 1px 3px rgba(0,0,0,.1);transition:left .1s"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted-fg);margin-top:6px"><span>0</span><span id="sl-val">60</span><span>100</span></div></div></div>`,
-    picker: () => `<div class="p-sec"><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--muted-fg);cursor:pointer">Cancel</span><span style="font-size:14px;font-weight:600">Select</span><span style="font-size:13px;color:var(--primary);font-weight:500;cursor:pointer">Confirm</span></div><div style="padding:12px;text-align:center"><div onclick="this.parentNode.querySelectorAll('[data-pk]').forEach(function(e){e.style.background='';e.style.fontWeight='400';e.style.fontSize='13px';e.style.color='var(--muted-fg)'});this.style.background='var(--muted)';this.style.fontWeight='600';this.style.fontSize='14px';this.style.color='var(--fg)'" data-pk style="padding:8px;font-size:13px;color:var(--muted-fg);cursor:pointer;border-radius:4px;transition:all .15s">Option 1</div><div onclick="this.parentNode.querySelectorAll('[data-pk]').forEach(function(e){e.style.background='';e.style.fontWeight='400';e.style.fontSize='13px';e.style.color='var(--muted-fg)'});this.style.background='var(--muted)';this.style.fontWeight='600';this.style.fontSize='14px';this.style.color='var(--fg)'" data-pk style="padding:8px;font-size:14px;font-weight:600;background:var(--muted);border-radius:4px;cursor:pointer;transition:all .15s">Option 2</div><div onclick="this.parentNode.querySelectorAll('[data-pk]').forEach(function(e){e.style.background='';e.style.fontWeight='400';e.style.fontSize='13px';e.style.color='var(--muted-fg)'});this.style.background='var(--muted)';this.style.fontWeight='600';this.style.fontSize='14px';this.style.color='var(--fg)'" data-pk style="padding:8px;font-size:13px;color:var(--muted-fg);cursor:pointer;border-radius:4px;transition:all .15s">Option 3</div></div></div></div>`,
-    datepicker: () => `<div class="p-sec"><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--muted-fg)">Cancel</span><span style="font-size:14px;font-weight:600">Select Date</span><span style="font-size:13px;color:var(--primary);font-weight:500">Confirm</span></div><div style="display:flex;text-align:center;padding:12px"><div style="flex:1"><div style="font-size:11px;color:var(--muted-fg)">2025</div><div style="font-size:14px;font-weight:600;padding:6px 0">2026</div><div style="font-size:11px;color:var(--muted-fg)">2027</div></div><div style="flex:1"><div style="font-size:11px;color:var(--muted-fg)">03</div><div style="font-size:14px;font-weight:600;padding:6px 0">04</div><div style="font-size:11px;color:var(--muted-fg)">05</div></div><div style="flex:1"><div style="font-size:11px;color:var(--muted-fg)">07</div><div style="font-size:14px;font-weight:600;padding:6px 0">08</div><div style="font-size:11px;color:var(--muted-fg)">09</div></div></div></div></div>`,
-    calendar: () => {
-      const now = new Date()
-      const y = now.getFullYear(), m = now.getMonth()
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-      const daysInMonth = new Date(y, m + 1, 0).getDate()
-      const startDow = new Date(y, m, 1).getDay()
-      const today = now.getDate()
-      let cells = ''
-      for (let i = 0; i < startDow; i++) cells += '<span style="width:28px;height:28px"></span>'
-      for (let d = 1; d <= daysInMonth; d++) {
-        const isToday = d === today
-        const bg = isToday ? 'background:var(--primary);color:var(--primary-fg);font-weight:600' : 'cursor:pointer'
-        cells += `<span onclick="this.parentNode.querySelectorAll('[data-cd]').forEach(function(s){s.style.background='';s.style.color='';s.style.fontWeight=''});this.style.background='var(--primary)';this.style.color='var(--primary-fg)';this.style.fontWeight='600'" data-cd style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:11px;transition:all .15s;${bg}">${d}</span>`
-      }
-      return `<div class="p-sec"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="cursor:pointer;font-size:16px">‹</span><span style="font-size:13px;font-weight:600">${months[m]} ${y}</span><span style="cursor:pointer;font-size:16px">›</span></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center"><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">Su</span><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">Mo</span><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">Tu</span><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">We</span><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">Th</span><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">Fr</span><span style="font-size:10px;color:var(--muted-fg);padding:2px 0">Sa</span>${cells}</div></div>`
-    },
-    upload: () => `<div class="p-sec"><div class="p-label">Upload</div><div id="phone-upload" style="display:flex;gap:8px;flex-wrap:wrap"><div class="up-item" style="position:relative;width:60px;height:60px;border-radius:6px;overflow:hidden;background:var(--muted)"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted-fg)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><div onclick="this.parentNode.remove()" style="position:absolute;top:0;right:0;width:16px;height:16px;background:rgba(0,0,0,.6);border-radius:0 0 0 4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;cursor:pointer">×</div></div><div onclick="var w=document.getElementById('phone-upload');var d=document.createElement('div');d.className='up-item';d.style.cssText='position:relative;width:60px;height:60px;border-radius:6px;overflow:hidden;background:var(--muted)';d.innerHTML='<div style=\\'width:100%;height:100%;display:flex;align-items:center;justify-content:center\\'><svg width=\\'24\\' height=\\'24\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'var(--muted-fg)\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21 15 16 10 5 21\\'/></svg></div><div onclick=\\'this.parentNode.remove()\\' style=\\'position:absolute;top:0;right:0;width:16px;height:16px;background:rgba(0,0,0,.6);border-radius:0 0 0 4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;cursor:pointer\\'>×</div>';w.insertBefore(d,this)" style="width:60px;height:60px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s"><span style="font-size:24px;color:var(--muted-fg)">+</span></div></div></div>`,
-    table: () => `<div class="p-sec"><div class="p-label">Table</div><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:12px"><div style="display:flex;background:var(--muted)"><span style="flex:1;padding:8px;font-weight:600;border-right:1px solid var(--border)">Name</span><span style="flex:1;padding:8px;font-weight:600;border-right:1px solid var(--border)">Age</span><span style="flex:1;padding:8px;font-weight:600">Role</span></div><div onmouseenter="this.style.background='var(--muted)'" onmouseleave="this.style.background=''" style="display:flex;border-top:1px solid var(--border);cursor:pointer;transition:background .15s"><span style="flex:1;padding:8px;border-right:1px solid var(--border)">Alice</span><span style="flex:1;padding:8px;border-right:1px solid var(--border)">28</span><span style="flex:1;padding:8px">Dev</span></div><div onmouseenter="this.style.background='var(--muted)'" onmouseleave="this.style.background=''" style="display:flex;border-top:1px solid var(--border);cursor:pointer;transition:background .15s"><span style="flex:1;padding:8px;border-right:1px solid var(--border)">Bob</span><span style="flex:1;padding:8px;border-right:1px solid var(--border)">32</span><span style="flex:1;padding:8px">PM</span></div></div></div>`,
-    descriptions: () => `<div class="p-sec"><div class="p-label">Descriptions</div><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600">User Info</div><div style="display:grid;grid-template-columns:1fr 1fr"><div style="padding:10px 14px;border-bottom:1px solid var(--border)"><div style="font-size:11px;color:var(--muted-fg)">Name</div><div style="font-size:13px;margin-top:2px">Alice</div></div><div style="padding:10px 14px;border-bottom:1px solid var(--border)"><div style="font-size:11px;color:var(--muted-fg)">Age</div><div style="font-size:13px;margin-top:2px">28</div></div><div style="padding:10px 14px"><div style="font-size:11px;color:var(--muted-fg)">Email</div><div style="font-size:13px;margin-top:2px">alice@example.com</div></div><div style="padding:10px 14px"><div style="font-size:11px;color:var(--muted-fg)">Role</div><div style="font-size:13px;margin-top:2px">Developer</div></div></div></div></div>`,
-    list: () => `<div class="p-sec"><div class="p-label">List</div><div id="phone-list" style="display:flex;flex-direction:column"><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;transition:background .1s">Item 1</div><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;transition:background .1s">Item 2</div><div onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''" style="padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;transition:background .1s">Item 3</div><div onclick="var l=document.getElementById('phone-list');var n=l.children.length;var d=document.createElement('div');d.style.cssText='padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;transition:background .1s';d.textContent='Item '+n;l.insertBefore(d,this);if(n>=6)this.textContent='No more'" style="text-align:center;padding:12px 0;font-size:12px;color:var(--primary);cursor:pointer;transition:color .15s">Load more</div></div></div>`,
-    tooltip: () => `<div class="p-sec" style="padding-top:36px"><div style="display:flex;justify-content:center"><div style="position:relative" onmouseenter="this.querySelector('.tip').style.opacity='1';this.querySelector('.tip').style.transform='translateX(-50%) translateY(0)'" onmouseleave="this.querySelector('.tip').style.opacity='0';this.querySelector('.tip').style.transform='translateX(-50%) translateY(4px)'"><div class="tip" style="position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(0);background:var(--fg);color:var(--bg);padding:6px 10px;border-radius:5px;font-size:11px;white-space:nowrap;transition:opacity .2s,transform .2s;opacity:1">Tooltip text<div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--fg)"></div></div><span class="p-btn p-btn-outline" style="cursor:pointer">Hover me</span></div></div></div>`,
-    sidebar: () => `<div class="p-sec"><div class="p-label">Sidebar</div><div style="display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;height:140px"><div style="width:70px;background:var(--muted)"><div onclick="this.parentNode.querySelectorAll('[data-sb]').forEach(function(s){s.style.background='';s.style.fontWeight='400';s.querySelector('.sb-bar')&&(s.querySelector('.sb-bar').style.opacity='0')});this.style.background='var(--bg)';this.style.fontWeight='600';this.querySelector('.sb-bar').style.opacity='1'" data-sb style="padding:12px 8px;font-size:12px;text-align:center;cursor:pointer;position:relative;background:var(--bg);font-weight:600"><span class="sb-bar" style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:14px;background:var(--primary);border-radius:0 3px 3px 0;opacity:1;transition:opacity .15s"></span>All</div><div onclick="this.parentNode.querySelectorAll('[data-sb]').forEach(function(s){s.style.background='';s.style.fontWeight='400';s.querySelector('.sb-bar')&&(s.querySelector('.sb-bar').style.opacity='0')});this.style.background='var(--bg)';this.style.fontWeight='600';this.querySelector('.sb-bar').style.opacity='1'" data-sb style="padding:12px 8px;font-size:12px;text-align:center;cursor:pointer;position:relative"><span class="sb-bar" style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:14px;background:var(--primary);border-radius:0 3px 3px 0;opacity:0;transition:opacity .15s"></span>Hot</div><div onclick="this.parentNode.querySelectorAll('[data-sb]').forEach(function(s){s.style.background='';s.style.fontWeight='400';s.querySelector('.sb-bar')&&(s.querySelector('.sb-bar').style.opacity='0')});this.style.background='var(--bg)';this.style.fontWeight='600';this.querySelector('.sb-bar').style.opacity='1'" data-sb style="padding:12px 8px;font-size:12px;text-align:center;cursor:pointer;position:relative"><span class="sb-bar" style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:14px;background:var(--primary);border-radius:0 3px 3px 0;opacity:0;transition:opacity .15s"></span>New</div></div><div style="flex:1;padding:12px;font-size:12px;color:var(--muted-fg)">Content area</div></div></div>`,
-    breadcrumb: () => `<div class="p-sec"><div class="p-label">Breadcrumb</div><div style="display:flex;align-items:center;gap:4px;font-size:12px"><span onmouseenter="this.style.textDecoration='underline'" onmouseleave="this.style.textDecoration=''" style="color:var(--primary);cursor:pointer;transition:text-decoration .15s">Home</span><span style="color:var(--muted-fg)">/</span><span onmouseenter="this.style.textDecoration='underline'" onmouseleave="this.style.textDecoration=''" style="color:var(--primary);cursor:pointer;transition:text-decoration .15s">Category</span><span style="color:var(--muted-fg)">/</span><span style="font-weight:500">Current Page</span></div></div>`,
-    pagination: () => `<div class="p-sec"><div class="p-label">Pagination</div><div class="pgn-wrap" style="display:flex;align-items:center;gap:4px"><span onclick="var items=this.parentNode.querySelectorAll('[data-pg]');items.forEach(function(i){i.style.background='';i.style.color='';i.style.fontWeight=''});var prev=this.parentNode.querySelector('[data-pg].pgn-active');if(prev){var n=parseInt(prev.dataset.pg)-1;if(n>=1){prev.classList.remove('pgn-active');var t=this.parentNode.querySelector('[data-pg=\\''+n+'\\']');if(t){t.style.background='var(--primary)';t.style.color='var(--primary-fg)';t.style.fontWeight='600';t.classList.add('pgn-active')}}}" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:14px">‹</span><span data-pg="1" class="pgn-active" onclick="this.parentNode.querySelectorAll('[data-pg]').forEach(function(i){i.style.background='';i.style.color='';i.style.fontWeight='';i.classList.remove('pgn-active')});this.style.background='var(--primary)';this.style.color='var(--primary-fg)';this.style.fontWeight='600';this.classList.add('pgn-active')" style="min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:12px;cursor:pointer;background:var(--primary);color:var(--primary-fg);font-weight:600">1</span><span data-pg="2" onclick="this.parentNode.querySelectorAll('[data-pg]').forEach(function(i){i.style.background='';i.style.color='';i.style.fontWeight='';i.classList.remove('pgn-active')});this.style.background='var(--primary)';this.style.color='var(--primary-fg)';this.style.fontWeight='600';this.classList.add('pgn-active')" style="min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:12px;cursor:pointer">2</span><span data-pg="3" onclick="this.parentNode.querySelectorAll('[data-pg]').forEach(function(i){i.style.background='';i.style.color='';i.style.fontWeight='';i.classList.remove('pgn-active')});this.style.background='var(--primary)';this.style.color='var(--primary-fg)';this.style.fontWeight='600';this.classList.add('pgn-active')" style="min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:12px;cursor:pointer">3</span><span style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:14px">›</span></div></div>`,
-    indexbar: () => `<div class="p-sec"><div class="p-label">IndexBar</div><div style="display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;height:120px"><div style="flex:1;padding:10px;overflow-y:auto;font-size:12px"><div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:4px">A</div><div onmouseenter="this.style.color='var(--primary)'" onmouseleave="this.style.color='var(--muted-fg)'" style="padding:4px 0;color:var(--muted-fg);cursor:pointer;transition:color .15s">Alice</div><div onmouseenter="this.style.color='var(--primary)'" onmouseleave="this.style.color='var(--muted-fg)'" style="padding:4px 0;color:var(--muted-fg);cursor:pointer;transition:color .15s">Anna</div><div style="font-size:11px;font-weight:700;color:var(--primary);margin:6px 0 4px">B</div><div onmouseenter="this.style.color='var(--primary)'" onmouseleave="this.style.color='var(--muted-fg)'" style="padding:4px 0;color:var(--muted-fg);cursor:pointer;transition:color .15s">Bob</div></div><div style="display:flex;flex-direction:column;align-items:center;padding:4px 2px;gap:1px;font-size:9px;color:var(--muted-fg)"><span onclick="this.parentNode.querySelectorAll('span').forEach(function(s){s.style.color='';s.style.fontWeight=''});this.style.color='var(--primary)';this.style.fontWeight='700'" style="cursor:pointer;font-weight:700;color:var(--primary);transition:color .15s">A</span><span onclick="this.parentNode.querySelectorAll('span').forEach(function(s){s.style.color='';s.style.fontWeight=''});this.style.color='var(--primary)';this.style.fontWeight='700'" style="cursor:pointer;transition:color .15s">B</span><span onclick="this.parentNode.querySelectorAll('span').forEach(function(s){s.style.color='';s.style.fontWeight=''});this.style.color='var(--primary)';this.style.fontWeight='700'" style="cursor:pointer;transition:color .15s">C</span><span onclick="this.parentNode.querySelectorAll('span').forEach(function(s){s.style.color='';s.style.fontWeight=''});this.style.color='var(--primary)';this.style.fontWeight='700'" style="cursor:pointer;transition:color .15s">D</span><span onclick="this.parentNode.querySelectorAll('span').forEach(function(s){s.style.color='';s.style.fontWeight=''});this.style.color='var(--primary)';this.style.fontWeight='700'" style="cursor:pointer;transition:color .15s">E</span></div></div></div>`,
-    dropdownmenu: () => `<div class="p-sec"><div class="p-label">DropdownMenu</div><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="display:flex;justify-content:center;align-items:center;height:36px;gap:4px;cursor:pointer;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:500">Sort By</span><span style="font-size:10px">▾</span></div><div style="padding:4px 0"><div style="display:flex;justify-content:space-between;padding:10px 14px;font-size:13px;font-weight:600;color:var(--primary)" onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''"><span>Newest</span><span>✓</span></div><div style="padding:10px 14px;font-size:13px;color:var(--muted-fg);cursor:pointer" onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''">Popular</div><div style="padding:10px 14px;font-size:13px;color:var(--muted-fg);cursor:pointer" onmousedown="this.style.background='var(--muted)'" onmouseup="this.style.background=''" onmouseleave="this.style.background=''">Price</div></div></div></div>`,
-    transition: () => `<div class="p-sec"><div class="p-label">Transition</div><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;gap:8px"><span onclick="var box=document.getElementById('phone-trans-box');box.style.opacity=box.style.opacity==='0'?'1':'0'" class="p-btn p-btn-outline" style="cursor:pointer;height:24px;font-size:10px">Fade</span><span onclick="var box=document.getElementById('phone-trans-box');var v=box.style.transform==='translateY(20px)';box.style.transform=v?'translateY(0)':'translateY(20px)';box.style.opacity=v?'1':'0'" class="p-btn p-btn-outline" style="cursor:pointer;height:24px;font-size:10px">Slide</span><span onclick="var box=document.getElementById('phone-trans-box');var v=box.style.transform==='scale(0.5)';box.style.transform=v?'scale(1)':'scale(0.5)';box.style.opacity=v?'1':'0'" class="p-btn p-btn-outline" style="cursor:pointer;height:24px;font-size:10px">Zoom</span></div><div id="phone-trans-box" style="width:100%;height:60px;background:var(--primary);border-radius:6px;transition:all .3s;opacity:1"></div></div></div>`,
-    swipeaction: () => `<div class="p-sec"><div class="p-label">SwipeAction</div><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;position:relative"><div style="display:flex;padding:14px;font-size:13px;background:var(--bg)">← Swipe left to reveal actions</div><div style="position:absolute;right:0;top:0;bottom:0;display:flex"><div style="background:#ef4444;color:#fff;display:flex;align-items:center;padding:0 16px;font-size:12px">Delete</div></div></div><div style="margin-top:6px;font-size:10px;color:var(--muted-fg);text-align:center">Touch & swipe on mobile</div></div>`,
-    row: () => `<div class="p-sec"><div class="p-label">Row / Col Grid</div><div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px"><div style="flex:1;background:var(--primary);color:var(--primary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">span=12</div><div style="flex:1;background:var(--secondary);color:var(--secondary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">span=12</div></div><div style="display:flex;gap:8px"><div style="flex:1;background:var(--primary);color:var(--primary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">8</div><div style="flex:2;background:var(--secondary);color:var(--secondary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">16</div></div><div style="display:flex;gap:8px"><div style="flex:1;background:var(--primary);color:var(--primary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">6</div><div style="flex:1;background:var(--secondary);color:var(--secondary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">6</div><div style="flex:1;background:var(--primary);color:var(--primary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">6</div><div style="flex:1;background:var(--secondary);color:var(--secondary-fg);padding:8px;text-align:center;border-radius:4px;font-size:11px">6</div></div></div></div>`,
-    grid: () => `<div class="p-sec"><div class="p-label">Grid</div><div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:6px;overflow:hidden"><div style="padding:12px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><div style="font-size:10px;margin-top:4px">Home</div></div><div style="padding:12px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><div style="font-size:10px;margin-top:4px">Search</div></div><div style="padding:12px;text-align:center;border-right:1px solid var(--border);border-bottom:1px solid var(--border)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div style="font-size:10px;margin-top:4px">Profile</div></div><div style="padding:12px;text-align:center;border-bottom:1px solid var(--border)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09"/></svg><div style="font-size:10px;margin-top:4px">Setting</div></div></div></div>`,
-    scrollview: () => `<div class="p-sec"><div class="p-label">ScrollView</div><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;height:100px"><div style="padding:8px 12px;text-align:center;font-size:11px;color:var(--primary);border-bottom:1px solid var(--border)">↓ Pull to refresh</div><div style="padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px">Row 1</div><div style="padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px">Row 2</div><div style="padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px">Row 3</div><div style="padding:10px 12px;font-size:12px">Row 4</div></div></div>`,
-    swiper: () => `<div class="p-sec"><div class="p-label">Swiper</div><div style="border-radius:8px;overflow:hidden;height:80px;background:linear-gradient(135deg,var(--primary),#6366f1);display:flex;align-items:center;justify-content:center;position:relative"><span style="font-size:14px;font-weight:600;color:#fff">Slide 1 / 3</span><div style="position:absolute;bottom:6px;display:flex;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.9)"></span><span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)"></span><span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)"></span></div></div></div>`,
-    sticky: () => `<div class="p-sec"><div class="p-label">Sticky</div><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;height:100px;position:relative"><div style="position:sticky;top:0;z-index:1;background:var(--bg);padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600">Sticky Header (offset-top: 0)</div><div style="padding:10px 12px;font-size:12px;color:var(--muted-fg)">Scroll content below...</div><div style="padding:10px 12px;font-size:12px;color:var(--muted-fg)">More content...</div><div style="padding:10px 12px;font-size:12px;color:var(--muted-fg)">Even more content...</div></div></div>`,
+;(function buildPhoneDemos() {
+  const tips = (en, zh) => ({ en, zh })
+
+  const buttonClasses = {
+    default: 'p-btn-default',
+    secondary: 'p-btn-secondary',
+    destructive: 'p-btn-destructive',
+    outline: 'p-btn-outline',
+    ghost: 'p-btn-ghost',
   }
-  return (renders[id] || (() => `<div class="p-sec" style="text-align:center;padding:20px;color:var(--muted-fg);font-size:12px">Preview</div>`))()
-}
+
+  function demo(id, tip, html, mount) {
+    return { id, tip, html, mount }
+  }
+
+  function q(root, selector) {
+    return root.querySelector(selector)
+  }
+
+  function qa(root, selector) {
+    return Array.from(root.querySelectorAll(selector))
+  }
+
+  function section(label, body) {
+    return `<section class="p-sec"><div class="p-label">${label}</div>${body}</section>`
+  }
+
+  function surface(title, subtitle, body) {
+    return `<div class="p-surface">
+      <div class="p-title">${title}</div>
+      ${subtitle ? `<div class="p-subtitle">${subtitle}</div>` : ''}
+      ${body ? `<div class="p-stack" style="margin-top:10px">${body}</div>` : ''}
+    </div>`
+  }
+
+  function chip(label, attrs = '') {
+    return `<button type="button" class="p-chip" ${attrs}>${label}</button>`
+  }
+
+  function uiButton(label, cls = 'p-btn-default', attrs = '') {
+    return `<button type="button" class="p-btn ${cls}" ${attrs}>${label}</button>`
+  }
+
+  function hiddenPanel(className, body) {
+    return `<div class="${className} p-hidden">${body}</div>`
+  }
+
+  function delegate(root, eventName, handler) {
+    root.addEventListener(eventName, handler)
+    return () => root.removeEventListener(eventName, handler)
+  }
+
+  function getComp(id) {
+    return (window.TTDocs.allComponents || []).find((item) => item.id === id)
+  }
+
+  function getTipText(tip, lang) {
+    if (!tip) return ''
+    if (typeof tip === 'string') return tip
+    return tip[lang] || tip.en || ''
+  }
+
+  function fallbackDemo(id, ctx) {
+    const comp = getComp(id)
+    const title = comp ? comp.name : 'Preview'
+    const desc = ctx.lang === 'zh' && comp && comp.descZh ? comp.descZh : comp?.desc || 'Preview'
+    const props = (comp?.props || []).slice(0, 4).map(([name, type]) => (
+      `<div class="p-inline-actions"><span class="p-note">${name}</span><span class="p-demo-value">${type}</span></div>`
+    )).join('')
+    const examples = (comp?.examples || []).slice(0, 2).map((item) => (
+      `<span class="p-badge-soft">${ctx.lang === 'zh' && item.titleZh ? item.titleZh : item.title}</span>`
+    )).join('')
+
+    return demo(
+      id,
+      tips(
+        'This preview focuses on layout combinations and the key API surface.',
+        '这个预览主要展示布局组合和核心 API。'
+      ),
+      `<div class="p-stack">
+        ${surface(title, desc, `
+          <div class="p-cluster">${examples || '<span class="p-badge-soft">Quick Start</span>'}</div>
+          <div class="p-divider-space"></div>
+          ${props || '<div class="p-note">Open the examples on the left for complete usage patterns.</div>'}
+        `)}
+        ${surface(
+          ctx.lang === 'zh' ? '文档建议' : 'Docs Tips',
+          ctx.lang === 'zh' ? '查看左侧多段示例，组合真实页面结构。' : 'Use the example cards on the left to compose real screens.',
+          `<div class="p-note">${ctx.lang === 'zh'
+            ? '展示类组件会偏重状态、组合和主题示例；表单/反馈类组件则优先演示交互。'
+            : 'Display components focus on state, composition, and theming; form / feedback components prioritise interaction.'}</div>`
+        )}
+      </div>`
+    )
+  }
+
+  const renderers = {
+    button(ctx) {
+      return demo(
+        'button',
+        tips('Switch variant and state, then click the CTA.', '切换按钮风格和状态，然后点击 CTA。'),
+        `<div class="p-stack">
+          ${section('Variants', `<div class="p-chip-row">
+            ${chip('Default', 'data-variant="default"')}
+            ${chip('Secondary', 'data-variant="secondary"')}
+            ${chip('Outline', 'data-variant="outline"')}
+            ${chip('Ghost', 'data-variant="ghost"')}
+            ${chip('Danger', 'data-variant="destructive"')}
+          </div>`)}
+          ${section('State', `<div class="p-chip-row">
+            ${chip('SM', 'data-size="sm"')}
+            ${chip('MD', 'data-size="md"')}
+            ${chip('LG', 'data-size="lg"')}
+            ${chip('Loading', 'data-toggle="loading"')}
+            ${chip('Disabled', 'data-toggle="disabled"')}
+          </div>`)}
+          ${surface('Live CTA', 'Click to simulate a real action.', `
+            <div class="p-stack">
+              ${uiButton('Publish update', 'p-btn-default', 'data-live-button')}
+              <div class="p-inline-actions">
+                <span class="p-note">Last action</span>
+                <span class="p-demo-value" data-live-status>Idle</span>
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const state = { variant: 'default', size: 'md', disabled: false, loading: false, clicks: 0 }
+          const button = q(root, '[data-live-button]')
+          const status = q(root, '[data-live-status]')
+
+          function render() {
+            qa(root, '[data-variant]').forEach((node) => node.classList.toggle('is-active', node.dataset.variant === state.variant))
+            qa(root, '[data-size]').forEach((node) => node.classList.toggle('is-active', node.dataset.size === state.size))
+            qa(root, '[data-toggle]').forEach((node) => node.classList.toggle('is-active', !!state[node.dataset.toggle]))
+            button.className = `p-btn ${buttonClasses[state.variant]}`
+            button.disabled = state.disabled || state.loading
+            button.textContent = state.loading ? 'Saving...' : 'Publish update'
+            button.style.width = state.size === 'lg' ? '100%' : 'auto'
+            button.style.height = state.size === 'sm' ? '24px' : state.size === 'lg' ? '34px' : '28px'
+            button.style.fontSize = state.size === 'sm' ? '10px' : state.size === 'lg' ? '13px' : '11px'
+            button.style.opacity = state.disabled ? '0.5' : state.loading ? '0.72' : '1'
+            button.style.cursor = state.disabled ? 'not-allowed' : 'pointer'
+          }
+
+          render()
+
+          return delegate(root, 'click', (event) => {
+            const variant = event.target.closest('[data-variant]')
+            const size = event.target.closest('[data-size]')
+            const toggle = event.target.closest('[data-toggle]')
+            const liveButton = event.target.closest('[data-live-button]')
+
+            if (variant) {
+              state.variant = variant.dataset.variant
+              render()
+              return
+            }
+
+            if (size) {
+              state.size = size.dataset.size
+              render()
+              return
+            }
+
+            if (toggle) {
+              const key = toggle.dataset.toggle
+              state[key] = !state[key]
+              toggle.classList.toggle('is-active', state[key])
+              render()
+              return
+            }
+
+            if (liveButton && !state.disabled && !state.loading) {
+              state.clicks += 1
+              status.textContent = `Clicked ${state.clicks}x`
+            }
+          })
+        }
+      )
+    },
+    input() {
+      return demo(
+        'input',
+        tips('Type, clear, or apply a preset value.', '输入、清空，或者点击预设值。'),
+        `<div class="p-stack">
+          ${section('Presets', `<div class="p-chip-row">
+            ${chip('Ava Chen', 'data-fill="Ava Chen"')}
+            ${chip('release-note', 'data-fill="release-note"')}
+            ${chip('api.zoom.us', 'data-fill="api.zoom.us"')}
+          </div>`)}
+          ${surface('Interactive Input', 'Includes clear and live mirror feedback.', `
+            <div class="p-stack">
+              <div class="p-inline-actions">
+                <input class="p-input" data-demo-input placeholder="Type something..." value="Ava Chen" />
+                ${uiButton('Clear', 'p-btn-outline', 'style="height:32px;padding:0 10px" data-clear')}
+              </div>
+              <div class="p-inline-actions">
+                <span class="p-note">Mirror</span>
+                <span class="p-demo-value" data-input-value>Ava Chen</span>
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const input = q(root, '[data-demo-input]')
+          const mirror = q(root, '[data-input-value]')
+
+          const updateMirror = () => { mirror.textContent = input.value || 'Empty' }
+          updateMirror()
+
+          const cleanups = []
+          cleanups.push(delegate(root, 'click', (event) => {
+            const fill = event.target.closest('[data-fill]')
+            if (fill) {
+              input.value = fill.dataset.fill
+              updateMirror()
+            }
+            if (event.target.closest('[data-clear]')) {
+              input.value = ''
+              updateMirror()
+              input.focus()
+            }
+          }))
+          cleanups.push(delegate(input, 'input', updateMirror))
+          return () => cleanups.forEach((fn) => fn())
+        }
+      )
+    },
+    textarea() {
+      return demo(
+        'textarea',
+        tips('Try writing feedback and watch the live count update.', '输入反馈内容，实时查看字数变化。'),
+        `<div class="p-stack">
+          ${section('Templates', `<div class="p-chip-row">
+            ${chip('Bug report', 'data-template="Bug report: steps to reproduce..."')}
+            ${chip('Idea', 'data-template="Idea: bundle the mobile filters into a bottom sheet."')}
+          </div>`)}
+          ${surface('Feedback Box', 'Auto-size and word count feel.', `
+            <div class="p-stack">
+              <textarea class="p-input" data-demo-textarea style="min-height:92px;padding:10px;resize:none;font-family:inherit">The release checklist looks good.</textarea>
+              <div class="p-inline-actions">
+                <span class="p-note">Characters</span>
+                <span class="p-demo-value" data-textarea-count>31 / 240</span>
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const textarea = q(root, '[data-demo-textarea]')
+          const counter = q(root, '[data-textarea-count]')
+
+          const update = () => { counter.textContent = `${textarea.value.length} / 240` }
+          update()
+
+          const cleanups = []
+          cleanups.push(delegate(root, 'click', (event) => {
+            const template = event.target.closest('[data-template]')
+            if (template) {
+              textarea.value = template.dataset.template
+              update()
+            }
+          }))
+          cleanups.push(delegate(textarea, 'input', update))
+          return () => cleanups.forEach((fn) => fn())
+        }
+      )
+    },
+    checkbox() {
+      return demo(
+        'checkbox',
+        tips('Toggle checklist items and watch the completed count.', '勾选清单项，查看完成数量变化。'),
+        `<div class="p-stack">
+          ${surface('Release Checklist', 'Tap rows to toggle complete / pending.', `
+            <div class="p-list">
+              <div class="p-list-item is-active" data-check-row data-on="1"><span>Update changelog</span><span class="p-badge-soft">Done</span></div>
+              <div class="p-list-item" data-check-row data-on="0"><span>Notify QA channel</span><span class="p-note">Pending</span></div>
+              <div class="p-list-item" data-check-row data-on="0"><span>Upload app build</span><span class="p-note">Pending</span></div>
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Completed</span>
+              <span class="p-demo-value" data-check-count>1 / 3</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const count = q(root, '[data-check-count]')
+          const render = () => {
+            const rows = qa(root, '[data-check-row]')
+            const done = rows.filter((row) => row.dataset.on === '1').length
+            count.textContent = `${done} / ${rows.length}`
+            rows.forEach((row) => {
+              const on = row.dataset.on === '1'
+              row.classList.toggle('is-active', on)
+              row.lastElementChild.className = on ? 'p-badge-soft' : 'p-note'
+              row.lastElementChild.textContent = on ? 'Done' : 'Pending'
+            })
+          }
+          render()
+          return delegate(root, 'click', (event) => {
+            const row = event.target.closest('[data-check-row]')
+            if (!row) return
+            row.dataset.on = row.dataset.on === '1' ? '0' : '1'
+            render()
+          })
+        }
+      )
+    },
+    radio() {
+      return demo(
+        'radio',
+        tips('Select a single option to simulate real radio behaviour.', '选择一个选项，模拟真实单选行为。'),
+        `<div class="p-stack">
+          ${surface('Payment Method', 'Only one option can stay active.', `
+            <div class="p-list">
+              <div class="p-list-item is-active" data-radio="card"><span>Credit Card</span><span class="p-status"><span class="p-status-dot"></span>Default</span></div>
+              <div class="p-list-item" data-radio="bank"><span>Bank Transfer</span><span class="p-note">2-3 business days</span></div>
+              <div class="p-list-item" data-radio="wallet"><span>Wallet Balance</span><span class="p-note">Ready</span></div>
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Selected</span>
+              <span class="p-demo-value" data-radio-value>card</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const row = event.target.closest('[data-radio]')
+          if (!row) return
+          qa(root, '[data-radio]').forEach((item) => item.classList.toggle('is-active', item === row))
+          q(root, '[data-radio-value]').textContent = row.dataset.radio
+        })
+      )
+    },
+    switch() {
+      return demo(
+        'switch',
+        tips('Toggle multiple preferences and inspect the summary.', '切换多项偏好设置，并查看汇总状态。'),
+        `<div class="p-stack">
+          ${surface('Preferences', 'Independent switches with status summary.', `
+            <div class="p-list">
+              <div class="p-inline-actions"><span>Push alerts</span><span class="p-switch p-switch-on" data-switch="push"></span></div>
+              <div class="p-inline-actions"><span>Email digest</span><span class="p-switch" data-switch="email"></span></div>
+              <div class="p-inline-actions"><span>Dark mode sync</span><span class="p-switch p-switch-on" data-switch="theme"></span></div>
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Enabled</span>
+              <span class="p-demo-value" data-switch-count>2 / 3</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const count = q(root, '[data-switch-count]')
+          const render = () => {
+            const on = qa(root, '[data-switch].p-switch-on').length
+            count.textContent = `${on} / ${qa(root, '[data-switch]').length}`
+          }
+          render()
+          return delegate(root, 'click', (event) => {
+            const toggle = event.target.closest('[data-switch]')
+            if (!toggle) return
+            toggle.classList.toggle('p-switch-on')
+            render()
+          })
+        }
+      )
+    },
+    search() {
+      return demo(
+        'search',
+        tips('Type or use a history chip to update the fake search result.', '输入关键词或点击历史词条，更新模拟结果。'),
+        `<div class="p-stack">
+          ${surface('Search', 'Includes history and cancel action.', `
+            <div class="p-inline-actions">
+              <input class="p-input" data-search-input placeholder="Search orders / users / tickets" value="release" />
+              <button type="button" class="p-chip" data-search-cancel>Cancel</button>
+            </div>
+            <div class="p-chip-row">
+              ${chip('release', 'data-search-fill="release"')}
+              ${chip('mobile', 'data-search-fill="mobile"')}
+              ${chip('payments', 'data-search-fill="payments"')}
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Query</span>
+              <span class="p-demo-value" data-search-value>release</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const input = q(root, '[data-search-input]')
+          const value = q(root, '[data-search-value]')
+          const sync = () => { value.textContent = input.value || 'Empty' }
+          sync()
+
+          const cleanups = []
+          cleanups.push(delegate(root, 'click', (event) => {
+            const fill = event.target.closest('[data-search-fill]')
+            if (fill) {
+              input.value = fill.dataset.searchFill
+              sync()
+            }
+            if (event.target.closest('[data-search-cancel]')) {
+              input.value = ''
+              sync()
+            }
+          }))
+          cleanups.push(delegate(input, 'input', sync))
+          return () => cleanups.forEach((fn) => fn())
+        }
+      )
+    },
+    numberbox() {
+      return demo(
+        'numberbox',
+        tips('Increase or decrease quantity and watch the mock subtotal.', '增减数量，查看模拟小计实时变化。'),
+        `<div class="p-stack">
+          ${surface('Cart Stepper', 'Bounded between 1 and 8.', `
+            <div class="p-inline-actions">
+              <div style="display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+                <button type="button" class="p-chip" style="border:none;border-right:1px solid var(--border);border-radius:0" data-step="-1">-</button>
+                <span class="p-demo-value" data-step-value style="display:inline-flex;align-items:center;justify-content:center;min-width:42px">2</span>
+                <button type="button" class="p-chip" style="border:none;border-left:1px solid var(--border);border-radius:0" data-step="1">+</button>
+              </div>
+              <span class="p-badge-soft" data-step-total>$38</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const value = q(root, '[data-step-value]')
+          const total = q(root, '[data-step-total]')
+          let count = 2
+
+          const render = () => {
+            value.textContent = String(count)
+            total.textContent = `$${count * 19}`
+          }
+          render()
+
+          return delegate(root, 'click', (event) => {
+            const step = event.target.closest('[data-step]')
+            if (!step) return
+            count = Math.max(1, Math.min(8, count + Number(step.dataset.step)))
+            render()
+          })
+        }
+      )
+    },
+    rate() {
+      return demo(
+        'rate',
+        tips('Click any star to set a score and update the label.', '点击星级设置评分，并同步文案。'),
+        `<div class="p-stack">
+          ${surface('Review Score', 'Tap a star to update the score.', `
+            <div class="p-cluster" data-rate-stars>
+              ${[1, 2, 3, 4, 5].map((item) => `<button type="button" class="p-chip" data-rate="${item}">${item}★</button>`).join('')}
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Current</span>
+              <span class="p-demo-value" data-rate-value>4 / 5</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const value = q(root, '[data-rate-value]')
+          let score = 4
+          const render = () => {
+            value.textContent = `${score} / 5`
+            qa(root, '[data-rate]').forEach((node) => {
+              node.classList.toggle('is-active', Number(node.dataset.rate) <= score)
+            })
+          }
+          render()
+          return delegate(root, 'click', (event) => {
+            const star = event.target.closest('[data-rate]')
+            if (!star) return
+            score = Number(star.dataset.rate)
+            render()
+          })
+        }
+      )
+    },
+    slider() {
+      return demo(
+        'slider',
+        tips('Drag the range input to simulate slider feedback.', '拖动范围控件，模拟 slider 的反馈。'),
+        `<div class="p-stack">
+          ${surface('Budget Filter', 'Slide to update the price range.', `
+            <input class="p-range" data-slider type="range" min="0" max="100" value="36" />
+            <div class="p-progress"><div class="p-progress-bar" data-slider-bar style="width:36%"></div></div>
+            <div class="p-inline-actions">
+              <span class="p-note">Value</span>
+              <span class="p-demo-value" data-slider-value>36</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const slider = q(root, '[data-slider]')
+          const bar = q(root, '[data-slider-bar]')
+          const value = q(root, '[data-slider-value]')
+          const render = () => {
+            bar.style.width = `${slider.value}%`
+            value.textContent = slider.value
+          }
+          render()
+          return delegate(slider, 'input', render)
+        }
+      )
+    },
+    picker() {
+      return demo(
+        'picker',
+        tips('Open the panel, pick an option, and confirm it.', '打开面板、选择选项并确认。'),
+        `<div class="p-stack" style="position:relative;min-height:220px">
+          ${surface('Department', 'Controlled bottom sheet behaviour.', `
+            ${uiButton('Open picker', 'p-btn-outline', 'data-picker-open')}
+            <div class="p-inline-actions">
+              <span class="p-note">Selected</span>
+              <span class="p-demo-value" data-picker-value>Engineering / L2</span>
+            </div>
+          `)}
+          ${hiddenPanel('p-overlay', '')}
+          ${hiddenPanel('p-sheet', `
+            <div class="p-stack">
+              <div class="p-title">Select team</div>
+              <div class="p-list">
+                <div class="p-list-item is-active" data-picker-item="Engineering / L2">Engineering / L2</div>
+                <div class="p-list-item" data-picker-item="Design / L1">Design / L1</div>
+                <div class="p-list-item" data-picker-item="Marketing / L3">Marketing / L3</div>
+              </div>
+              <div class="p-inline-actions">
+                ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-picker-cancel')}
+                ${uiButton('Confirm', 'p-btn-default', 'style="height:28px" data-picker-confirm')}
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.p-overlay')
+          const sheet = q(root, '.p-sheet')
+          const value = q(root, '[data-picker-value]')
+          let draft = value.textContent
+
+          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
+          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
+
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-picker-open]')) open()
+            if (event.target.closest('[data-picker-cancel]') || event.target.closest('.p-overlay')) close()
+
+            const item = event.target.closest('[data-picker-item]')
+            if (item) {
+              draft = item.dataset.pickerItem
+              qa(root, '[data-picker-item]').forEach((node) => node.classList.toggle('is-active', node === item))
+            }
+
+            if (event.target.closest('[data-picker-confirm]')) {
+              value.textContent = draft
+              close()
+            }
+          })
+        }
+      )
+    },
+    datepicker() {
+      return demo(
+        'datepicker',
+        tips('Pick a mocked date from the bottom sheet.', '在底部面板中选择一个模拟日期。'),
+        `<div class="p-stack" style="position:relative;min-height:220px">
+          ${surface('Delivery Date', 'Open the sheet to pick a day.', `
+            ${uiButton('Choose date', 'p-btn-outline', 'data-date-open')}
+            <div class="p-inline-actions">
+              <span class="p-note">Selected</span>
+              <span class="p-demo-value" data-date-value>2026-04-09</span>
+            </div>
+          `)}
+          ${hiddenPanel('p-overlay', '')}
+          ${hiddenPanel('p-sheet', `
+            <div class="p-stack">
+              <div class="p-title">Select date</div>
+              <div class="p-list">
+                <div class="p-list-item is-active" data-date-item="2026-04-09">2026-04-09</div>
+                <div class="p-list-item" data-date-item="2026-04-12">2026-04-12</div>
+                <div class="p-list-item" data-date-item="2026-04-16">2026-04-16</div>
+              </div>
+              <div class="p-inline-actions">
+                ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-date-cancel')}
+                ${uiButton('Confirm', 'p-btn-default', 'style="height:28px" data-date-confirm')}
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.p-overlay')
+          const sheet = q(root, '.p-sheet')
+          const value = q(root, '[data-date-value]')
+          let draft = value.textContent
+
+          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
+          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
+
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-date-open]')) open()
+            if (event.target.closest('[data-date-cancel]') || event.target.closest('.p-overlay')) close()
+
+            const item = event.target.closest('[data-date-item]')
+            if (item) {
+              draft = item.dataset.dateItem
+              qa(root, '[data-date-item]').forEach((node) => node.classList.toggle('is-active', node === item))
+            }
+
+            if (event.target.closest('[data-date-confirm]')) {
+              value.textContent = draft
+              close()
+            }
+          })
+        }
+      )
+    },
+    calendar() {
+      return demo(
+        'calendar',
+        tips('Select available dates; disabled ones cannot be chosen.', '选择可用日期；禁用日期不可点击。'),
+        `<div class="p-stack">
+          ${surface('April 2026', 'Range-limited days inside the month view.', `
+            <div class="p-calendar">
+              ${['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14'].map((day, index) => {
+                const disabled = index < 2 || index > 11
+                const selected = day === '09'
+                return `<button type="button" class="p-cal-day${selected ? ' is-selected' : ''}${disabled ? ' is-disabled' : ''}" data-cal-day="${day}"${disabled ? ' disabled' : ''}>${day}</button>`
+              }).join('')}
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Selected</span>
+              <span class="p-demo-value" data-cal-value>2026-04-09</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const day = event.target.closest('[data-cal-day]')
+          if (!day || day.disabled) return
+          qa(root, '[data-cal-day]').forEach((node) => node.classList.toggle('is-selected', node === day))
+          q(root, '[data-cal-value]').textContent = `2026-04-${day.dataset.calDay}`
+        })
+      )
+    },
+    upload() {
+      return demo(
+        'upload',
+        tips('Add mocked assets or remove existing thumbnails.', '添加模拟资源，或删除现有缩略图。'),
+        `<div class="p-stack">
+          ${surface('Asset Picker', 'Simulate image upload and removal.', `
+            <div class="p-thumb-grid" data-upload-grid>
+              <button type="button" class="p-thumb is-filled" data-thumb="Cover">Cover</button>
+              <button type="button" class="p-thumb is-filled" data-thumb="Banner">Banner</button>
+              <button type="button" class="p-thumb" data-add-thumb>+ Add</button>
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Files</span>
+              <span class="p-demo-value" data-upload-count>2 / 6</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const grid = q(root, '[data-upload-grid]')
+          const count = q(root, '[data-upload-count]')
+          let nextIndex = 3
+
+          const render = () => {
+            const files = qa(root, '[data-thumb]').length
+            count.textContent = `${files} / 6`
+          }
+          render()
+
+          return delegate(root, 'click', (event) => {
+            const add = event.target.closest('[data-add-thumb]')
+            const thumb = event.target.closest('[data-thumb]')
+            if (add) {
+              if (qa(root, '[data-thumb]').length >= 6) return
+              const node = document.createElement('button')
+              node.type = 'button'
+              node.className = 'p-thumb is-filled'
+              node.dataset.thumb = `File ${nextIndex}`
+              node.textContent = `File ${nextIndex}`
+              nextIndex += 1
+              grid.insertBefore(node, add)
+              render()
+              return
+            }
+            if (thumb) {
+              thumb.remove()
+              render()
+            }
+          })
+        }
+      )
+    },
+    tabs() {
+      return demo(
+        'tabs',
+        tips('Switch tabs to update the content panel below.', '切换标签页，内容区域会同步变化。'),
+        `<div class="p-stack">
+          ${surface('Team Space', 'Segmented nav with linked content.', `
+            <div class="p-tabstrip">
+              <button type="button" class="is-active" data-tab="Overview">Overview</button>
+              <button type="button" data-tab="Analytics">Analytics</button>
+              <button type="button" disabled>Members</button>
+            </div>
+            <div class="p-surface" style="padding:10px">
+              <div class="p-title" data-tab-title>Overview</div>
+              <div class="p-note" data-tab-body>Daily summary, release health, and pending approvals.</div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const title = q(root, '[data-tab-title]')
+          const body = q(root, '[data-tab-body]')
+          const content = {
+            Overview: 'Daily summary, release health, and pending approvals.',
+            Analytics: 'Traffic sources, conversion trends, and retention deltas.',
+          }
+          return delegate(root, 'click', (event) => {
+            const tab = event.target.closest('[data-tab]')
+            if (!tab) return
+            qa(root, '[data-tab]').forEach((node) => node.classList.toggle('is-active', node === tab))
+            title.textContent = tab.dataset.tab
+            body.textContent = content[tab.dataset.tab]
+          })
+        }
+      )
+    },
+    pagination() {
+      return demo(
+        'pagination',
+        tips('Move between pages and watch the current page update.', '切换页码，当前页会实时更新。'),
+        `<div class="p-stack">
+          ${surface('Dataset Pages', 'Classic pagination with active highlight.', `
+            <div class="p-cluster" data-pages>
+              ${[1, 2, 3, 4, 5].map((page) => `<button type="button" class="p-chip${page === 2 ? ' is-active' : ''}" data-page="${page}">${page}</button>`).join('')}
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Current page</span>
+              <span class="p-demo-value" data-page-value>2</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const page = event.target.closest('[data-page]')
+          if (!page) return
+          qa(root, '[data-page]').forEach((node) => node.classList.toggle('is-active', node === page))
+          q(root, '[data-page-value]').textContent = page.dataset.page
+        })
+      )
+    },
+    dropdownmenu() {
+      return demo(
+        'dropdownmenu',
+        tips('Open the filter menu and pick a new sort option.', '打开筛选菜单并选择新的排序项。'),
+        `<div class="p-stack">
+          ${surface('Sort By', 'Simple filter dropdown interaction.', `
+            ${uiButton('Newest', 'p-btn-outline', 'data-dd-open style="width:100%;justify-content:space-between"')}
+            <div class="p-list p-hidden" data-dd-list style="margin-top:10px">
+              <div class="p-list-item is-active" data-dd-item="Newest">Newest</div>
+              <div class="p-list-item" data-dd-item="Popular">Popular</div>
+              <div class="p-list-item" data-dd-item="Price">Price</div>
+            </div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const open = event.target.closest('[data-dd-open]')
+          const item = event.target.closest('[data-dd-item]')
+          const list = q(root, '[data-dd-list]')
+
+          if (open) {
+            list.classList.toggle('p-hidden')
+          }
+          if (item) {
+            qa(root, '[data-dd-item]').forEach((node) => node.classList.toggle('is-active', node === item))
+            open.textContent = item.dataset.ddItem
+            list.classList.add('p-hidden')
+          }
+        })
+      )
+    },
+    popup() {
+      return demo(
+        'popup',
+        tips('Open and close the overlay to inspect popup behaviour.', '打开和关闭遮罩，查看 popup 行为。'),
+        `<div class="p-stack" style="position:relative;min-height:220px">
+          ${surface('Overlay Entry', 'Bottom-position popup with close.', `
+            ${uiButton('Open popup', 'p-btn-default', 'data-popup-open')}
+          `)}
+          ${hiddenPanel('p-overlay', '')}
+          ${hiddenPanel('p-sheet', `
+            <div class="p-stack">
+              <div class="p-inline-actions">
+                <div class="p-title">Quick actions</div>
+                ${uiButton('Close', 'p-btn-outline', 'style="height:26px" data-popup-close')}
+              </div>
+              <div class="p-note">Filters, shortcuts, and frequently used actions live here.</div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.p-overlay')
+          const sheet = q(root, '.p-sheet')
+          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
+          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-popup-open]')) open()
+            if (event.target.closest('[data-popup-close]') || event.target.closest('.p-overlay')) close()
+          })
+        }
+      )
+    },
+    dialog() {
+      return demo(
+        'dialog',
+        tips('Trigger the dialog, then confirm or cancel to close it.', '触发 dialog，再确认或取消关闭。'),
+        `<div class="p-stack" style="position:relative;min-height:240px">
+          ${surface('Danger Zone', 'Destructive action with explicit confirmation.', `
+            ${uiButton('Delete workspace', 'p-btn-destructive', 'data-dialog-open')}
+            <div class="p-inline-actions">
+              <span class="p-note">Last result</span>
+              <span class="p-demo-value" data-dialog-status>Awaiting action</span>
+            </div>
+          `)}
+          ${hiddenPanel('p-overlay', '')}
+          ${hiddenPanel('p-sheet', `
+            <div class="p-stack">
+              <div class="p-title">Delete workspace?</div>
+              <div class="p-note">This action cannot be undone once the data is removed.</div>
+              <div class="p-inline-actions">
+                ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-dialog-cancel')}
+                ${uiButton('Delete', 'p-btn-destructive', 'style="height:28px" data-dialog-confirm')}
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.p-overlay')
+          const sheet = q(root, '.p-sheet')
+          const status = q(root, '[data-dialog-status]')
+          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
+          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-dialog-open]')) open()
+            if (event.target.closest('[data-dialog-cancel]') || event.target.closest('.p-overlay')) {
+              status.textContent = 'Cancelled'
+              close()
+            }
+            if (event.target.closest('[data-dialog-confirm]')) {
+              status.textContent = 'Confirmed'
+              close()
+            }
+          })
+        }
+      )
+    },
+    toast() {
+      return demo(
+        'toast',
+        tips('Fire success / info / loading toasts and let them auto-hide.', '触发成功 / 普通 / 加载 toast，并观察自动消失。'),
+        `<div class="p-stack" style="position:relative;min-height:180px">
+          ${section('Quick Triggers', `<div class="p-cluster">
+            ${uiButton('Success', 'p-btn-default', 'data-toast="Saved successfully"')}
+            ${uiButton('Info', 'p-btn-outline', 'data-toast="Draft autosaved"')}
+            ${uiButton('Loading', 'p-btn-secondary', 'data-toast="Syncing..." data-toast-light="1"')}
+          </div>`)}
+          <div class="p-toast p-hidden" data-toast-node>Draft autosaved</div>
+        </div>`,
+        (root) => {
+          const toast = q(root, '[data-toast-node]')
+          let timer = null
+          const clear = () => { if (timer) window.clearTimeout(timer) }
+          const hide = () => toast.classList.add('p-hidden')
+
+          const cleanup = delegate(root, 'click', (event) => {
+            const btn = event.target.closest('[data-toast]')
+            if (!btn) return
+            clear()
+            toast.textContent = btn.dataset.toast
+            toast.classList.toggle('light', btn.dataset.toastLight === '1')
+            toast.classList.remove('p-hidden')
+            timer = window.setTimeout(hide, btn.dataset.toastLight === '1' ? 1200 : 1600)
+          })
+
+          return () => {
+            clear()
+            cleanup()
+          }
+        }
+      )
+    },
+    actionsheet() {
+      return demo(
+        'actionsheet',
+        tips('Open the action sheet and choose a mocked action.', '打开 ActionSheet，选择一个模拟操作。'),
+        `<div class="p-stack" style="position:relative;min-height:240px">
+          ${surface('Message Actions', 'Typical mobile bottom action sheet.', `
+            ${uiButton('More actions', 'p-btn-outline', 'data-as-open')}
+            <div class="p-inline-actions">
+              <span class="p-note">Selected</span>
+              <span class="p-demo-value" data-as-value>None</span>
+            </div>
+          `)}
+          ${hiddenPanel('p-overlay', '')}
+          ${hiddenPanel('p-sheet', `
+            <div class="p-stack">
+              <div class="p-title">Choose action</div>
+              <div class="p-list">
+                <div class="p-list-item" data-as-item="Pin message">Pin message</div>
+                <div class="p-list-item" data-as-item="Forward">Forward</div>
+                <div class="p-list-item" data-as-item="Delete" style="color:#ef4444">Delete</div>
+              </div>
+              ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-as-cancel')}
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.p-overlay')
+          const sheet = q(root, '.p-sheet')
+          const value = q(root, '[data-as-value]')
+          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
+          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-as-open]')) open()
+            if (event.target.closest('[data-as-cancel]') || event.target.closest('.p-overlay')) close()
+            const item = event.target.closest('[data-as-item]')
+            if (item) {
+              value.textContent = item.dataset.asItem
+              close()
+            }
+          })
+        }
+      )
+    },
+    sheet() {
+      return demo(
+        'sheet',
+        tips('Open the bottom panel to simulate a settings drawer.', '打开底部面板，模拟设置抽屉。'),
+        `<div class="p-stack" style="position:relative;min-height:220px">
+          ${surface('Quick Filters', 'Persistent sheet with contextual controls.', `
+            ${uiButton('Open panel', 'p-btn-outline', 'data-sheet-open')}
+          `)}
+          ${hiddenPanel('p-overlay', '')}
+          ${hiddenPanel('p-sheet', `
+            <div class="p-stack">
+              <div class="p-title">Workspace filters</div>
+              <div class="p-chip-row">
+                <span class="p-badge-soft">Open</span>
+                <span class="p-badge-soft">Assigned to me</span>
+                <span class="p-badge-soft">Today</span>
+              </div>
+              ${uiButton('Close', 'p-btn-outline', 'style="height:28px" data-sheet-close')}
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.p-overlay')
+          const sheet = q(root, '.p-sheet')
+          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
+          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-sheet-open]')) open()
+            if (event.target.closest('[data-sheet-close]') || event.target.closest('.p-overlay')) close()
+          })
+        }
+      )
+    },
+    noticebar() {
+      return demo(
+        'noticebar',
+        tips('Dismiss the bar, then restore it to test interaction.', '关闭通知栏，再恢复查看交互效果。'),
+        `<div class="p-stack">
+          <div class="p-surface" data-notice-wrap>
+            <div class="p-inline-actions">
+              <div class="p-subtitle">Planned maintenance tonight at 02:00 UTC.</div>
+              ${uiButton('x', 'p-btn-outline', 'style="height:24px;padding:0 8px" data-notice-close')}
+            </div>
+          </div>
+          ${uiButton('Restore notice', 'p-btn-outline', 'data-notice-reset')}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const wrap = q(root, '[data-notice-wrap]')
+          if (event.target.closest('[data-notice-close]')) wrap.classList.add('p-hidden')
+          if (event.target.closest('[data-notice-reset]')) wrap.classList.remove('p-hidden')
+        })
+      )
+    },
+    collapse() {
+      return demo(
+        'collapse',
+        tips('Expand different panels to inspect accordion behaviour.', '展开不同面板，查看折叠交互。'),
+        `<div class="p-stack">
+          ${surface('FAQ', 'Tap headers to open / close sections.', `
+            <div class="p-list">
+              <div class="p-list-item is-active" data-collapse="1">Billing cadence</div>
+              <div class="p-note" data-collapse-body="1">Invoices are generated on the first day of each month.</div>
+              <div class="p-list-item" data-collapse="2">How to invite members</div>
+              <div class="p-note p-hidden" data-collapse-body="2">Open workspace settings and choose Invite members.</div>
+              <div class="p-list-item" data-collapse="3">Where to download reports</div>
+              <div class="p-note p-hidden" data-collapse-body="3">Reports are available in Analytics → Exports.</div>
+            </div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const item = event.target.closest('[data-collapse]')
+          if (!item) return
+          const key = item.dataset.collapse
+          qa(root, '[data-collapse]').forEach((node) => node.classList.toggle('is-active', node === item))
+          qa(root, '[data-collapse-body]').forEach((node) => node.classList.toggle('p-hidden', node.dataset.collapseBody !== key))
+        })
+      )
+    },
+    sidebar() {
+      return demo(
+        'sidebar',
+        tips('Click a section to update the main content area.', '点击侧边项，右侧内容会同步切换。'),
+        `<div class="p-stack">
+          ${surface('Workspace Menu', 'Sidebar category navigation.', `
+            <div style="display:grid;grid-template-columns:92px 1fr;gap:12px">
+              <div class="p-list">
+                <div class="p-list-item is-active" data-side="Orders">Orders</div>
+                <div class="p-list-item" data-side="Coupons">Coupons</div>
+                <div class="p-list-item" data-side="Reviews">Reviews</div>
+              </div>
+              <div class="p-surface" style="padding:10px">
+                <div class="p-title" data-side-title>Orders</div>
+                <div class="p-note" data-side-body>Track pending deliveries and recent invoices.</div>
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const bodyMap = {
+            Orders: 'Track pending deliveries and recent invoices.',
+            Coupons: 'Manage limited discounts and campaign schedules.',
+            Reviews: 'Reply to feedback and moderate flagged content.',
+          }
+          return delegate(root, 'click', (event) => {
+            const item = event.target.closest('[data-side]')
+            if (!item) return
+            qa(root, '[data-side]').forEach((node) => node.classList.toggle('is-active', node === item))
+            q(root, '[data-side-title]').textContent = item.dataset.side
+            q(root, '[data-side-body]').textContent = bodyMap[item.dataset.side]
+          })
+        }
+      )
+    },
+    tabbar() {
+      return demo(
+        'tabbar',
+        tips('Switch the bottom tab to simulate mobile navigation.', '切换底部 tab，模拟移动端导航。'),
+        `<div class="p-stack">
+          ${surface('Current Screen', 'Tab selection updates the active label.', `
+            <div class="p-inline-actions">
+              <span class="p-note">Active tab</span>
+              <span class="p-demo-value" data-tabbar-value>Home</span>
+            </div>
+          `)}
+          <div class="p-surface" style="padding:8px 10px">
+            <div class="p-tabstrip">
+              <button type="button" class="is-active" data-tabbar="Home">Home</button>
+              <button type="button" data-tabbar="Inbox">Inbox</button>
+              <button type="button" data-tabbar="Profile">Profile</button>
+            </div>
+          </div>
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const tab = event.target.closest('[data-tabbar]')
+          if (!tab) return
+          qa(root, '[data-tabbar]').forEach((node) => node.classList.toggle('is-active', node === tab))
+          q(root, '[data-tabbar-value]').textContent = tab.dataset.tabbar
+        })
+      )
+    },
+    breadcrumb() {
+      return demo(
+        'breadcrumb',
+        tips('Navigate between crumbs to inspect hierarchy feedback.', '点击不同层级，查看面包屑反馈。'),
+        `<div class="p-stack">
+          ${surface('Project Path', 'Tap a crumb to make it current.', `
+            <div class="p-cluster">
+              <button type="button" class="p-chip" data-crumb="Workspace">Workspace</button>
+              <span class="p-note">/</span>
+              <button type="button" class="p-chip" data-crumb="Projects">Projects</button>
+              <span class="p-note">/</span>
+              <button type="button" class="p-chip is-active" data-crumb="Release Board">Release Board</button>
+            </div>
+            <div class="p-inline-actions">
+              <span class="p-note">Current</span>
+              <span class="p-demo-value" data-crumb-value>Release Board</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', (event) => {
+          const crumb = event.target.closest('[data-crumb]')
+          if (!crumb) return
+          qa(root, '[data-crumb]').forEach((node) => node.classList.toggle('is-active', node === crumb))
+          q(root, '[data-crumb-value]').textContent = crumb.dataset.crumb
+        })
+      )
+    },
+    indexbar() {
+      return demo(
+        'indexbar',
+        tips('Choose a letter to jump the highlighted section.', '点击字母，高亮对应分组。'),
+        `<div class="p-stack">
+          ${surface('Contact Index', 'Side letters jump between groups.', `
+            <div style="display:grid;grid-template-columns:1fr 20px;gap:8px">
+              <div class="p-surface" style="padding:10px">
+                <div class="p-title" data-index-title>A</div>
+                <div class="p-note" data-index-body>Alice, Adam, Amber</div>
+              </div>
+              <div class="p-list" style="gap:4px">
+                ${['A', 'B', 'C', 'D'].map((letter, index) => `<button type="button" class="p-chip${index === 0 ? ' is-active' : ''}" data-index="${letter}" style="padding:0">${letter}</button>`).join('')}
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const groups = {
+            A: 'Alice, Adam, Amber',
+            B: 'Ben, Bella, Brian',
+            C: 'Cindy, Chris, Carter',
+            D: 'Dora, Daniel, Dawn',
+          }
+          return delegate(root, 'click', (event) => {
+            const letter = event.target.closest('[data-index]')
+            if (!letter) return
+            qa(root, '[data-index]').forEach((node) => node.classList.toggle('is-active', node === letter))
+            q(root, '[data-index-title]').textContent = letter.dataset.index
+            q(root, '[data-index-body]').textContent = groups[letter.dataset.index]
+          })
+        }
+      )
+    },
+    progress() {
+      return demo(
+        'progress',
+        tips('Adjust the stage percentage to preview progress changes.', '调节阶段百分比，预览进度变化。'),
+        `<div class="p-stack">
+          ${surface('Campaign Progress', 'Drag to change the completion rate.', `
+            <input class="p-range" type="range" min="0" max="100" value="68" data-progress />
+            <div class="p-progress"><div class="p-progress-bar" data-progress-bar style="width:68%"></div></div>
+            <div class="p-inline-actions">
+              <span class="p-note">Completion</span>
+              <span class="p-demo-value" data-progress-value>68%</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const progress = q(root, '[data-progress]')
+          const bar = q(root, '[data-progress-bar]')
+          const value = q(root, '[data-progress-value]')
+          const update = () => {
+            bar.style.width = `${progress.value}%`
+            value.textContent = `${progress.value}%`
+          }
+          update()
+          return delegate(progress, 'input', update)
+        }
+      )
+    },
+    countdown() {
+      return demo(
+        'countdown',
+        tips('Start or reset a short timer to mimic countdown behaviour.', '开始或重置短计时，模拟倒计时行为。'),
+        `<div class="p-stack">
+          ${surface('Launch Countdown', 'Five-second demo timer.', `
+            <div class="p-inline-actions">
+              <span class="p-title" data-countdown-value>00:05</span>
+              <div class="p-cluster">
+                ${uiButton('Start', 'p-btn-default', 'style="height:28px" data-countdown-start')}
+                ${uiButton('Reset', 'p-btn-outline', 'style="height:28px" data-countdown-reset')}
+              </div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const value = q(root, '[data-countdown-value]')
+          let current = 5
+          let timer = null
+
+          const render = () => {
+            value.textContent = `00:0${current}`
+          }
+
+          const stop = () => {
+            if (timer) {
+              window.clearInterval(timer)
+              timer = null
+            }
+          }
+
+          render()
+
+          const cleanup = delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-countdown-start]') && !timer) {
+              timer = window.setInterval(() => {
+                current = Math.max(0, current - 1)
+                render()
+                if (current === 0) stop()
+              }, 1000)
+            }
+            if (event.target.closest('[data-countdown-reset]')) {
+              stop()
+              current = 5
+              render()
+            }
+          })
+
+          return () => {
+            stop()
+            cleanup()
+          }
+        }
+      )
+    },
+    list() {
+      return demo(
+        'list',
+        tips('Load more rows until the mock list reaches the end.', '继续加载更多，直到模拟列表完成。'),
+        `<div class="p-stack">
+          ${surface('Infinite Feed', 'Press load more to append items.', `
+            <div class="p-list" data-list-body>
+              <div class="p-list-item">Design sync notes</div>
+              <div class="p-list-item">Client feedback digest</div>
+            </div>
+            <div class="p-inline-actions">
+              ${uiButton('Load more', 'p-btn-outline', 'style="height:28px" data-list-load')}
+              <span class="p-note" data-list-status>2 loaded</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const body = q(root, '[data-list-body]')
+          const status = q(root, '[data-list-status]')
+          let count = 2
+
+          return delegate(root, 'click', (event) => {
+            if (!event.target.closest('[data-list-load]')) return
+            if (count >= 5) {
+              status.textContent = 'No more data'
+              return
+            }
+            count += 1
+            const node = document.createElement('div')
+            node.className = 'p-list-item'
+            node.textContent = `Generated row ${count}`
+            body.appendChild(node)
+            status.textContent = `${count} loaded`
+          })
+        }
+      )
+    },
+    swiper() {
+      return demo(
+        'swiper',
+        tips('Move across slides to preview carousel state changes.', '切换 slide，预览轮播状态变化。'),
+        `<div class="p-stack">
+          ${surface('Feature Carousel', 'Next / prev controls update the active slide.', `
+            <div class="p-surface" style="padding:16px;background:linear-gradient(135deg,var(--primary),#4f46e5);color:#fff">
+              <div class="p-title" style="color:#fff" data-swiper-title>Slide 1</div>
+              <div class="p-note" style="color:rgba(255,255,255,.82)" data-swiper-body>Overview of the release roadmap and milestones.</div>
+            </div>
+            <div class="p-inline-actions">
+              ${uiButton('Prev', 'p-btn-outline', 'style="height:28px" data-swiper-prev')}
+              ${uiButton('Next', 'p-btn-default', 'style="height:28px" data-swiper-next')}
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const slides = [
+            ['Slide 1', 'Overview of the release roadmap and milestones.'],
+            ['Slide 2', 'Design review highlights and unresolved edge cases.'],
+            ['Slide 3', 'Final QA checklist and launch timeline.'],
+          ]
+          const title = q(root, '[data-swiper-title]')
+          const body = q(root, '[data-swiper-body]')
+          let index = 0
+
+          const render = () => {
+            title.textContent = slides[index][0]
+            body.textContent = slides[index][1]
+          }
+          render()
+
+          return delegate(root, 'click', (event) => {
+            if (event.target.closest('[data-swiper-prev]')) {
+              index = (index + slides.length - 1) % slides.length
+              render()
+            }
+            if (event.target.closest('[data-swiper-next]')) {
+              index = (index + 1) % slides.length
+              render()
+            }
+          })
+        }
+      )
+    },
+  }
+
+  function buildDemo(id, ctx = {}) {
+    const renderer = renderers[id]
+    if (!renderer) return fallbackDemo(id, ctx)
+    return renderer(ctx)
+  }
+
+  window.TTDocs.getPhoneRender = function getPhoneRender(id, ctx = {}) {
+    return buildDemo(id, ctx).html
+  }
+
+  window.TTDocs.getPhoneDemoMeta = function getPhoneDemoMeta(id, lang = 'en') {
+    const current = buildDemo(id, { lang })
+    return {
+      tip: getTipText(current.tip, lang),
+      interactive: typeof current.mount === 'function',
+    }
+  }
+
+  window.TTDocs.mountPhoneDemo = function mountPhoneDemo(root, id, ctx = {}) {
+    const current = buildDemo(id, ctx)
+    if (typeof current.mount !== 'function') return null
+    return current.mount(root, ctx)
+  }
+})()

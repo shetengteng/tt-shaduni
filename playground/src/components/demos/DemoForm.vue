@@ -97,14 +97,12 @@
       <text class="demo-label">{{ t('form') }}</text>
       <text class="demo-desc">{{ t('form.desc') }}</text>
       <tt-form>
-        <view class="form-row">
-          <text class="form-lbl">Name</text>
+        <tt-form-item label="Name" required>
           <tt-input v-model="fname" placeholder="Your name" />
-        </view>
-        <view class="form-row">
-          <text class="form-lbl">Email</text>
+        </tt-form-item>
+        <tt-form-item label="Email">
           <tt-input v-model="femail" placeholder="Email" />
-        </view>
+        </tt-form-item>
         <tt-button block>Submit</tt-button>
       </tt-form>
     </view>
@@ -140,7 +138,3 @@ const fname = ref('')
 const femail = ref('')
 </script>
 
-<style>
-.form-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
-.form-lbl { font-size: 13px; font-weight: 600; color: var(--tt-foreground, #0a0a0a); }
-</style>

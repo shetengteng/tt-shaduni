@@ -28,11 +28,17 @@
     <view class="demo-block">
       <text class="demo-label">{{ t('space') }}</text>
       <text class="demo-desc">{{ t('space.desc') }}</text>
-      <view class="demo-row">
+      <tt-space :size="12">
         <tt-button size="sm">A</tt-button>
         <tt-button size="sm">B</tt-button>
         <tt-button size="sm">C</tt-button>
-      </view>
+      </tt-space>
+      <view style="height: 12px;" />
+      <tt-space direction="vertical" :size="8">
+        <tt-tag>Vertical A</tt-tag>
+        <tt-tag type="primary">Vertical B</tt-tag>
+        <tt-tag type="success">Vertical C</tt-tag>
+      </tt-space>
     </view>
 
     <view class="demo-block">
@@ -56,6 +62,18 @@
           <text style="color: #fff; font-size: 26rpx;">Sticky element (offset: 200rpx)</text>
         </view>
       </tt-sticky>
+    </view>
+
+    <view class="demo-block">
+      <text class="demo-label">{{ t('safearea') }}</text>
+      <text class="demo-desc">{{ t('safearea.desc') }}</text>
+      <view class="safe-area-demo">
+        <tt-safe-area position="top" />
+        <view style="padding: 20rpx 24rpx;">
+          <text class="demo-hint">Content between safe areas</text>
+        </view>
+        <tt-safe-area position="bottom" />
+      </view>
     </view>
 
     <view class="demo-block">
@@ -98,6 +116,11 @@ const collapseVal = ref(['a'])
 .grid-item-text {
   font-size: 26rpx;
   color: var(--tt-foreground, #0a0a0a);
+}
+.safe-area-demo {
+  border: 2rpx dashed var(--tt-border, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
+  background: var(--tt-muted, rgba(0,0,0,.04));
 }
 .swatch {
   width: 64rpx;

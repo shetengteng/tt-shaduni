@@ -53,26 +53,27 @@ function onChange(e: any) {
   background: var(--tt-primary, #171717) !important;
 }
 .tt-slider .uni-slider-handle {
+  position: absolute !important;
   width: 20px !important;
   height: 20px !important;
   border-radius: 50% !important;
   background: var(--tt-background, #fff) !important;
   border: 2px solid var(--tt-primary, #171717) !important;
   box-shadow: 0 1px 4px rgba(0,0,0,.12) !important;
-  margin-top: 0 !important;
+  margin-top: -10px !important;
   top: 50% !important;
-  transform: translateY(-50%) !important;
   box-sizing: border-box !important;
   cursor: grab !important;
+  z-index: 2 !important;
+}
+.tt-slider .uni-slider-handle::before,
+.tt-slider .uni-slider-handle::after {
+  display: none !important;
 }
 .tt-slider .uni-slider-thumb {
   width: 0 !important;
   height: 0 !important;
   opacity: 0 !important;
   overflow: hidden !important;
-}
-.tt-slider .uni-slider-handle::before,
-.tt-slider .uni-slider-handle::after {
-  display: none !important;
 }
 </style>

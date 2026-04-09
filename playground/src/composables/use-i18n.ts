@@ -143,6 +143,8 @@ const dict: Record<string, Record<string, string>> = {
   'collapse.desc': { en: 'Accordion expand/collapse panels', zh: '手风琴展开/收起面板' },
   'sticky': { en: 'Sticky', zh: '吸顶' },
   'sticky.desc': { en: 'Sticks child to top on scroll', zh: '滚动时子元素吸附顶部' },
+  'safearea': { en: 'SafeArea', zh: '安全区域' },
+  'safearea.desc': { en: 'Top/bottom safe area inset padding', zh: '顶部/底部安全区域内边距' },
   'theme': { en: 'Theme', zh: '主题' },
   'theme.desc': { en: 'CSS variable token system', zh: 'CSS 变量 Token 系统' },
 }
