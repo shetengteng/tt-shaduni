@@ -1,0 +1,1 @@
+import{d as a,c as t,w as s,o,a as e}from"./index-C0gb_x_6.js";import{C as m}from"./CompPageLayout.BCU0pVyJ.js";import{D as r}from"./DemoLayout.CBx77PwM.js";import"./use-i18n.Bzy4rpha.js";import"./tt-button.CNYhYid8.js";import"./tt-tag.C2xrBCr_.js";const p=a({__name:"safearea",setup:a=>(a,p)=>(o(),t(m,null,{default:s(()=>[e(r,{only:"safearea"})]),_:1}))});export{p as default};

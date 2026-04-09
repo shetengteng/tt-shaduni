@@ -8,11 +8,11 @@
         :class="{ 'tt-steps__item--done': i < active, 'tt-steps__item--active': i === active }"
       >
         <view class="tt-steps__head">
-          <view v-if="i > 0" class="tt-steps__line" :class="{ 'tt-steps__line--done': i <= active }" />
+          <view class="tt-steps__line" :class="{ 'tt-steps__line--done': i <= active, 'tt-steps__line--hide': i === 0 }" />
           <view class="tt-steps__circle" :class="{ 'tt-steps__circle--done': i < active, 'tt-steps__circle--active': i === active }">
             <text class="tt-steps__icon">{{ i < active ? '✓' : (item.icon || String(i + 1)) }}</text>
           </view>
-          <view v-if="i < items.length - 1" class="tt-steps__line" :class="{ 'tt-steps__line--done': i < active }" />
+          <view class="tt-steps__line" :class="{ 'tt-steps__line--done': i < active, 'tt-steps__line--hide': i === items.length - 1 }" />
         </view>
         <view class="tt-steps__main">
           <text class="tt-steps__title" :class="{ 'tt-steps__title--active': i <= active }">{{ item.title }}</text>
@@ -65,6 +65,9 @@ defineProps(stepsProps)
 }
 .tt-steps__line--done {
   background: var(--tt-primary, #171717);
+}
+.tt-steps__line--hide {
+  visibility: hidden;
 }
 .tt-steps--vertical .tt-steps__line {
   width: 2px;
