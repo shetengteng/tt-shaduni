@@ -3,442 +3,292 @@ window.TTDocs = window.TTDocs || {}
 ;(function buildPhoneDemos() {
   const tips = (en, zh) => ({ en, zh })
 
-  const buttonClasses = {
-    default: 'p-btn-default',
-    secondary: 'p-btn-secondary',
-    destructive: 'p-btn-destructive',
-    outline: 'p-btn-outline',
-    ghost: 'p-btn-ghost',
-  }
-
   function demo(id, tip, html, mount) {
     return { id, tip, html, mount }
   }
-
-  function q(root, selector) {
-    return root.querySelector(selector)
-  }
-
-  function qa(root, selector) {
-    return Array.from(root.querySelectorAll(selector))
-  }
+  function q(root, sel) { return root.querySelector(sel) }
+  function qa(root, sel) { return Array.from(root.querySelectorAll(sel)) }
+  function delegate(root, ev, fn) { root.addEventListener(ev, fn); return () => root.removeEventListener(ev, fn) }
 
   function section(label, body) {
     return `<section class="p-sec"><div class="p-label">${label}</div>${body}</section>`
   }
-
   function surface(title, subtitle, body) {
-    return `<div class="p-surface">
-      <div class="p-title">${title}</div>
-      ${subtitle ? `<div class="p-subtitle">${subtitle}</div>` : ''}
-      ${body ? `<div class="p-stack" style="margin-top:10px">${body}</div>` : ''}
-    </div>`
+    return `<div class="p-surface"><div class="p-title">${title}</div>${subtitle ? `<div class="p-subtitle">${subtitle}</div>` : ''}${body ? `<div class="p-stack" style="margin-top:10px">${body}</div>` : ''}</div>`
+  }
+  function hiddenPanel(cls, body) {
+    return `<div class="${cls} tt-hidden">${body}</div>`
   }
 
-  function chip(label, attrs = '') {
-    return `<button type="button" class="p-chip" ${attrs}>${label}</button>`
+  function ttBtn(label, variant, attrs) {
+    return `<button type="button" class="tt-button tt-button--${variant || 'default'} tt-button--md" ${attrs || ''}>${label}</button>`
+  }
+  function ttBtnSm(label, variant, attrs) {
+    return `<button type="button" class="tt-button tt-button--${variant || 'default'} tt-button--sm" ${attrs || ''}>${label}</button>`
   }
 
-  function uiButton(label, cls = 'p-btn-default', attrs = '') {
-    return `<button type="button" class="p-btn ${cls}" ${attrs}>${label}</button>`
-  }
-
-  function hiddenPanel(className, body) {
-    return `<div class="${className} p-hidden">${body}</div>`
-  }
-
-  function delegate(root, eventName, handler) {
-    root.addEventListener(eventName, handler)
-    return () => root.removeEventListener(eventName, handler)
-  }
-
-  function getComp(id) {
-    return (window.TTDocs.allComponents || []).find((item) => item.id === id)
-  }
-
-  function getTipText(tip, lang) {
-    if (!tip) return ''
-    if (typeof tip === 'string') return tip
-    return tip[lang] || tip.en || ''
-  }
+  function getComp(id) { return (window.TTDocs.allComponents || []).find(c => c.id === id) }
+  function getTipText(tip, lang) { return tip ? (typeof tip === 'string' ? tip : tip[lang] || tip.en || '') : '' }
 
   function fallbackDemo(id, ctx) {
     const comp = getComp(id)
     const title = comp ? comp.name : 'Preview'
-    const desc = ctx.lang === 'zh' && comp && comp.descZh ? comp.descZh : comp?.desc || 'Preview'
-    const props = (comp?.props || []).slice(0, 4).map(([name, type]) => (
+    const desc = ctx.lang === 'zh' && comp?.descZh ? comp.descZh : comp?.desc || 'Preview'
+    const props = (comp?.props || []).slice(0, 4).map(([name, type]) =>
       `<div class="p-inline-actions"><span class="p-note">${name}</span><span class="p-demo-value">${type}</span></div>`
-    )).join('')
-    const examples = (comp?.examples || []).slice(0, 2).map((item) => (
+    ).join('')
+    const examples = (comp?.examples || []).slice(0, 2).map(item =>
       `<span class="p-badge-soft">${ctx.lang === 'zh' && item.titleZh ? item.titleZh : item.title}</span>`
-    )).join('')
-
-    return demo(
-      id,
-      tips(
-        'This preview focuses on layout combinations and the key API surface.',
-        '这个预览主要展示布局组合和核心 API。'
-      ),
-      `<div class="p-stack">
-        ${surface(title, desc, `
-          <div class="p-cluster">${examples || '<span class="p-badge-soft">Quick Start</span>'}</div>
-          <div class="p-divider-space"></div>
-          ${props || '<div class="p-note">Open the examples on the left for complete usage patterns.</div>'}
-        `)}
-        ${surface(
-          ctx.lang === 'zh' ? '文档建议' : 'Docs Tips',
-          ctx.lang === 'zh' ? '查看左侧多段示例，组合真实页面结构。' : 'Use the example cards on the left to compose real screens.',
-          `<div class="p-note">${ctx.lang === 'zh'
-            ? '展示类组件会偏重状态、组合和主题示例；表单/反馈类组件则优先演示交互。'
-            : 'Display components focus on state, composition, and theming; form / feedback components prioritise interaction.'}</div>`
-        )}
-      </div>`
+    ).join('')
+    return demo(id, tips('Preview focuses on key API surface.', '预览主要展示核心 API。'),
+      `<div class="p-stack">${surface(title, desc, `<div class="p-cluster">${examples || '<span class="p-badge-soft">Quick Start</span>'}</div><div class="p-divider-space"></div>${props || '<div class="p-note">See examples on the left.</div>'}`)}</div>`
     )
   }
 
   const renderers = {
     button(ctx) {
-      return demo(
-        'button',
+      return demo('button',
         tips('Switch variant and state, then click the CTA.', '切换按钮风格和状态，然后点击 CTA。'),
         `<div class="p-stack">
-          ${section('Variants', `<div class="p-chip-row">
-            ${chip('Default', 'data-variant="default"')}
-            ${chip('Secondary', 'data-variant="secondary"')}
-            ${chip('Outline', 'data-variant="outline"')}
-            ${chip('Ghost', 'data-variant="ghost"')}
-            ${chip('Danger', 'data-variant="destructive"')}
-          </div>`)}
-          ${section('State', `<div class="p-chip-row">
-            ${chip('SM', 'data-size="sm"')}
-            ${chip('MD', 'data-size="md"')}
-            ${chip('LG', 'data-size="lg"')}
-            ${chip('Loading', 'data-toggle="loading"')}
-            ${chip('Disabled', 'data-toggle="disabled"')}
-          </div>`)}
-          ${surface('Live CTA', 'Click to simulate a real action.', `
-            <div class="p-stack">
-              ${uiButton('Publish update', 'p-btn-default', 'data-live-button')}
-              <div class="p-inline-actions">
-                <span class="p-note">Last action</span>
-                <span class="p-demo-value" data-live-status>Idle</span>
-              </div>
+          ${section('Variants', `<div class="p-stack" style="gap:6px">
+            <div class="p-cluster">
+              <button type="button" class="tt-button tt-button--default tt-button--sm" data-v="default">Default</button>
+              <button type="button" class="tt-button tt-button--secondary tt-button--sm" data-v="secondary">Secondary</button>
+              <button type="button" class="tt-button tt-button--outline tt-button--sm" data-v="outline">Outline</button>
             </div>
-          `)}
+            <div class="p-cluster">
+              <button type="button" class="tt-button tt-button--ghost tt-button--sm" data-v="ghost">Ghost</button>
+              <button type="button" class="tt-button tt-button--destructive tt-button--sm" data-v="destructive">Danger</button>
+              <button type="button" class="tt-button tt-button--link tt-button--sm" data-v="link">Link</button>
+            </div>
+          </div>`)}
+          ${section('Sizes', `<div class="p-cluster" style="align-items:center">
+            <button type="button" class="tt-button tt-button--default tt-button--sm">SM</button>
+            <button type="button" class="tt-button tt-button--default tt-button--md">MD</button>
+            <button type="button" class="tt-button tt-button--default tt-button--lg">LG</button>
+          </div>`)}
+          ${section('States', `<div class="p-cluster">
+            <button type="button" class="tt-button tt-button--default tt-button--sm tt-button--disabled" disabled>Disabled</button>
+            <button type="button" class="tt-button tt-button--default tt-button--sm tt-button--loading"><span class="tt-button__loading"><span class="tt-button__spinner"></span></span>Loading</button>
+          </div>`)}
+          ${surface('Block CTA', '', `<button type="button" class="tt-button tt-button--default tt-button--md tt-button--block" data-live-button>Publish update</button><div class="p-inline-actions"><span class="p-note">Last action</span><span class="p-demo-value" data-live-status>Idle</span></div>`)}
         </div>`,
         (root) => {
-          const state = { variant: 'default', size: 'md', disabled: false, loading: false, clicks: 0 }
-          const button = q(root, '[data-live-button]')
-          const status = q(root, '[data-live-status]')
-
-          function render() {
-            qa(root, '[data-variant]').forEach((node) => node.classList.toggle('is-active', node.dataset.variant === state.variant))
-            qa(root, '[data-size]').forEach((node) => node.classList.toggle('is-active', node.dataset.size === state.size))
-            qa(root, '[data-toggle]').forEach((node) => node.classList.toggle('is-active', !!state[node.dataset.toggle]))
-            button.className = `p-btn ${buttonClasses[state.variant]}`
-            button.disabled = state.disabled || state.loading
-            button.textContent = state.loading ? 'Saving...' : 'Publish update'
-            button.style.width = state.size === 'lg' ? '100%' : 'auto'
-            button.style.height = state.size === 'sm' ? '24px' : state.size === 'lg' ? '34px' : '28px'
-            button.style.fontSize = state.size === 'sm' ? '10px' : state.size === 'lg' ? '13px' : '11px'
-            button.style.opacity = state.disabled ? '0.5' : state.loading ? '0.72' : '1'
-            button.style.cursor = state.disabled ? 'not-allowed' : 'pointer'
-          }
-
-          render()
-
-          return delegate(root, 'click', (event) => {
-            const variant = event.target.closest('[data-variant]')
-            const size = event.target.closest('[data-size]')
-            const toggle = event.target.closest('[data-toggle]')
-            const liveButton = event.target.closest('[data-live-button]')
-
-            if (variant) {
-              state.variant = variant.dataset.variant
-              render()
-              return
-            }
-
-            if (size) {
-              state.size = size.dataset.size
-              render()
-              return
-            }
-
-            if (toggle) {
-              const key = toggle.dataset.toggle
-              state[key] = !state[key]
-              toggle.classList.toggle('is-active', state[key])
-              render()
-              return
-            }
-
-            if (liveButton && !state.disabled && !state.loading) {
-              state.clicks += 1
-              status.textContent = `Clicked ${state.clicks}x`
+          let clicks = 0
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-live-button]')) {
+              clicks++
+              q(root, '[data-live-status]').textContent = `Clicked ${clicks}x`
             }
           })
         }
       )
     },
+
     input() {
-      return demo(
-        'input',
-        tips('Type, clear, or apply a preset value.', '输入、清空，或者点击预设值。'),
+      return demo('input',
+        tips('Type, clear, or apply a preset.', '输入、清空，或点击预设值。'),
         `<div class="p-stack">
           ${section('Presets', `<div class="p-chip-row">
-            ${chip('Ava Chen', 'data-fill="Ava Chen"')}
-            ${chip('release-note', 'data-fill="release-note"')}
-            ${chip('api.zoom.us', 'data-fill="api.zoom.us"')}
+            <button class="p-chip" data-fill="Ava Chen">Ava Chen</button>
+            <button class="p-chip" data-fill="release-note">release-note</button>
           </div>`)}
-          ${surface('Interactive Input', 'Includes clear and live mirror feedback.', `
-            <div class="p-stack">
-              <div class="p-inline-actions">
-                <input class="p-input" data-demo-input placeholder="Type something..." value="Ava Chen" />
-                ${uiButton('Clear', 'p-btn-outline', 'style="height:32px;padding:0 10px" data-clear')}
-              </div>
-              <div class="p-inline-actions">
-                <span class="p-note">Mirror</span>
-                <span class="p-demo-value" data-input-value>Ava Chen</span>
-              </div>
+          ${surface('Interactive Input', '', `<div class="p-stack">
+            <div class="tt-input" data-input-wrap>
+              <input class="tt-input__inner" data-demo-input placeholder="Type something..." value="Ava Chen" />
+              <div class="tt-input__clear" data-clear><span class="tt-input__clear-icon">×</span></div>
             </div>
-          `)}
+            <div class="p-inline-actions"><span class="p-note">Mirror</span><span class="p-demo-value" data-mirror>Ava Chen</span></div>
+          </div>`)}
         </div>`,
         (root) => {
           const input = q(root, '[data-demo-input]')
-          const mirror = q(root, '[data-input-value]')
-
-          const updateMirror = () => { mirror.textContent = input.value || 'Empty' }
-          updateMirror()
-
-          const cleanups = []
-          cleanups.push(delegate(root, 'click', (event) => {
-            const fill = event.target.closest('[data-fill]')
-            if (fill) {
-              input.value = fill.dataset.fill
-              updateMirror()
-            }
-            if (event.target.closest('[data-clear]')) {
-              input.value = ''
-              updateMirror()
-              input.focus()
-            }
+          const mirror = q(root, '[data-mirror]')
+          const wrap = q(root, '[data-input-wrap]')
+          const sync = () => { mirror.textContent = input.value || 'Empty' }
+          input.addEventListener('focus', () => wrap.classList.add('tt-input--focused'))
+          input.addEventListener('blur', () => wrap.classList.remove('tt-input--focused'))
+          const cl = []
+          cl.push(delegate(root, 'click', e => {
+            const fill = e.target.closest('[data-fill]')
+            if (fill) { input.value = fill.dataset.fill; sync() }
+            if (e.target.closest('[data-clear]')) { input.value = ''; sync(); input.focus() }
           }))
-          cleanups.push(delegate(input, 'input', updateMirror))
-          return () => cleanups.forEach((fn) => fn())
+          cl.push(delegate(input, 'input', sync))
+          return () => cl.forEach(fn => fn())
         }
       )
     },
+
     textarea() {
-      return demo(
-        'textarea',
-        tips('Try writing feedback and watch the live count update.', '输入反馈内容，实时查看字数变化。'),
+      return demo('textarea',
+        tips('Write feedback and watch the live count.', '输入反馈内容，实时查看字数。'),
         `<div class="p-stack">
           ${section('Templates', `<div class="p-chip-row">
-            ${chip('Bug report', 'data-template="Bug report: steps to reproduce..."')}
-            ${chip('Idea', 'data-template="Idea: bundle the mobile filters into a bottom sheet."')}
+            <button class="p-chip" data-tpl="Bug report: steps to reproduce...">Bug report</button>
+            <button class="p-chip" data-tpl="Idea: bundle filters into a sheet.">Idea</button>
           </div>`)}
-          ${surface('Feedback Box', 'Auto-size and word count feel.', `
-            <div class="p-stack">
-              <textarea class="p-input" data-demo-textarea style="min-height:92px;padding:10px;resize:none;font-family:inherit">The release checklist looks good.</textarea>
-              <div class="p-inline-actions">
-                <span class="p-note">Characters</span>
-                <span class="p-demo-value" data-textarea-count>31 / 240</span>
-              </div>
+          ${surface('Feedback Box', '', `<div class="p-stack">
+            <div class="tt-textarea" data-ta-wrap>
+              <textarea class="tt-textarea__inner" data-ta>The release checklist looks good.</textarea>
+              <span class="tt-textarea__count" data-ta-count>31 / 240</span>
             </div>
-          `)}
+          </div>`)}
         </div>`,
         (root) => {
-          const textarea = q(root, '[data-demo-textarea]')
-          const counter = q(root, '[data-textarea-count]')
-
-          const update = () => { counter.textContent = `${textarea.value.length} / 240` }
+          const ta = q(root, '[data-ta]')
+          const counter = q(root, '[data-ta-count]')
+          const wrap = q(root, '[data-ta-wrap]')
+          const update = () => { counter.textContent = `${ta.value.length} / 240` }
+          ta.addEventListener('focus', () => wrap.classList.add('tt-textarea--focused'))
+          ta.addEventListener('blur', () => wrap.classList.remove('tt-textarea--focused'))
           update()
-
-          const cleanups = []
-          cleanups.push(delegate(root, 'click', (event) => {
-            const template = event.target.closest('[data-template]')
-            if (template) {
-              textarea.value = template.dataset.template
-              update()
-            }
+          const cl = []
+          cl.push(delegate(root, 'click', e => {
+            const tpl = e.target.closest('[data-tpl]')
+            if (tpl) { ta.value = tpl.dataset.tpl; update() }
           }))
-          cleanups.push(delegate(textarea, 'input', update))
-          return () => cleanups.forEach((fn) => fn())
+          cl.push(delegate(ta, 'input', update))
+          return () => cl.forEach(fn => fn())
         }
       )
     },
+
     checkbox() {
-      return demo(
-        'checkbox',
-        tips('Toggle checklist items and watch the completed count.', '勾选清单项，查看完成数量变化。'),
+      return demo('checkbox',
+        tips('Toggle checklist items and watch the count.', '勾选清单项，查看完成数量。'),
         `<div class="p-stack">
-          ${surface('Release Checklist', 'Tap rows to toggle complete / pending.', `
-            <div class="p-list">
-              <div class="p-list-item is-active" data-check-row data-on="1"><span>Update changelog</span><span class="p-badge-soft">Done</span></div>
-              <div class="p-list-item" data-check-row data-on="0"><span>Notify QA channel</span><span class="p-note">Pending</span></div>
-              <div class="p-list-item" data-check-row data-on="0"><span>Upload app build</span><span class="p-note">Pending</span></div>
-            </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Completed</span>
-              <span class="p-demo-value" data-check-count>1 / 3</span>
-            </div>
-          `)}
+          ${surface('Release Checklist', '', `<div class="p-stack" style="gap:10px">
+            <div class="tt-checkbox tt-checkbox--checked" data-ck><div class="tt-checkbox__box"><span class="tt-checkbox__check">✓</span></div><span class="tt-checkbox__label">Update changelog</span></div>
+            <div class="tt-checkbox" data-ck><div class="tt-checkbox__box"></div><span class="tt-checkbox__label">Notify QA channel</span></div>
+            <div class="tt-checkbox" data-ck><div class="tt-checkbox__box"></div><span class="tt-checkbox__label">Upload app build</span></div>
+            <div class="p-inline-actions"><span class="p-note">Completed</span><span class="p-demo-value" data-ck-count>1 / 3</span></div>
+          </div>`)}
         </div>`,
         (root) => {
-          const count = q(root, '[data-check-count]')
+          const counter = q(root, '[data-ck-count]')
           const render = () => {
-            const rows = qa(root, '[data-check-row]')
-            const done = rows.filter((row) => row.dataset.on === '1').length
-            count.textContent = `${done} / ${rows.length}`
-            rows.forEach((row) => {
-              const on = row.dataset.on === '1'
-              row.classList.toggle('is-active', on)
-              row.lastElementChild.className = on ? 'p-badge-soft' : 'p-note'
-              row.lastElementChild.textContent = on ? 'Done' : 'Pending'
-            })
+            const items = qa(root, '[data-ck]')
+            const done = items.filter(el => el.classList.contains('tt-checkbox--checked')).length
+            counter.textContent = `${done} / ${items.length}`
           }
-          render()
-          return delegate(root, 'click', (event) => {
-            const row = event.target.closest('[data-check-row]')
-            if (!row) return
-            row.dataset.on = row.dataset.on === '1' ? '0' : '1'
+          return delegate(root, 'click', e => {
+            const item = e.target.closest('[data-ck]')
+            if (!item) return
+            const on = item.classList.toggle('tt-checkbox--checked')
+            const box = item.querySelector('.tt-checkbox__box')
+            box.innerHTML = on ? '<span class="tt-checkbox__check">✓</span>' : ''
             render()
           })
         }
       )
     },
+
     radio() {
-      return demo(
-        'radio',
-        tips('Select a single option to simulate real radio behaviour.', '选择一个选项，模拟真实单选行为。'),
+      return demo('radio',
+        tips('Select a single option.', '选择一个选项。'),
         `<div class="p-stack">
-          ${surface('Payment Method', 'Only one option can stay active.', `
-            <div class="p-list">
-              <div class="p-list-item is-active" data-radio="card"><span>Credit Card</span><span class="p-status"><span class="p-status-dot"></span>Default</span></div>
-              <div class="p-list-item" data-radio="bank"><span>Bank Transfer</span><span class="p-note">2-3 business days</span></div>
-              <div class="p-list-item" data-radio="wallet"><span>Wallet Balance</span><span class="p-note">Ready</span></div>
-            </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Selected</span>
-              <span class="p-demo-value" data-radio-value>card</span>
-            </div>
-          `)}
+          ${surface('Payment Method', '', `<div class="p-stack" style="gap:10px">
+            <div class="tt-radio tt-radio--checked" data-rd="card"><div class="tt-radio__circle"><div class="tt-radio__dot"></div></div><span class="tt-radio__label">Credit Card</span></div>
+            <div class="tt-radio" data-rd="bank"><div class="tt-radio__circle"></div><span class="tt-radio__label">Bank Transfer</span></div>
+            <div class="tt-radio" data-rd="wallet"><div class="tt-radio__circle"></div><span class="tt-radio__label">Wallet Balance</span></div>
+            <div class="p-inline-actions"><span class="p-note">Selected</span><span class="p-demo-value" data-rd-val>card</span></div>
+          </div>`)}
         </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const row = event.target.closest('[data-radio]')
-          if (!row) return
-          qa(root, '[data-radio]').forEach((item) => item.classList.toggle('is-active', item === row))
-          q(root, '[data-radio-value]').textContent = row.dataset.radio
+        (root) => delegate(root, 'click', e => {
+          const item = e.target.closest('[data-rd]')
+          if (!item) return
+          qa(root, '[data-rd]').forEach(el => {
+            const on = el === item
+            el.classList.toggle('tt-radio--checked', on)
+            el.querySelector('.tt-radio__circle').innerHTML = on ? '<div class="tt-radio__dot"></div>' : ''
+          })
+          q(root, '[data-rd-val]').textContent = item.dataset.rd
         })
       )
     },
+
     switch() {
-      return demo(
-        'switch',
-        tips('Toggle multiple preferences and inspect the summary.', '切换多项偏好设置，并查看汇总状态。'),
+      return demo('switch',
+        tips('Toggle preferences and inspect the summary.', '切换偏好设置，查看汇总。'),
         `<div class="p-stack">
-          ${surface('Preferences', 'Independent switches with status summary.', `
-            <div class="p-list">
-              <div class="p-inline-actions"><span>Push alerts</span><span class="p-switch p-switch-on" data-switch="push"></span></div>
-              <div class="p-inline-actions"><span>Email digest</span><span class="p-switch" data-switch="email"></span></div>
-              <div class="p-inline-actions"><span>Dark mode sync</span><span class="p-switch p-switch-on" data-switch="theme"></span></div>
-            </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Enabled</span>
-              <span class="p-demo-value" data-switch-count>2 / 3</span>
-            </div>
-          `)}
+          ${surface('Preferences', '', `<div class="p-stack" style="gap:10px">
+            <div class="p-inline-actions"><span>Push alerts</span><div class="tt-switch tt-switch--on" data-sw="push"><div class="tt-switch__thumb"></div></div></div>
+            <div class="p-inline-actions"><span>Email digest</span><div class="tt-switch" data-sw="email"><div class="tt-switch__thumb"></div></div></div>
+            <div class="p-inline-actions"><span>Dark mode sync</span><div class="tt-switch tt-switch--on" data-sw="theme"><div class="tt-switch__thumb"></div></div></div>
+            <div class="p-inline-actions"><span class="p-note">Enabled</span><span class="p-demo-value" data-sw-count>2 / 3</span></div>
+          </div>`)}
         </div>`,
         (root) => {
-          const count = q(root, '[data-switch-count]')
-          const render = () => {
-            const on = qa(root, '[data-switch].p-switch-on').length
-            count.textContent = `${on} / ${qa(root, '[data-switch]').length}`
-          }
+          const counter = q(root, '[data-sw-count]')
+          const render = () => { counter.textContent = `${qa(root, '.tt-switch--on').length} / ${qa(root, '[data-sw]').length}` }
           render()
-          return delegate(root, 'click', (event) => {
-            const toggle = event.target.closest('[data-switch]')
-            if (!toggle) return
-            toggle.classList.toggle('p-switch-on')
+          return delegate(root, 'click', e => {
+            const sw = e.target.closest('[data-sw]')
+            if (!sw) return
+            sw.classList.toggle('tt-switch--on')
             render()
           })
         }
       )
     },
+
     search() {
-      return demo(
-        'search',
-        tips('Type or use a history chip to update the fake search result.', '输入关键词或点击历史词条，更新模拟结果。'),
+      return demo('search',
+        tips('Type or use history chips.', '输入关键词或点击历史词条。'),
         `<div class="p-stack">
-          ${surface('Search', 'Includes history and cancel action.', `
-            <div class="p-inline-actions">
-              <input class="p-input" data-search-input placeholder="Search orders / users / tickets" value="release" />
-              <button type="button" class="p-chip" data-search-cancel>Cancel</button>
+          ${surface('Search', '', `<div class="p-stack">
+            <div class="tt-search">
+              <input class="tt-search__input" data-s-input placeholder="Search orders / users" value="release" />
+              <span class="tt-search__cancel" data-s-cancel>Cancel</span>
             </div>
             <div class="p-chip-row">
-              ${chip('release', 'data-search-fill="release"')}
-              ${chip('mobile', 'data-search-fill="mobile"')}
-              ${chip('payments', 'data-search-fill="payments"')}
+              <button class="p-chip" data-s-fill="release">release</button>
+              <button class="p-chip" data-s-fill="mobile">mobile</button>
+              <button class="p-chip" data-s-fill="payments">payments</button>
             </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Query</span>
-              <span class="p-demo-value" data-search-value>release</span>
-            </div>
-          `)}
+            <div class="p-inline-actions"><span class="p-note">Query</span><span class="p-demo-value" data-s-val>release</span></div>
+          </div>`)}
         </div>`,
         (root) => {
-          const input = q(root, '[data-search-input]')
-          const value = q(root, '[data-search-value]')
-          const sync = () => { value.textContent = input.value || 'Empty' }
+          const input = q(root, '[data-s-input]')
+          const val = q(root, '[data-s-val]')
+          const sync = () => { val.textContent = input.value || 'Empty' }
           sync()
-
-          const cleanups = []
-          cleanups.push(delegate(root, 'click', (event) => {
-            const fill = event.target.closest('[data-search-fill]')
-            if (fill) {
-              input.value = fill.dataset.searchFill
-              sync()
-            }
-            if (event.target.closest('[data-search-cancel]')) {
-              input.value = ''
-              sync()
-            }
+          const cl = []
+          cl.push(delegate(root, 'click', e => {
+            const fill = e.target.closest('[data-s-fill]')
+            if (fill) { input.value = fill.dataset.sFill; sync() }
+            if (e.target.closest('[data-s-cancel]')) { input.value = ''; sync() }
           }))
-          cleanups.push(delegate(input, 'input', sync))
-          return () => cleanups.forEach((fn) => fn())
+          cl.push(delegate(input, 'input', sync))
+          return () => cl.forEach(fn => fn())
         }
       )
     },
+
     numberbox() {
-      return demo(
-        'numberbox',
-        tips('Increase or decrease quantity and watch the mock subtotal.', '增减数量，查看模拟小计实时变化。'),
+      return demo('numberbox',
+        tips('Adjust quantity with the stepper.', '增减数量，查看模拟小计。'),
         `<div class="p-stack">
-          ${surface('Cart Stepper', 'Bounded between 1 and 8.', `
-            <div class="p-inline-actions">
-              <div style="display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden">
-                <button type="button" class="p-chip" style="border:none;border-right:1px solid var(--border);border-radius:0" data-step="-1">-</button>
-                <span class="p-demo-value" data-step-value style="display:inline-flex;align-items:center;justify-content:center;min-width:42px">2</span>
-                <button type="button" class="p-chip" style="border:none;border-left:1px solid var(--border);border-radius:0" data-step="1">+</button>
-              </div>
-              <span class="p-badge-soft" data-step-total>$38</span>
+          ${surface('Cart Stepper', '', `<div class="p-inline-actions">
+            <div class="tt-number-box">
+              <button type="button" class="tt-number-box__btn" data-step="-1">−</button>
+              <span class="tt-number-box__value" data-step-val>2</span>
+              <button type="button" class="tt-number-box__btn" data-step="1">+</button>
             </div>
-          `)}
+            <span class="p-badge-soft" data-step-total>$38</span>
+          </div>`)}
         </div>`,
         (root) => {
-          const value = q(root, '[data-step-value]')
-          const total = q(root, '[data-step-total]')
           let count = 2
-
           const render = () => {
-            value.textContent = String(count)
-            total.textContent = `$${count * 19}`
+            q(root, '[data-step-val]').textContent = count
+            q(root, '[data-step-total]').textContent = `$${count * 19}`
           }
           render()
-
-          return delegate(root, 'click', (event) => {
-            const step = event.target.closest('[data-step]')
+          return delegate(root, 'click', e => {
+            const step = e.target.closest('[data-step]')
             if (!step) return
             count = Math.max(1, Math.min(8, count + Number(step.dataset.step)))
             render()
@@ -446,33 +296,26 @@ window.TTDocs = window.TTDocs || {}
         }
       )
     },
+
     rate() {
-      return demo(
-        'rate',
-        tips('Click any star to set a score and update the label.', '点击星级设置评分，并同步文案。'),
+      return demo('rate',
+        tips('Click a star to set the score.', '点击星级设置评分。'),
         `<div class="p-stack">
-          ${surface('Review Score', 'Tap a star to update the score.', `
-            <div class="p-cluster" data-rate-stars>
-              ${[1, 2, 3, 4, 5].map((item) => `<button type="button" class="p-chip" data-rate="${item}">${item}★</button>`).join('')}
+          ${surface('Review Score', '', `
+            <div class="tt-rate" data-rate-wrap>
+              ${[1,2,3,4,5].map(i => `<span class="tt-rate__star${i <= 4 ? ' tt-rate__star--active' : ''}" data-rate="${i}">★</span>`).join('')}
             </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Current</span>
-              <span class="p-demo-value" data-rate-value>4 / 5</span>
-            </div>
+            <div class="p-inline-actions"><span class="p-note">Current</span><span class="p-demo-value" data-rate-val>4 / 5</span></div>
           `)}
         </div>`,
         (root) => {
-          const value = q(root, '[data-rate-value]')
           let score = 4
           const render = () => {
-            value.textContent = `${score} / 5`
-            qa(root, '[data-rate]').forEach((node) => {
-              node.classList.toggle('is-active', Number(node.dataset.rate) <= score)
-            })
+            q(root, '[data-rate-val]').textContent = `${score} / 5`
+            qa(root, '[data-rate]').forEach(el => el.classList.toggle('tt-rate__star--active', Number(el.dataset.rate) <= score))
           }
-          render()
-          return delegate(root, 'click', (event) => {
-            const star = event.target.closest('[data-rate]')
+          return delegate(root, 'click', e => {
+            const star = e.target.closest('[data-rate]')
             if (!star) return
             score = Number(star.dataset.rate)
             render()
@@ -480,849 +323,1069 @@ window.TTDocs = window.TTDocs || {}
         }
       )
     },
+
     slider() {
-      return demo(
-        'slider',
-        tips('Drag the range input to simulate slider feedback.', '拖动范围控件，模拟 slider 的反馈。'),
+      return demo('slider',
+        tips('Drag to simulate slider feedback.', '拖动控件，模拟 slider 反馈。'),
         `<div class="p-stack">
-          ${surface('Budget Filter', 'Slide to update the price range.', `
-            <input class="p-range" data-slider type="range" min="0" max="100" value="36" />
-            <div class="p-progress"><div class="p-progress-bar" data-slider-bar style="width:36%"></div></div>
-            <div class="p-inline-actions">
-              <span class="p-note">Value</span>
-              <span class="p-demo-value" data-slider-value>36</span>
+          ${surface('Budget Filter', '', `
+            <div class="tt-slider">
+              <div class="tt-slider__track">
+                <div class="tt-slider__fill" data-sl-fill style="width:36%"></div>
+                <div class="tt-slider__thumb" data-sl-thumb style="left:calc(36% - 10px)"></div>
+              </div>
             </div>
+            <input type="range" min="0" max="100" value="36" data-sl-range style="width:100%;opacity:0;height:0;margin:0;position:absolute" />
+            <div class="p-inline-actions"><span class="p-note">Value</span><span class="p-demo-value" data-sl-val>36</span></div>
           `)}
         </div>`,
         (root) => {
-          const slider = q(root, '[data-slider]')
-          const bar = q(root, '[data-slider-bar]')
-          const value = q(root, '[data-slider-value]')
+          const range = q(root, '[data-sl-range]')
+          const fill = q(root, '[data-sl-fill]')
+          const thumb = q(root, '[data-sl-thumb]')
+          const val = q(root, '[data-sl-val]')
+          range.style.opacity = '0'
+          range.style.position = 'absolute'
+          range.style.width = '100%'
+          range.style.height = '20px'
+          range.style.top = '0'
+          range.style.cursor = 'pointer'
+          range.style.zIndex = '5'
+          range.parentElement.style.position = 'relative'
           const render = () => {
-            bar.style.width = `${slider.value}%`
-            value.textContent = slider.value
+            fill.style.width = `${range.value}%`
+            thumb.style.left = `calc(${range.value}% - 10px)`
+            val.textContent = range.value
           }
           render()
-          return delegate(slider, 'input', render)
+          return delegate(range, 'input', render)
         }
       )
     },
+
     picker() {
-      return demo(
-        'picker',
-        tips('Open the panel, pick an option, and confirm it.', '打开面板、选择选项并确认。'),
+      return demo('picker',
+        tips('Open the panel and pick an option.', '打开面板、选择选项并确认。'),
         `<div class="p-stack" style="position:relative;min-height:220px">
-          ${surface('Department', 'Controlled bottom sheet behaviour.', `
-            ${uiButton('Open picker', 'p-btn-outline', 'data-picker-open')}
-            <div class="p-inline-actions">
-              <span class="p-note">Selected</span>
-              <span class="p-demo-value" data-picker-value>Engineering / L2</span>
-            </div>
+          ${surface('Department', '', `
+            ${ttBtnSm('Open picker', 'outline', 'data-pk-open')}
+            <div class="p-inline-actions"><span class="p-note">Selected</span><span class="p-demo-value" data-pk-val>Engineering</span></div>
           `)}
-          ${hiddenPanel('p-overlay', '')}
-          ${hiddenPanel('p-sheet', `
-            <div class="p-stack">
-              <div class="p-title">Select team</div>
-              <div class="p-list">
-                <div class="p-list-item is-active" data-picker-item="Engineering / L2">Engineering / L2</div>
-                <div class="p-list-item" data-picker-item="Design / L1">Design / L1</div>
-                <div class="p-list-item" data-picker-item="Marketing / L3">Marketing / L3</div>
-              </div>
-              <div class="p-inline-actions">
-                ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-picker-cancel')}
-                ${uiButton('Confirm', 'p-btn-default', 'style="height:28px" data-picker-confirm')}
-              </div>
+          ${hiddenPanel('tt-overlay', '')}
+          <div class="tt-sheet tt-hidden" data-pk-sheet>
+            <div class="tt-sheet__title">Select team</div>
+            <div class="p-stack" style="gap:4px">
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-pk-item="Engineering"><span class="tt-cell__title">Engineering</span></div>
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-pk-item="Design"><span class="tt-cell__title">Design</span></div>
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-pk-item="Marketing"><span class="tt-cell__title">Marketing</span></div>
             </div>
-          `)}
+            <div class="p-inline-actions" style="margin-top:10px">
+              ${ttBtnSm('Cancel', 'outline', 'data-pk-cancel')}
+              ${ttBtnSm('Confirm', 'default', 'data-pk-confirm')}
+            </div>
+          </div>
         </div>`,
         (root) => {
-          const overlay = q(root, '.p-overlay')
-          const sheet = q(root, '.p-sheet')
-          const value = q(root, '[data-picker-value]')
-          let draft = value.textContent
-
-          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
-          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
-
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-picker-open]')) open()
-            if (event.target.closest('[data-picker-cancel]') || event.target.closest('.p-overlay')) close()
-
-            const item = event.target.closest('[data-picker-item]')
-            if (item) {
-              draft = item.dataset.pickerItem
-              qa(root, '[data-picker-item]').forEach((node) => node.classList.toggle('is-active', node === item))
-            }
-
-            if (event.target.closest('[data-picker-confirm]')) {
-              value.textContent = draft
-              close()
-            }
+          const overlay = q(root, '.tt-overlay')
+          const sheet = q(root, '[data-pk-sheet]')
+          const val = q(root, '[data-pk-val]')
+          let draft = val.textContent
+          const open = () => { overlay.classList.remove('tt-hidden'); sheet.classList.remove('tt-hidden') }
+          const close = () => { overlay.classList.add('tt-hidden'); sheet.classList.add('tt-hidden') }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-pk-open]')) open()
+            if (e.target.closest('[data-pk-cancel]') || e.target.closest('.tt-overlay')) close()
+            const item = e.target.closest('[data-pk-item]')
+            if (item) draft = item.dataset.pkItem
+            if (e.target.closest('[data-pk-confirm]')) { val.textContent = draft; close() }
           })
         }
       )
     },
+
     datepicker() {
-      return demo(
-        'datepicker',
-        tips('Pick a mocked date from the bottom sheet.', '在底部面板中选择一个模拟日期。'),
+      return demo('datepicker',
+        tips('Pick a date from the bottom sheet.', '在底部面板中选择日期。'),
         `<div class="p-stack" style="position:relative;min-height:220px">
-          ${surface('Delivery Date', 'Open the sheet to pick a day.', `
-            ${uiButton('Choose date', 'p-btn-outline', 'data-date-open')}
-            <div class="p-inline-actions">
-              <span class="p-note">Selected</span>
-              <span class="p-demo-value" data-date-value>2026-04-09</span>
-            </div>
+          ${surface('Delivery Date', '', `
+            ${ttBtnSm('Choose date', 'outline', 'data-dt-open')}
+            <div class="p-inline-actions"><span class="p-note">Selected</span><span class="p-demo-value" data-dt-val>2026-04-09</span></div>
           `)}
-          ${hiddenPanel('p-overlay', '')}
-          ${hiddenPanel('p-sheet', `
-            <div class="p-stack">
-              <div class="p-title">Select date</div>
-              <div class="p-list">
-                <div class="p-list-item is-active" data-date-item="2026-04-09">2026-04-09</div>
-                <div class="p-list-item" data-date-item="2026-04-12">2026-04-12</div>
-                <div class="p-list-item" data-date-item="2026-04-16">2026-04-16</div>
-              </div>
-              <div class="p-inline-actions">
-                ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-date-cancel')}
-                ${uiButton('Confirm', 'p-btn-default', 'style="height:28px" data-date-confirm')}
-              </div>
+          ${hiddenPanel('tt-overlay', '')}
+          <div class="tt-sheet tt-hidden" data-dt-sheet>
+            <div class="tt-sheet__title">Select date</div>
+            <div class="p-stack" style="gap:4px">
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-dt-item="2026-04-09"><span class="tt-cell__title">2026-04-09</span></div>
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-dt-item="2026-04-12"><span class="tt-cell__title">2026-04-12</span></div>
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-dt-item="2026-04-16"><span class="tt-cell__title">2026-04-16</span></div>
             </div>
-          `)}
+            <div class="p-inline-actions" style="margin-top:10px">
+              ${ttBtnSm('Cancel', 'outline', 'data-dt-cancel')}
+              ${ttBtnSm('Confirm', 'default', 'data-dt-confirm')}
+            </div>
+          </div>
         </div>`,
         (root) => {
-          const overlay = q(root, '.p-overlay')
-          const sheet = q(root, '.p-sheet')
-          const value = q(root, '[data-date-value]')
-          let draft = value.textContent
-
-          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
-          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
-
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-date-open]')) open()
-            if (event.target.closest('[data-date-cancel]') || event.target.closest('.p-overlay')) close()
-
-            const item = event.target.closest('[data-date-item]')
-            if (item) {
-              draft = item.dataset.dateItem
-              qa(root, '[data-date-item]').forEach((node) => node.classList.toggle('is-active', node === item))
-            }
-
-            if (event.target.closest('[data-date-confirm]')) {
-              value.textContent = draft
-              close()
-            }
+          const overlay = q(root, '.tt-overlay')
+          const sheet = q(root, '[data-dt-sheet]')
+          const val = q(root, '[data-dt-val]')
+          let draft = val.textContent
+          const open = () => { overlay.classList.remove('tt-hidden'); sheet.classList.remove('tt-hidden') }
+          const close = () => { overlay.classList.add('tt-hidden'); sheet.classList.add('tt-hidden') }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-dt-open]')) open()
+            if (e.target.closest('[data-dt-cancel]') || e.target.closest('.tt-overlay')) close()
+            const item = e.target.closest('[data-dt-item]')
+            if (item) draft = item.dataset.dtItem
+            if (e.target.closest('[data-dt-confirm]')) { val.textContent = draft; close() }
           })
         }
       )
     },
+
     calendar() {
-      return demo(
-        'calendar',
-        tips('Select available dates; disabled ones cannot be chosen.', '选择可用日期；禁用日期不可点击。'),
+      return demo('calendar',
+        tips('Select a date from the calendar.', '从日历中选择日期。'),
         `<div class="p-stack">
-          ${surface('April 2026', 'Range-limited days inside the month view.', `
+          ${surface('April 2026', '', `
             <div class="p-calendar">
-              ${['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14'].map((day, index) => {
-                const disabled = index < 2 || index > 11
-                const selected = day === '09'
-                return `<button type="button" class="p-cal-day${selected ? ' is-selected' : ''}${disabled ? ' is-disabled' : ''}" data-cal-day="${day}"${disabled ? ' disabled' : ''}>${day}</button>`
+              ${['01','02','03','04','05','06','07','08','09','10','11','12','13','14'].map((d, i) => {
+                const disabled = i < 2 || i > 11
+                const selected = d === '09'
+                return `<button type="button" class="p-cal-day${selected ? ' is-selected' : ''}${disabled ? ' is-disabled' : ''}" data-cal="${d}"${disabled ? ' disabled' : ''}>${d}</button>`
               }).join('')}
             </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Selected</span>
-              <span class="p-demo-value" data-cal-value>2026-04-09</span>
-            </div>
+            <div class="p-inline-actions"><span class="p-note">Selected</span><span class="p-demo-value" data-cal-val>2026-04-09</span></div>
           `)}
         </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const day = event.target.closest('[data-cal-day]')
+        (root) => delegate(root, 'click', e => {
+          const day = e.target.closest('[data-cal]')
           if (!day || day.disabled) return
-          qa(root, '[data-cal-day]').forEach((node) => node.classList.toggle('is-selected', node === day))
-          q(root, '[data-cal-value]').textContent = `2026-04-${day.dataset.calDay}`
+          qa(root, '[data-cal]').forEach(n => n.classList.toggle('is-selected', n === day))
+          q(root, '[data-cal-val]').textContent = `2026-04-${day.dataset.cal}`
         })
       )
     },
+
     upload() {
-      return demo(
-        'upload',
-        tips('Add mocked assets or remove existing thumbnails.', '添加模拟资源，或删除现有缩略图。'),
+      return demo('upload',
+        tips('Add or remove mock assets.', '添加或删除模拟资源。'),
         `<div class="p-stack">
-          ${surface('Asset Picker', 'Simulate image upload and removal.', `
-            <div class="p-thumb-grid" data-upload-grid>
+          ${surface('Asset Picker', '', `
+            <div class="p-thumb-grid" data-up-grid>
               <button type="button" class="p-thumb is-filled" data-thumb="Cover">Cover</button>
               <button type="button" class="p-thumb is-filled" data-thumb="Banner">Banner</button>
               <button type="button" class="p-thumb" data-add-thumb>+ Add</button>
             </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Files</span>
-              <span class="p-demo-value" data-upload-count>2 / 6</span>
-            </div>
+            <div class="p-inline-actions"><span class="p-note">Files</span><span class="p-demo-value" data-up-count>2 / 6</span></div>
           `)}
         </div>`,
         (root) => {
-          const grid = q(root, '[data-upload-grid]')
-          const count = q(root, '[data-upload-count]')
-          let nextIndex = 3
-
-          const render = () => {
-            const files = qa(root, '[data-thumb]').length
-            count.textContent = `${files} / 6`
-          }
+          const grid = q(root, '[data-up-grid]')
+          const counter = q(root, '[data-up-count]')
+          let idx = 3
+          const render = () => { counter.textContent = `${qa(root, '[data-thumb]').length} / 6` }
           render()
-
-          return delegate(root, 'click', (event) => {
-            const add = event.target.closest('[data-add-thumb]')
-            const thumb = event.target.closest('[data-thumb]')
+          return delegate(root, 'click', e => {
+            const add = e.target.closest('[data-add-thumb]')
+            const thumb = e.target.closest('[data-thumb]')
             if (add) {
               if (qa(root, '[data-thumb]').length >= 6) return
-              const node = document.createElement('button')
-              node.type = 'button'
-              node.className = 'p-thumb is-filled'
-              node.dataset.thumb = `File ${nextIndex}`
-              node.textContent = `File ${nextIndex}`
-              nextIndex += 1
-              grid.insertBefore(node, add)
-              render()
-              return
-            }
-            if (thumb) {
-              thumb.remove()
-              render()
-            }
+              const n = document.createElement('button')
+              n.type = 'button'; n.className = 'p-thumb is-filled'; n.dataset.thumb = `File ${idx}`; n.textContent = `File ${idx}`
+              idx++; grid.insertBefore(n, add); render()
+            } else if (thumb) { thumb.remove(); render() }
           })
         }
       )
     },
-    tabs() {
-      return demo(
-        'tabs',
-        tips('Switch tabs to update the content panel below.', '切换标签页，内容区域会同步变化。'),
-        `<div class="p-stack">
-          ${surface('Team Space', 'Segmented nav with linked content.', `
-            <div class="p-tabstrip">
-              <button type="button" class="is-active" data-tab="Overview">Overview</button>
-              <button type="button" data-tab="Analytics">Analytics</button>
-              <button type="button" disabled>Members</button>
-            </div>
-            <div class="p-surface" style="padding:10px">
-              <div class="p-title" data-tab-title>Overview</div>
-              <div class="p-note" data-tab-body>Daily summary, release health, and pending approvals.</div>
-            </div>
-          `)}
-        </div>`,
-        (root) => {
-          const title = q(root, '[data-tab-title]')
-          const body = q(root, '[data-tab-body]')
-          const content = {
-            Overview: 'Daily summary, release health, and pending approvals.',
-            Analytics: 'Traffic sources, conversion trends, and retention deltas.',
-          }
-          return delegate(root, 'click', (event) => {
-            const tab = event.target.closest('[data-tab]')
-            if (!tab) return
-            qa(root, '[data-tab]').forEach((node) => node.classList.toggle('is-active', node === tab))
-            title.textContent = tab.dataset.tab
-            body.textContent = content[tab.dataset.tab]
-          })
-        }
-      )
-    },
-    pagination() {
-      return demo(
-        'pagination',
-        tips('Move between pages and watch the current page update.', '切换页码，当前页会实时更新。'),
-        `<div class="p-stack">
-          ${surface('Dataset Pages', 'Classic pagination with active highlight.', `
-            <div class="p-cluster" data-pages>
-              ${[1, 2, 3, 4, 5].map((page) => `<button type="button" class="p-chip${page === 2 ? ' is-active' : ''}" data-page="${page}">${page}</button>`).join('')}
-            </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Current page</span>
-              <span class="p-demo-value" data-page-value>2</span>
-            </div>
-          `)}
-        </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const page = event.target.closest('[data-page]')
-          if (!page) return
-          qa(root, '[data-page]').forEach((node) => node.classList.toggle('is-active', node === page))
-          q(root, '[data-page-value]').textContent = page.dataset.page
-        })
-      )
-    },
-    dropdownmenu() {
-      return demo(
-        'dropdownmenu',
-        tips('Open the filter menu and pick a new sort option.', '打开筛选菜单并选择新的排序项。'),
-        `<div class="p-stack">
-          ${surface('Sort By', 'Simple filter dropdown interaction.', `
-            ${uiButton('Newest', 'p-btn-outline', 'data-dd-open style="width:100%;justify-content:space-between"')}
-            <div class="p-list p-hidden" data-dd-list style="margin-top:10px">
-              <div class="p-list-item is-active" data-dd-item="Newest">Newest</div>
-              <div class="p-list-item" data-dd-item="Popular">Popular</div>
-              <div class="p-list-item" data-dd-item="Price">Price</div>
-            </div>
-          `)}
-        </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const open = event.target.closest('[data-dd-open]')
-          const item = event.target.closest('[data-dd-item]')
-          const list = q(root, '[data-dd-list]')
 
-          if (open) {
-            list.classList.toggle('p-hidden')
-          }
-          if (item) {
-            qa(root, '[data-dd-item]').forEach((node) => node.classList.toggle('is-active', node === item))
-            open.textContent = item.dataset.ddItem
-            list.classList.add('p-hidden')
-          }
-        })
-      )
-    },
-    popup() {
-      return demo(
-        'popup',
-        tips('Open and close the overlay to inspect popup behaviour.', '打开和关闭遮罩，查看 popup 行为。'),
-        `<div class="p-stack" style="position:relative;min-height:220px">
-          ${surface('Overlay Entry', 'Bottom-position popup with close.', `
-            ${uiButton('Open popup', 'p-btn-default', 'data-popup-open')}
-          `)}
-          ${hiddenPanel('p-overlay', '')}
-          ${hiddenPanel('p-sheet', `
-            <div class="p-stack">
-              <div class="p-inline-actions">
-                <div class="p-title">Quick actions</div>
-                ${uiButton('Close', 'p-btn-outline', 'style="height:26px" data-popup-close')}
-              </div>
-              <div class="p-note">Filters, shortcuts, and frequently used actions live here.</div>
+    form() {
+      return demo('form',
+        tips('Fill a form with tt-form-item layout.', '使用 tt-form-item 填写表单。'),
+        `<div class="p-stack">
+          ${surface('Contact Form', '', `<div class="p-stack">
+            <div class="tt-form-item">
+              <div class="tt-form-item__label"><span class="tt-form-item__required">*</span>Name</div>
+              <div class="tt-form-item__content"><div class="tt-input"><input class="tt-input__inner" placeholder="Your name" /></div></div>
             </div>
-          `)}
-        </div>`,
-        (root) => {
-          const overlay = q(root, '.p-overlay')
-          const sheet = q(root, '.p-sheet')
-          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
-          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-popup-open]')) open()
-            if (event.target.closest('[data-popup-close]') || event.target.closest('.p-overlay')) close()
-          })
-        }
-      )
-    },
-    dialog() {
-      return demo(
-        'dialog',
-        tips('Trigger the dialog, then confirm or cancel to close it.', '触发 dialog，再确认或取消关闭。'),
-        `<div class="p-stack" style="position:relative;min-height:240px">
-          ${surface('Danger Zone', 'Destructive action with explicit confirmation.', `
-            ${uiButton('Delete workspace', 'p-btn-destructive', 'data-dialog-open')}
-            <div class="p-inline-actions">
-              <span class="p-note">Last result</span>
-              <span class="p-demo-value" data-dialog-status>Awaiting action</span>
+            <div class="tt-form-item">
+              <div class="tt-form-item__label">Email</div>
+              <div class="tt-form-item__content"><div class="tt-input"><input class="tt-input__inner" placeholder="hello@team.dev" /></div></div>
             </div>
-          `)}
-          ${hiddenPanel('p-overlay', '')}
-          ${hiddenPanel('p-sheet', `
-            <div class="p-stack">
-              <div class="p-title">Delete workspace?</div>
-              <div class="p-note">This action cannot be undone once the data is removed.</div>
-              <div class="p-inline-actions">
-                ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-dialog-cancel')}
-                ${uiButton('Delete', 'p-btn-destructive', 'style="height:28px" data-dialog-confirm')}
-              </div>
-            </div>
-          `)}
-        </div>`,
-        (root) => {
-          const overlay = q(root, '.p-overlay')
-          const sheet = q(root, '.p-sheet')
-          const status = q(root, '[data-dialog-status]')
-          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
-          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-dialog-open]')) open()
-            if (event.target.closest('[data-dialog-cancel]') || event.target.closest('.p-overlay')) {
-              status.textContent = 'Cancelled'
-              close()
-            }
-            if (event.target.closest('[data-dialog-confirm]')) {
-              status.textContent = 'Confirmed'
-              close()
-            }
-          })
-        }
-      )
-    },
-    toast() {
-      return demo(
-        'toast',
-        tips('Fire success / info / loading toasts and let them auto-hide.', '触发成功 / 普通 / 加载 toast，并观察自动消失。'),
-        `<div class="p-stack" style="position:relative;min-height:180px">
-          ${section('Quick Triggers', `<div class="p-cluster">
-            ${uiButton('Success', 'p-btn-default', 'data-toast="Saved successfully"')}
-            ${uiButton('Info', 'p-btn-outline', 'data-toast="Draft autosaved"')}
-            ${uiButton('Loading', 'p-btn-secondary', 'data-toast="Syncing..." data-toast-light="1"')}
+            <button type="button" class="tt-button tt-button--default tt-button--md tt-button--block">Submit</button>
           </div>`)}
-          <div class="p-toast p-hidden" data-toast-node>Draft autosaved</div>
-        </div>`,
-        (root) => {
-          const toast = q(root, '[data-toast-node]')
-          let timer = null
-          const clear = () => { if (timer) window.clearTimeout(timer) }
-          const hide = () => toast.classList.add('p-hidden')
+        </div>`
+      )
+    },
 
-          const cleanup = delegate(root, 'click', (event) => {
-            const btn = event.target.closest('[data-toast]')
-            if (!btn) return
-            clear()
-            toast.textContent = btn.dataset.toast
-            toast.classList.toggle('light', btn.dataset.toastLight === '1')
-            toast.classList.remove('p-hidden')
-            timer = window.setTimeout(hide, btn.dataset.toastLight === '1' ? 1200 : 1600)
-          })
-
-          return () => {
-            clear()
-            cleanup()
-          }
-        }
-      )
-    },
-    actionsheet() {
-      return demo(
-        'actionsheet',
-        tips('Open the action sheet and choose a mocked action.', '打开 ActionSheet，选择一个模拟操作。'),
-        `<div class="p-stack" style="position:relative;min-height:240px">
-          ${surface('Message Actions', 'Typical mobile bottom action sheet.', `
-            ${uiButton('More actions', 'p-btn-outline', 'data-as-open')}
-            <div class="p-inline-actions">
-              <span class="p-note">Selected</span>
-              <span class="p-demo-value" data-as-value>None</span>
-            </div>
-          `)}
-          ${hiddenPanel('p-overlay', '')}
-          ${hiddenPanel('p-sheet', `
-            <div class="p-stack">
-              <div class="p-title">Choose action</div>
-              <div class="p-list">
-                <div class="p-list-item" data-as-item="Pin message">Pin message</div>
-                <div class="p-list-item" data-as-item="Forward">Forward</div>
-                <div class="p-list-item" data-as-item="Delete" style="color:#ef4444">Delete</div>
-              </div>
-              ${uiButton('Cancel', 'p-btn-outline', 'style="height:28px" data-as-cancel')}
-            </div>
-          `)}
-        </div>`,
-        (root) => {
-          const overlay = q(root, '.p-overlay')
-          const sheet = q(root, '.p-sheet')
-          const value = q(root, '[data-as-value]')
-          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
-          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-as-open]')) open()
-            if (event.target.closest('[data-as-cancel]') || event.target.closest('.p-overlay')) close()
-            const item = event.target.closest('[data-as-item]')
-            if (item) {
-              value.textContent = item.dataset.asItem
-              close()
-            }
-          })
-        }
-      )
-    },
-    sheet() {
-      return demo(
-        'sheet',
-        tips('Open the bottom panel to simulate a settings drawer.', '打开底部面板，模拟设置抽屉。'),
-        `<div class="p-stack" style="position:relative;min-height:220px">
-          ${surface('Quick Filters', 'Persistent sheet with contextual controls.', `
-            ${uiButton('Open panel', 'p-btn-outline', 'data-sheet-open')}
-          `)}
-          ${hiddenPanel('p-overlay', '')}
-          ${hiddenPanel('p-sheet', `
-            <div class="p-stack">
-              <div class="p-title">Workspace filters</div>
-              <div class="p-chip-row">
-                <span class="p-badge-soft">Open</span>
-                <span class="p-badge-soft">Assigned to me</span>
-                <span class="p-badge-soft">Today</span>
-              </div>
-              ${uiButton('Close', 'p-btn-outline', 'style="height:28px" data-sheet-close')}
-            </div>
-          `)}
-        </div>`,
-        (root) => {
-          const overlay = q(root, '.p-overlay')
-          const sheet = q(root, '.p-sheet')
-          const open = () => { overlay.classList.remove('p-hidden'); sheet.classList.remove('p-hidden') }
-          const close = () => { overlay.classList.add('p-hidden'); sheet.classList.add('p-hidden') }
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-sheet-open]')) open()
-            if (event.target.closest('[data-sheet-close]') || event.target.closest('.p-overlay')) close()
-          })
-        }
-      )
-    },
-    noticebar() {
-      return demo(
-        'noticebar',
-        tips('Dismiss the bar, then restore it to test interaction.', '关闭通知栏，再恢复查看交互效果。'),
+    tabs() {
+      return demo('tabs',
+        tips('Switch tabs to update content.', '切换标签页，内容同步变化。'),
         `<div class="p-stack">
-          <div class="p-surface" data-notice-wrap>
-            <div class="p-inline-actions">
-              <div class="p-subtitle">Planned maintenance tonight at 02:00 UTC.</div>
-              ${uiButton('x', 'p-btn-outline', 'style="height:24px;padding:0 8px" data-notice-close')}
+          ${surface('Team Space', '', `
+            <div class="tt-tabs">
+              <div class="tt-tabs__item tt-tabs__item--active" data-tab="Overview">Overview</div>
+              <div class="tt-tabs__item" data-tab="Analytics">Analytics</div>
+              <div class="tt-tabs__item" style="opacity:.5">Members</div>
             </div>
+            <div class="p-surface" style="padding:10px;margin-top:8px">
+              <div class="p-title" data-tab-title>Overview</div>
+              <div class="p-note" data-tab-body>Daily summary, release health, and approvals.</div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const content = { Overview: 'Daily summary, release health, and approvals.', Analytics: 'Traffic sources, conversion trends, and retention.' }
+          return delegate(root, 'click', e => {
+            const tab = e.target.closest('[data-tab]')
+            if (!tab) return
+            qa(root, '[data-tab]').forEach(n => n.classList.toggle('tt-tabs__item--active', n === tab))
+            q(root, '[data-tab-title]').textContent = tab.dataset.tab
+            q(root, '[data-tab-body]').textContent = content[tab.dataset.tab]
+          })
+        }
+      )
+    },
+
+    cell() {
+      return demo('cell',
+        tips('Tap cells to see link behaviour.', '点击单元格查看链接效果。'),
+        `<div class="p-stack">
+          ${surface('Settings', '', `
+            <div class="tt-cell"><span class="tt-cell__title">Account</span><span class="tt-cell__value">Go<span class="tt-cell__arrow"> ›</span></span></div>
+            <div class="tt-cell"><span class="tt-cell__title">Notifications</span><span class="tt-cell__value">On<span class="tt-cell__arrow"> ›</span></span></div>
+            <div class="tt-cell" style="border-bottom:none"><span class="tt-cell__title">About</span><span class="tt-cell__value">v1.0<span class="tt-cell__arrow"> ›</span></span></div>
+          `)}
+        </div>`
+      )
+    },
+
+    navbar() {
+      return demo('navbar',
+        tips('Preview navbar with back arrow.', '预览带返回箭头的导航栏。'),
+        `<div class="p-stack">
+          <div class="tt-navbar"><span class="tt-navbar__left">‹</span><span class="tt-navbar__title">Page Title</span></div>
+          <div class="p-surface" style="padding:20px;text-align:center"><div class="p-note">Page content below navbar</div></div>
+        </div>`
+      )
+    },
+
+    tabbar() {
+      return demo('tabbar',
+        tips('Switch tabs to simulate mobile nav.', '切换底部 tab 模拟移动端导航。'),
+        `<div class="p-stack">
+          ${surface('Active Tab', '', `<div class="p-inline-actions"><span class="p-note">Active</span><span class="p-demo-value" data-tb-val>Home</span></div>`)}
+          <div class="tt-tabbar">
+            <div class="tt-tabbar__item tt-tabbar__item--active" data-tb="Home">Home</div>
+            <div class="tt-tabbar__item" data-tb="Inbox">Inbox</div>
+            <div class="tt-tabbar__item" data-tb="Profile">Profile</div>
           </div>
-          ${uiButton('Restore notice', 'p-btn-outline', 'data-notice-reset')}
         </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const wrap = q(root, '[data-notice-wrap]')
-          if (event.target.closest('[data-notice-close]')) wrap.classList.add('p-hidden')
-          if (event.target.closest('[data-notice-reset]')) wrap.classList.remove('p-hidden')
+        (root) => delegate(root, 'click', e => {
+          const tab = e.target.closest('[data-tb]')
+          if (!tab) return
+          qa(root, '[data-tb]').forEach(n => n.classList.toggle('tt-tabbar__item--active', n === tab))
+          q(root, '[data-tb-val]').textContent = tab.dataset.tb
         })
       )
     },
-    collapse() {
-      return demo(
-        'collapse',
-        tips('Expand different panels to inspect accordion behaviour.', '展开不同面板，查看折叠交互。'),
+
+    steps() {
+      return demo('steps',
+        tips('View the step indicator.', '查看步骤指示器。'),
         `<div class="p-stack">
-          ${surface('FAQ', 'Tap headers to open / close sections.', `
-            <div class="p-list">
-              <div class="p-list-item is-active" data-collapse="1">Billing cadence</div>
-              <div class="p-note" data-collapse-body="1">Invoices are generated on the first day of each month.</div>
-              <div class="p-list-item" data-collapse="2">How to invite members</div>
-              <div class="p-note p-hidden" data-collapse-body="2">Open workspace settings and choose Invite members.</div>
-              <div class="p-list-item" data-collapse="3">Where to download reports</div>
-              <div class="p-note p-hidden" data-collapse-body="3">Reports are available in Analytics → Exports.</div>
+          ${surface('Order Flow', '', `
+            <div class="tt-steps">
+              <div class="tt-step tt-step--done"><div class="tt-step__circle">✓</div><span class="tt-step__title">Order</span></div>
+              <div class="tt-step tt-step--active"><div class="tt-step__circle">2</div><span class="tt-step__title">Pay</span></div>
+              <div class="tt-step"><div class="tt-step__circle">3</div><span class="tt-step__title">Done</span></div>
             </div>
           `)}
-        </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const item = event.target.closest('[data-collapse]')
-          if (!item) return
-          const key = item.dataset.collapse
-          qa(root, '[data-collapse]').forEach((node) => node.classList.toggle('is-active', node === item))
-          qa(root, '[data-collapse-body]').forEach((node) => node.classList.toggle('p-hidden', node.dataset.collapseBody !== key))
-        })
+        </div>`
       )
     },
+
     sidebar() {
-      return demo(
-        'sidebar',
-        tips('Click a section to update the main content area.', '点击侧边项，右侧内容会同步切换。'),
+      return demo('sidebar',
+        tips('Click a section to update content.', '点击侧边项，内容同步切换。'),
         `<div class="p-stack">
-          ${surface('Workspace Menu', 'Sidebar category navigation.', `
-            <div style="display:grid;grid-template-columns:92px 1fr;gap:12px">
-              <div class="p-list">
-                <div class="p-list-item is-active" data-side="Orders">Orders</div>
-                <div class="p-list-item" data-side="Coupons">Coupons</div>
-                <div class="p-list-item" data-side="Reviews">Reviews</div>
+          ${surface('Category Nav', '', `
+            <div style="display:grid;grid-template-columns:80px 1fr;gap:8px">
+              <div class="p-stack" style="gap:4px">
+                <div class="tt-cell" style="border:none;border-radius:var(--tt-radius);background:var(--tt-accent);font-size:12px" data-side="Orders"><span class="tt-cell__title" style="font-size:12px">Orders</span></div>
+                <div class="tt-cell" style="border:none;border-radius:var(--tt-radius);font-size:12px" data-side="Coupons"><span class="tt-cell__title" style="font-size:12px">Coupons</span></div>
+                <div class="tt-cell" style="border:none;border-radius:var(--tt-radius);font-size:12px" data-side="Reviews"><span class="tt-cell__title" style="font-size:12px">Reviews</span></div>
               </div>
               <div class="p-surface" style="padding:10px">
                 <div class="p-title" data-side-title>Orders</div>
-                <div class="p-note" data-side-body>Track pending deliveries and recent invoices.</div>
+                <div class="p-note" data-side-body>Track deliveries and invoices.</div>
               </div>
             </div>
           `)}
         </div>`,
         (root) => {
-          const bodyMap = {
-            Orders: 'Track pending deliveries and recent invoices.',
-            Coupons: 'Manage limited discounts and campaign schedules.',
-            Reviews: 'Reply to feedback and moderate flagged content.',
-          }
-          return delegate(root, 'click', (event) => {
-            const item = event.target.closest('[data-side]')
+          const bodyMap = { Orders: 'Track deliveries and invoices.', Coupons: 'Manage discounts and campaigns.', Reviews: 'Reply to feedback.' }
+          return delegate(root, 'click', e => {
+            const item = e.target.closest('[data-side]')
             if (!item) return
-            qa(root, '[data-side]').forEach((node) => node.classList.toggle('is-active', node === item))
+            qa(root, '[data-side]').forEach(n => n.style.background = n === item ? 'var(--tt-accent)' : '')
             q(root, '[data-side-title]').textContent = item.dataset.side
             q(root, '[data-side-body]').textContent = bodyMap[item.dataset.side]
           })
         }
       )
     },
-    tabbar() {
-      return demo(
-        'tabbar',
-        tips('Switch the bottom tab to simulate mobile navigation.', '切换底部 tab，模拟移动端导航。'),
+
+    breadcrumb() {
+      return demo('breadcrumb',
+        tips('Navigate between crumbs.', '点击不同层级。'),
         `<div class="p-stack">
-          ${surface('Current Screen', 'Tab selection updates the active label.', `
-            <div class="p-inline-actions">
-              <span class="p-note">Active tab</span>
-              <span class="p-demo-value" data-tabbar-value>Home</span>
+          ${surface('Project Path', '', `
+            <div class="p-cluster" style="font-size:12px;gap:4px">
+              <span class="tt-tag tt-tag--default" style="cursor:pointer" data-crumb="Workspace">Workspace</span>
+              <span class="p-note">/</span>
+              <span class="tt-tag tt-tag--default" style="cursor:pointer" data-crumb="Projects">Projects</span>
+              <span class="p-note">/</span>
+              <span class="tt-tag tt-tag--primary" style="cursor:pointer" data-crumb="Release Board">Release Board</span>
+            </div>
+            <div class="p-inline-actions"><span class="p-note">Current</span><span class="p-demo-value" data-crumb-val>Release Board</span></div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', e => {
+          const crumb = e.target.closest('[data-crumb]')
+          if (!crumb) return
+          qa(root, '[data-crumb]').forEach(n => {
+            n.className = n === crumb ? 'tt-tag tt-tag--primary' : 'tt-tag tt-tag--default'
+            n.style.cursor = 'pointer'
+          })
+          q(root, '[data-crumb-val]').textContent = crumb.dataset.crumb
+        })
+      )
+    },
+
+    pagination() {
+      return demo('pagination',
+        tips('Switch pages.', '切换页码。'),
+        `<div class="p-stack">
+          ${surface('Pages', '', `
+            <div class="p-cluster" style="gap:4px">
+              ${[1,2,3,4,5].map(p => `<button type="button" class="tt-button tt-button--${p===2?'default':'outline'} tt-button--sm" style="min-width:32px;padding:0" data-pg="${p}">${p}</button>`).join('')}
+            </div>
+            <div class="p-inline-actions"><span class="p-note">Current</span><span class="p-demo-value" data-pg-val>2</span></div>
+          `)}
+        </div>`,
+        (root) => delegate(root, 'click', e => {
+          const pg = e.target.closest('[data-pg]')
+          if (!pg) return
+          qa(root, '[data-pg]').forEach(n => {
+            n.className = `tt-button tt-button--${n === pg ? 'default' : 'outline'} tt-button--sm`
+            n.style.minWidth = '32px'; n.style.padding = '0'
+          })
+          q(root, '[data-pg-val]').textContent = pg.dataset.pg
+        })
+      )
+    },
+
+    dropdownmenu() {
+      return demo('dropdownmenu',
+        tips('Open filter menu and pick an option.', '打开筛选菜单并选择排序项。'),
+        `<div class="p-stack">
+          ${surface('Sort By', '', `
+            ${ttBtnSm('Newest ▾', 'outline', 'data-dd-open style="width:100%"')}
+            <div class="p-stack tt-hidden" data-dd-list style="margin-top:6px;gap:4px">
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-dd-item="Newest"><span class="tt-cell__title">Newest</span></div>
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-dd-item="Popular"><span class="tt-cell__title">Popular</span></div>
+              <div class="tt-cell" style="border-radius:var(--tt-radius)" data-dd-item="Price"><span class="tt-cell__title">Price</span></div>
             </div>
           `)}
-          <div class="p-surface" style="padding:8px 10px">
-            <div class="p-tabstrip">
-              <button type="button" class="is-active" data-tabbar="Home">Home</button>
-              <button type="button" data-tabbar="Inbox">Inbox</button>
-              <button type="button" data-tabbar="Profile">Profile</button>
+        </div>`,
+        (root) => delegate(root, 'click', e => {
+          const open = e.target.closest('[data-dd-open]')
+          const item = e.target.closest('[data-dd-item]')
+          const list = q(root, '[data-dd-list]')
+          if (open) list.classList.toggle('tt-hidden')
+          if (item) { open.textContent = item.dataset.ddItem + ' ▾'; list.classList.add('tt-hidden') }
+        })
+      )
+    },
+
+    popup() {
+      return demo('popup',
+        tips('Open and close the popup overlay.', '打开和关闭弹出层。'),
+        `<div class="p-stack" style="position:relative;min-height:220px">
+          ${surface('Overlay', '', `${ttBtnSm('Open popup', 'default', 'data-pop-open')}`)}
+          ${hiddenPanel('tt-overlay', '')}
+          <div class="tt-popup tt-popup--bottom tt-hidden" data-pop-sheet>
+            <div class="p-inline-actions"><div class="p-title">Quick actions</div>${ttBtnSm('Close', 'outline', 'data-pop-close')}</div>
+            <div class="tt-cell" style="margin-top:8px"><span class="tt-cell__title">Option A</span><span class="tt-cell__arrow">›</span></div>
+            <div class="tt-cell"><span class="tt-cell__title">Option B</span><span class="tt-cell__arrow">›</span></div>
+          </div>
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.tt-overlay')
+          const sheet = q(root, '[data-pop-sheet]')
+          const open = () => { overlay.classList.remove('tt-hidden'); sheet.classList.remove('tt-hidden') }
+          const close = () => { overlay.classList.add('tt-hidden'); sheet.classList.add('tt-hidden') }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-pop-open]')) open()
+            if (e.target.closest('[data-pop-close]') || e.target.closest('.tt-overlay')) close()
+          })
+        }
+      )
+    },
+
+    dialog() {
+      return demo('dialog',
+        tips('Trigger the dialog, then confirm or cancel.', '触发对话框，确认或取消。'),
+        `<div class="p-stack" style="position:relative;min-height:240px">
+          ${surface('Danger Zone', '', `
+            <button type="button" class="tt-button tt-button--destructive tt-button--sm" data-dlg-open>Delete workspace</button>
+            <div class="p-inline-actions"><span class="p-note">Result</span><span class="p-demo-value" data-dlg-status>Awaiting</span></div>
+          `)}
+          ${hiddenPanel('tt-overlay', '')}
+          <div class="tt-dialog tt-hidden" data-dlg>
+            <div class="tt-dialog__title">Delete workspace?</div>
+            <div class="tt-dialog__msg">This action cannot be undone.</div>
+            <div class="tt-dialog__actions">
+              ${ttBtnSm('Cancel', 'outline', 'data-dlg-cancel')}
+              <button type="button" class="tt-button tt-button--destructive tt-button--sm" data-dlg-confirm>Delete</button>
             </div>
           </div>
         </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const tab = event.target.closest('[data-tabbar]')
-          if (!tab) return
-          qa(root, '[data-tabbar]').forEach((node) => node.classList.toggle('is-active', node === tab))
-          q(root, '[data-tabbar-value]').textContent = tab.dataset.tabbar
-        })
-      )
-    },
-    breadcrumb() {
-      return demo(
-        'breadcrumb',
-        tips('Navigate between crumbs to inspect hierarchy feedback.', '点击不同层级，查看面包屑反馈。'),
-        `<div class="p-stack">
-          ${surface('Project Path', 'Tap a crumb to make it current.', `
-            <div class="p-cluster">
-              <button type="button" class="p-chip" data-crumb="Workspace">Workspace</button>
-              <span class="p-note">/</span>
-              <button type="button" class="p-chip" data-crumb="Projects">Projects</button>
-              <span class="p-note">/</span>
-              <button type="button" class="p-chip is-active" data-crumb="Release Board">Release Board</button>
-            </div>
-            <div class="p-inline-actions">
-              <span class="p-note">Current</span>
-              <span class="p-demo-value" data-crumb-value>Release Board</span>
-            </div>
-          `)}
-        </div>`,
-        (root) => delegate(root, 'click', (event) => {
-          const crumb = event.target.closest('[data-crumb]')
-          if (!crumb) return
-          qa(root, '[data-crumb]').forEach((node) => node.classList.toggle('is-active', node === crumb))
-          q(root, '[data-crumb-value]').textContent = crumb.dataset.crumb
-        })
-      )
-    },
-    indexbar() {
-      return demo(
-        'indexbar',
-        tips('Choose a letter to jump the highlighted section.', '点击字母，高亮对应分组。'),
-        `<div class="p-stack">
-          ${surface('Contact Index', 'Side letters jump between groups.', `
-            <div style="display:grid;grid-template-columns:1fr 20px;gap:8px">
-              <div class="p-surface" style="padding:10px">
-                <div class="p-title" data-index-title>A</div>
-                <div class="p-note" data-index-body>Alice, Adam, Amber</div>
-              </div>
-              <div class="p-list" style="gap:4px">
-                ${['A', 'B', 'C', 'D'].map((letter, index) => `<button type="button" class="p-chip${index === 0 ? ' is-active' : ''}" data-index="${letter}" style="padding:0">${letter}</button>`).join('')}
-              </div>
-            </div>
-          `)}
-        </div>`,
         (root) => {
-          const groups = {
-            A: 'Alice, Adam, Amber',
-            B: 'Ben, Bella, Brian',
-            C: 'Cindy, Chris, Carter',
-            D: 'Dora, Daniel, Dawn',
-          }
-          return delegate(root, 'click', (event) => {
-            const letter = event.target.closest('[data-index]')
-            if (!letter) return
-            qa(root, '[data-index]').forEach((node) => node.classList.toggle('is-active', node === letter))
-            q(root, '[data-index-title]').textContent = letter.dataset.index
-            q(root, '[data-index-body]').textContent = groups[letter.dataset.index]
+          const overlay = q(root, '.tt-overlay')
+          const dlg = q(root, '[data-dlg]')
+          const status = q(root, '[data-dlg-status]')
+          const open = () => { overlay.classList.remove('tt-hidden'); dlg.classList.remove('tt-hidden') }
+          const close = () => { overlay.classList.add('tt-hidden'); dlg.classList.add('tt-hidden') }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-dlg-open]')) open()
+            if (e.target.closest('[data-dlg-cancel]') || e.target.closest('.tt-overlay')) { status.textContent = 'Cancelled'; close() }
+            if (e.target.closest('[data-dlg-confirm]')) { status.textContent = 'Confirmed'; close() }
           })
         }
       )
     },
-    progress() {
-      return demo(
-        'progress',
-        tips('Adjust the stage percentage to preview progress changes.', '调节阶段百分比，预览进度变化。'),
-        `<div class="p-stack">
-          ${surface('Campaign Progress', 'Drag to change the completion rate.', `
-            <input class="p-range" type="range" min="0" max="100" value="68" data-progress />
-            <div class="p-progress"><div class="p-progress-bar" data-progress-bar style="width:68%"></div></div>
-            <div class="p-inline-actions">
-              <span class="p-note">Completion</span>
-              <span class="p-demo-value" data-progress-value>68%</span>
-            </div>
-          `)}
+
+    toast() {
+      return demo('toast',
+        tips('Fire toasts and let them auto-hide.', '触发 toast 并观察自动消失。'),
+        `<div class="p-stack" style="position:relative;min-height:180px">
+          ${section('Triggers', `<div class="p-cluster">
+            ${ttBtnSm('Success', 'default', 'data-toast="Saved successfully"')}
+            ${ttBtnSm('Info', 'outline', 'data-toast="Draft autosaved"')}
+          </div>`)}
+          <div class="tt-toast tt-hidden" data-toast-node>Saved</div>
         </div>`,
         (root) => {
-          const progress = q(root, '[data-progress]')
-          const bar = q(root, '[data-progress-bar]')
-          const value = q(root, '[data-progress-value]')
-          const update = () => {
-            bar.style.width = `${progress.value}%`
-            value.textContent = `${progress.value}%`
-          }
-          update()
-          return delegate(progress, 'input', update)
-        }
-      )
-    },
-    countdown() {
-      return demo(
-        'countdown',
-        tips('Start or reset a short timer to mimic countdown behaviour.', '开始或重置短计时，模拟倒计时行为。'),
-        `<div class="p-stack">
-          ${surface('Launch Countdown', 'Five-second demo timer.', `
-            <div class="p-inline-actions">
-              <span class="p-title" data-countdown-value>00:05</span>
-              <div class="p-cluster">
-                ${uiButton('Start', 'p-btn-default', 'style="height:28px" data-countdown-start')}
-                ${uiButton('Reset', 'p-btn-outline', 'style="height:28px" data-countdown-reset')}
-              </div>
-            </div>
-          `)}
-        </div>`,
-        (root) => {
-          const value = q(root, '[data-countdown-value]')
-          let current = 5
+          const toast = q(root, '[data-toast-node]')
           let timer = null
-
-          const render = () => {
-            value.textContent = `00:0${current}`
-          }
-
-          const stop = () => {
-            if (timer) {
-              window.clearInterval(timer)
-              timer = null
-            }
-          }
-
-          render()
-
-          const cleanup = delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-countdown-start]') && !timer) {
-              timer = window.setInterval(() => {
-                current = Math.max(0, current - 1)
-                render()
-                if (current === 0) stop()
-              }, 1000)
-            }
-            if (event.target.closest('[data-countdown-reset]')) {
-              stop()
-              current = 5
-              render()
-            }
+          return delegate(root, 'click', e => {
+            const btn = e.target.closest('[data-toast]')
+            if (!btn) return
+            if (timer) clearTimeout(timer)
+            toast.textContent = btn.dataset.toast
+            toast.classList.remove('tt-hidden')
+            timer = setTimeout(() => toast.classList.add('tt-hidden'), 1600)
           })
-
-          return () => {
-            stop()
-            cleanup()
-          }
         }
       )
     },
-    list() {
-      return demo(
-        'list',
-        tips('Load more rows until the mock list reaches the end.', '继续加载更多，直到模拟列表完成。'),
-        `<div class="p-stack">
-          ${surface('Infinite Feed', 'Press load more to append items.', `
-            <div class="p-list" data-list-body>
-              <div class="p-list-item">Design sync notes</div>
-              <div class="p-list-item">Client feedback digest</div>
+
+    actionsheet() {
+      return demo('actionsheet',
+        tips('Open the action sheet.', '打开操作面板。'),
+        `<div class="p-stack" style="position:relative;min-height:240px">
+          ${surface('Message Actions', '', `
+            ${ttBtnSm('More actions', 'outline', 'data-as-open')}
+            <div class="p-inline-actions"><span class="p-note">Selected</span><span class="p-demo-value" data-as-val>None</span></div>
+          `)}
+          ${hiddenPanel('tt-overlay', '')}
+          <div class="tt-action-sheet tt-hidden" data-as-sheet>
+            <div class="tt-action-sheet__item" data-as-item="Pin message">Pin message</div>
+            <div class="tt-action-sheet__item" data-as-item="Forward">Forward</div>
+            <div class="tt-action-sheet__item" data-as-item="Delete" style="color:#ef4444">Delete</div>
+            <div class="tt-action-sheet__cancel" data-as-cancel>Cancel</div>
+          </div>
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.tt-overlay')
+          const sheet = q(root, '[data-as-sheet]')
+          const val = q(root, '[data-as-val]')
+          const open = () => { overlay.classList.remove('tt-hidden'); sheet.classList.remove('tt-hidden') }
+          const close = () => { overlay.classList.add('tt-hidden'); sheet.classList.add('tt-hidden') }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-as-open]')) open()
+            if (e.target.closest('[data-as-cancel]') || e.target.closest('.tt-overlay')) close()
+            const item = e.target.closest('[data-as-item]')
+            if (item) { val.textContent = item.dataset.asItem; close() }
+          })
+        }
+      )
+    },
+
+    sheet() {
+      return demo('sheet',
+        tips('Open the bottom panel.', '打开底部面板。'),
+        `<div class="p-stack" style="position:relative;min-height:220px">
+          ${surface('Filters', '', `${ttBtnSm('Open panel', 'outline', 'data-sh-open')}`)}
+          ${hiddenPanel('tt-overlay', '')}
+          <div class="tt-sheet tt-hidden" data-sh-sheet>
+            <div class="tt-sheet__title">Workspace filters</div>
+            <div class="p-cluster">
+              <span class="tt-tag tt-tag--default">Open</span>
+              <span class="tt-tag tt-tag--default">Assigned to me</span>
+              <span class="tt-tag tt-tag--primary">Today</span>
             </div>
-            <div class="p-inline-actions">
-              ${uiButton('Load more', 'p-btn-outline', 'style="height:28px" data-list-load')}
-              <span class="p-note" data-list-status>2 loaded</span>
+            <div style="margin-top:10px">${ttBtnSm('Close', 'outline', 'data-sh-close')}</div>
+          </div>
+        </div>`,
+        (root) => {
+          const overlay = q(root, '.tt-overlay')
+          const sheet = q(root, '[data-sh-sheet]')
+          const open = () => { overlay.classList.remove('tt-hidden'); sheet.classList.remove('tt-hidden') }
+          const close = () => { overlay.classList.add('tt-hidden'); sheet.classList.add('tt-hidden') }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-sh-open]')) open()
+            if (e.target.closest('[data-sh-close]') || e.target.closest('.tt-overlay')) close()
+          })
+        }
+      )
+    },
+
+    noticebar() {
+      return demo('noticebar',
+        tips('Dismiss and restore the notice.', '关闭通知栏再恢复。'),
+        `<div class="p-stack">
+          <div class="tt-notice-bar" data-nb-wrap>
+            <span>Planned maintenance tonight at 02:00 UTC.</span>
+            <span class="tt-notice-bar__close" data-nb-close>×</span>
+          </div>
+          ${ttBtnSm('Restore', 'outline', 'data-nb-reset')}
+        </div>`,
+        (root) => delegate(root, 'click', e => {
+          const wrap = q(root, '[data-nb-wrap]')
+          if (e.target.closest('[data-nb-close]')) wrap.classList.add('tt-hidden')
+          if (e.target.closest('[data-nb-reset]')) wrap.classList.remove('tt-hidden')
+        })
+      )
+    },
+
+    loading() {
+      return demo('loading',
+        tips('View loading spinner states.', '查看加载指示器。'),
+        `<div class="p-stack">
+          ${surface('Loading States', '', `
+            <div class="p-cluster" style="align-items:center;gap:20px">
+              <div class="tt-loading"><div class="tt-loading__spinner" style="width:20px;height:20px"></div></div>
+              <div class="tt-loading tt-loading--vertical"><div class="tt-loading__spinner" style="width:24px;height:24px"></div><span class="tt-loading__text">Loading...</span></div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    transition() {
+      return demo('transition',
+        tips('Toggle the fade animation.', '切换淡入淡出动画。'),
+        `<div class="p-stack">
+          ${surface('Fade Transition', '', `
+            ${ttBtnSm('Toggle', 'outline', 'data-tr-toggle')}
+            <div class="p-surface" data-tr-box style="padding:12px;margin-top:8px;transition:opacity .3s">
+              <div class="p-note">Fade transition content</div>
             </div>
           `)}
         </div>`,
         (root) => {
-          const body = q(root, '[data-list-body]')
+          let visible = true
+          return delegate(root, 'click', e => {
+            if (!e.target.closest('[data-tr-toggle]')) return
+            visible = !visible
+            q(root, '[data-tr-box]').style.opacity = visible ? '1' : '0'
+          })
+        }
+      )
+    },
+
+    collapse() {
+      return demo('collapse',
+        tips('Expand panels to inspect accordion.', '展开面板查看折叠交互。'),
+        `<div class="p-stack">
+          ${surface('FAQ', '', `<div class="p-stack" style="gap:0">
+            <div class="tt-collapse-item tt-collapse-item--open" data-col="1">
+              <div class="tt-collapse-item__header" data-col-head="1">Billing cadence<span class="tt-collapse-item__arrow">›</span></div>
+              <div class="tt-collapse-item__body" data-col-body="1">Invoices on the first of each month.</div>
+            </div>
+            <div class="tt-collapse-item" data-col="2">
+              <div class="tt-collapse-item__header" data-col-head="2">How to invite<span class="tt-collapse-item__arrow">›</span></div>
+              <div class="tt-collapse-item__body tt-hidden" data-col-body="2">Settings → Invite members.</div>
+            </div>
+            <div class="tt-collapse-item" data-col="3">
+              <div class="tt-collapse-item__header" data-col-head="3">Download reports<span class="tt-collapse-item__arrow">›</span></div>
+              <div class="tt-collapse-item__body tt-hidden" data-col-body="3">Analytics → Exports.</div>
+            </div>
+          </div>`)}
+        </div>`,
+        (root) => delegate(root, 'click', e => {
+          const head = e.target.closest('[data-col-head]')
+          if (!head) return
+          const key = head.dataset.colHead
+          qa(root, '[data-col]').forEach(el => {
+            const k = el.dataset.col
+            const open = k === key
+            el.classList.toggle('tt-collapse-item--open', open)
+            const body = q(root, `[data-col-body="${k}"]`)
+            if (body) body.classList.toggle('tt-hidden', !open)
+          })
+        })
+      )
+    },
+
+    progress() {
+      return demo('progress',
+        tips('Adjust the progress bar.', '拖动查看进度变化。'),
+        `<div class="p-stack">
+          ${surface('Campaign Progress', '', `
+            <input type="range" min="0" max="100" value="68" data-prog-range style="width:100%" />
+            <div class="tt-progress">
+              <div class="tt-progress__bar"><div class="tt-progress__inner" data-prog-bar style="width:68%"></div></div>
+              <span class="tt-progress__text" data-prog-val>68%</span>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const range = q(root, '[data-prog-range]')
+          const bar = q(root, '[data-prog-bar]')
+          const val = q(root, '[data-prog-val]')
+          const render = () => { bar.style.width = `${range.value}%`; val.textContent = `${range.value}%` }
+          render()
+          return delegate(range, 'input', render)
+        }
+      )
+    },
+
+    countdown() {
+      return demo('countdown',
+        tips('Start or reset a short timer.', '开始或重置计时器。'),
+        `<div class="p-stack">
+          ${surface('Launch Timer', '', `<div class="p-inline-actions">
+            <span class="tt-count-down" data-cd-val>00:05</span>
+            <div class="p-cluster">${ttBtnSm('Start', 'default', 'data-cd-start')}${ttBtnSm('Reset', 'outline', 'data-cd-reset')}</div>
+          </div>`)}
+        </div>`,
+        (root) => {
+          const val = q(root, '[data-cd-val]')
+          let current = 5, timer = null
+          const render = () => { val.textContent = `00:0${current}` }
+          const stop = () => { if (timer) { clearInterval(timer); timer = null } }
+          render()
+          const cleanup = delegate(root, 'click', e => {
+            if (e.target.closest('[data-cd-start]') && !timer) {
+              timer = setInterval(() => { current = Math.max(0, current - 1); render(); if (!current) stop() }, 1000)
+            }
+            if (e.target.closest('[data-cd-reset]')) { stop(); current = 5; render() }
+          })
+          return () => { stop(); cleanup() }
+        }
+      )
+    },
+
+    list() {
+      return demo('list',
+        tips('Load more rows until end.', '加载更多直到结束。'),
+        `<div class="p-stack">
+          ${surface('Feed', '', `<div class="p-stack" style="gap:0">
+            <div class="tt-cell" data-list-item>Design sync notes</div>
+            <div class="tt-cell" data-list-item>Client feedback digest</div>
+          </div>
+          <div class="p-inline-actions" style="margin-top:8px">
+            ${ttBtnSm('Load more', 'outline', 'data-list-load')}
+            <span class="p-note" data-list-status>2 loaded</span>
+          </div>`)}
+        </div>`,
+        (root) => {
           const status = q(root, '[data-list-status]')
           let count = 2
-
-          return delegate(root, 'click', (event) => {
-            if (!event.target.closest('[data-list-load]')) return
-            if (count >= 5) {
-              status.textContent = 'No more data'
-              return
-            }
-            count += 1
-            const node = document.createElement('div')
-            node.className = 'p-list-item'
-            node.textContent = `Generated row ${count}`
-            body.appendChild(node)
+          return delegate(root, 'click', e => {
+            if (!e.target.closest('[data-list-load]')) return
+            if (count >= 5) { status.textContent = 'No more data'; return }
+            count++
+            const n = document.createElement('div')
+            n.className = 'tt-cell'; n.dataset.listItem = ''; n.innerHTML = `<span class="tt-cell__title">Generated row ${count}</span>`
+            q(root, '[data-list-load]').parentElement.previousElementSibling.querySelector('.p-stack').appendChild(n)
             status.textContent = `${count} loaded`
           })
         }
       )
     },
+
     swiper() {
-      return demo(
-        'swiper',
-        tips('Move across slides to preview carousel state changes.', '切换 slide，预览轮播状态变化。'),
+      return demo('swiper',
+        tips('Navigate between slides.', '切换 slide 预览轮播。'),
         `<div class="p-stack">
-          ${surface('Feature Carousel', 'Next / prev controls update the active slide.', `
-            <div class="p-surface" style="padding:16px;background:linear-gradient(135deg,var(--primary),#4f46e5);color:#fff">
-              <div class="p-title" style="color:#fff" data-swiper-title>Slide 1</div>
-              <div class="p-note" style="color:rgba(255,255,255,.82)" data-swiper-body>Overview of the release roadmap and milestones.</div>
+          ${surface('Carousel', '', `
+            <div style="padding:16px;background:linear-gradient(135deg,var(--primary),#4f46e5);color:#fff;border-radius:var(--tt-radius)">
+              <div style="font-weight:700;margin-bottom:4px" data-sw-title>Slide 1</div>
+              <div style="font-size:11px;opacity:.82" data-sw-body>Overview of the release roadmap.</div>
             </div>
-            <div class="p-inline-actions">
-              ${uiButton('Prev', 'p-btn-outline', 'style="height:28px" data-swiper-prev')}
-              ${uiButton('Next', 'p-btn-default', 'style="height:28px" data-swiper-next')}
+            <div class="p-inline-actions" style="margin-top:8px">
+              ${ttBtnSm('Prev', 'outline', 'data-sw-prev')}
+              ${ttBtnSm('Next', 'default', 'data-sw-next')}
             </div>
           `)}
         </div>`,
         (root) => {
-          const slides = [
-            ['Slide 1', 'Overview of the release roadmap and milestones.'],
-            ['Slide 2', 'Design review highlights and unresolved edge cases.'],
-            ['Slide 3', 'Final QA checklist and launch timeline.'],
-          ]
-          const title = q(root, '[data-swiper-title]')
-          const body = q(root, '[data-swiper-body]')
-          let index = 0
-
-          const render = () => {
-            title.textContent = slides[index][0]
-            body.textContent = slides[index][1]
-          }
-          render()
-
-          return delegate(root, 'click', (event) => {
-            if (event.target.closest('[data-swiper-prev]')) {
-              index = (index + slides.length - 1) % slides.length
-              render()
-            }
-            if (event.target.closest('[data-swiper-next]')) {
-              index = (index + 1) % slides.length
-              render()
-            }
+          const slides = [['Slide 1', 'Overview of the release roadmap.'], ['Slide 2', 'Design review highlights.'], ['Slide 3', 'QA checklist and launch timeline.']]
+          let idx = 0
+          const render = () => { q(root, '[data-sw-title]').textContent = slides[idx][0]; q(root, '[data-sw-body]').textContent = slides[idx][1] }
+          return delegate(root, 'click', e => {
+            if (e.target.closest('[data-sw-prev]')) idx = (idx + slides.length - 1) % slides.length
+            if (e.target.closest('[data-sw-next]')) idx = (idx + 1) % slides.length
+            render()
           })
         }
       )
     },
+
+    badge() {
+      return demo('badge',
+        tips('View badge types.', '查看徽标类型。'),
+        `<div class="p-stack">
+          ${surface('Badges', '', `<div class="p-cluster" style="gap:16px">
+            <div class="tt-badge">
+              ${ttBtnSm('Msgs', 'outline')}
+              <div class="tt-badge__content"><span class="tt-badge__text">5</span></div>
+            </div>
+            <div class="tt-badge">
+              ${ttBtnSm('Notify', 'outline')}
+              <div class="tt-badge__content"><span class="tt-badge__text">99+</span></div>
+            </div>
+            <div class="tt-badge">
+              ${ttBtnSm('Dot', 'outline')}
+              <div class="tt-badge__content tt-badge__content--dot"></div>
+            </div>
+          </div>`)}
+        </div>`
+      )
+    },
+
+    tag() {
+      return demo('tag',
+        tips('View tag types.', '查看标签类型。'),
+        `<div class="p-stack">
+          ${surface('Tag Types', '', `<div class="p-cluster">
+            <span class="tt-tag tt-tag--default">Default</span>
+            <span class="tt-tag tt-tag--primary">Primary</span>
+            <span class="tt-tag tt-tag--success">Success</span>
+            <span class="tt-tag tt-tag--warning">Warning</span>
+            <span class="tt-tag tt-tag--danger">Danger</span>
+          </div>`)}
+        </div>`
+      )
+    },
+
+    divider() {
+      return demo('divider',
+        tips('View divider variations.', '查看分割线变体。'),
+        `<div class="p-stack">
+          ${surface('Dividers', '', `
+            <div class="p-note">Above</div>
+            <div class="tt-divider"></div>
+            <div class="tt-divider"><span class="tt-divider__text">OR</span></div>
+            <div class="p-note">Below</div>
+          `)}
+        </div>`
+      )
+    },
+
+    empty() {
+      return demo('empty',
+        tips('Empty state placeholder.', '空状态占位。'),
+        `<div class="p-stack">
+          ${surface('Empty State', '', `
+            <div class="tt-empty">
+              <div class="tt-empty__icon">📭</div>
+              <div class="tt-empty__desc">No data found</div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    avatar() {
+      return demo('avatar',
+        tips('View avatar shapes and sizes.', '查看头像形状和尺寸。'),
+        `<div class="p-stack">
+          ${surface('Avatars', '', `<div class="p-cluster" style="align-items:center;gap:12px">
+            <div class="tt-avatar" style="width:36px;height:36px">JD</div>
+            <div class="tt-avatar" style="width:36px;height:36px;border-radius:6px">AB</div>
+            <div class="tt-avatar" style="width:28px;height:28px;font-size:11px">S</div>
+          </div>`)}
+        </div>`
+      )
+    },
+
+    skeleton() {
+      return demo('skeleton',
+        tips('View skeleton loading.', '查看骨架屏。'),
+        `<div class="p-stack">
+          ${surface('Skeleton', '', `
+            <div class="tt-skeleton">
+              <div class="tt-skeleton__avatar"></div>
+              <div class="tt-skeleton__rows">
+                <div class="tt-skeleton__row" style="width:80%"></div>
+                <div class="tt-skeleton__row" style="width:60%"></div>
+                <div class="tt-skeleton__row" style="width:90%"></div>
+              </div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    image() {
+      return demo('image',
+        tips('View image with radius.', '查看图片圆角效果。'),
+        `<div class="p-stack">
+          ${surface('Images', '', `<div class="p-cluster" style="gap:12px">
+            <div class="tt-image" style="width:80px;height:60px;border-radius:8px;background:var(--tt-muted);display:flex;align-items:center;justify-content:center"><span class="p-note">120×80</span></div>
+            <div class="tt-image" style="width:50px;height:50px;border-radius:50%;background:var(--tt-muted);display:flex;align-items:center;justify-content:center"><span class="p-note">80²</span></div>
+          </div>`)}
+        </div>`
+      )
+    },
+
+    scrollview() {
+      return demo('scrollview',
+        tips('Scroll vertically inside the container.', '在容器内垂直滚动。'),
+        `<div class="p-stack">
+          ${surface('Scroll View', '', `
+            <div style="height:120px;overflow-y:auto;border:1px solid var(--tt-border);border-radius:var(--tt-radius)">
+              ${[1,2,3,4,5,6,7,8].map(i => `<div class="tt-cell"><span class="tt-cell__title">Scroll Item ${i}</span></div>`).join('')}
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    table() {
+      return demo('table',
+        tips('View a simple table.', '查看简单表格。'),
+        `<div class="p-stack">
+          ${surface('Data Table', '', `
+            <table style="width:100%;border-collapse:collapse;font-size:12px">
+              <thead><tr style="background:var(--tt-muted)"><th style="padding:6px 8px;text-align:left">Name</th><th style="padding:6px 8px;text-align:left">Age</th><th style="padding:6px 8px;text-align:left">Role</th></tr></thead>
+              <tbody>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--tt-border)">Alice</td><td style="padding:6px 8px;border-bottom:1px solid var(--tt-border)">28</td><td style="padding:6px 8px;border-bottom:1px solid var(--tt-border)">Dev</td></tr>
+                <tr><td style="padding:6px 8px">Bob</td><td style="padding:6px 8px">32</td><td style="padding:6px 8px">PM</td></tr>
+              </tbody>
+            </table>
+          `)}
+        </div>`
+      )
+    },
+
+    descriptions() {
+      return demo('descriptions',
+        tips('View key-value descriptions.', '查看描述列表。'),
+        `<div class="p-stack">
+          ${surface('User Info', '', `
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+              <div><span class="p-note">Name</span><div>Alice</div></div>
+              <div><span class="p-note">Age</span><div>28</div></div>
+              <div><span class="p-note">Email</span><div>alice@ex.com</div></div>
+              <div><span class="p-note">Role</span><div>Developer</div></div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    tooltip() {
+      return demo('tooltip',
+        tips('Hover buttons to see tooltips.', '悬停按钮查看提示。'),
+        `<div class="p-stack">
+          ${surface('Tooltips', '', `<div class="p-cluster">
+            ${ttBtnSm('Top', 'outline', 'title="Top tip"')}
+            ${ttBtnSm('Bottom', 'outline', 'title="Bottom tip"')}
+          </div>`)}
+        </div>`
+      )
+    },
+
+    swipeaction() {
+      return demo('swipeaction',
+        tips('Swipe to reveal actions.', '滑动显示操作按钮。'),
+        `<div class="p-stack">
+          ${surface('Swipe Actions', '', `
+            <div style="position:relative;overflow:hidden;border-radius:var(--tt-radius)">
+              <div class="tt-cell" style="border-bottom:none"><span class="tt-cell__title">Swipe left to delete</span><span class="tt-cell__value" style="color:var(--tt-destructive);font-size:11px">← swipe</span></div>
+            </div>
+            <div style="position:relative;overflow:hidden;border-radius:var(--tt-radius)">
+              <div class="tt-cell" style="border-bottom:none"><span class="tt-cell__title">Swipe both ways</span><span class="tt-cell__value" style="font-size:11px">↔</span></div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    indexbar() {
+      return demo('indexbar',
+        tips('Choose a letter to jump sections.', '点击字母高亮分组。'),
+        `<div class="p-stack">
+          ${surface('Contact Index', '', `
+            <div style="display:grid;grid-template-columns:1fr 20px;gap:8px">
+              <div class="p-surface" style="padding:10px"><div class="p-title" data-idx-title>A</div><div class="p-note" data-idx-body>Alice, Adam, Amber</div></div>
+              <div class="p-stack" style="gap:2px">${['A','B','C','D'].map((l,i) => `<button class="p-chip${i===0?' is-active':''}" data-idx="${l}" style="padding:0;min-width:20px;height:20px;font-size:10px">${l}</button>`).join('')}</div>
+            </div>
+          `)}
+        </div>`,
+        (root) => {
+          const groups = { A:'Alice, Adam, Amber', B:'Ben, Bella, Brian', C:'Cindy, Chris, Carter', D:'Dora, Daniel, Dawn' }
+          return delegate(root, 'click', e => {
+            const letter = e.target.closest('[data-idx]')
+            if (!letter) return
+            qa(root, '[data-idx]').forEach(n => n.classList.toggle('is-active', n === letter))
+            q(root, '[data-idx-title]').textContent = letter.dataset.idx
+            q(root, '[data-idx-body]').textContent = groups[letter.dataset.idx]
+          })
+        }
+      )
+    },
+
+    configprovider() {
+      return demo('configprovider',
+        tips('Theme tokens overview.', '主题 Token 概览。'),
+        `<div class="p-stack">
+          ${surface('Theme Tokens', '', `<div class="p-cluster" style="gap:8px">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--tt-primary)"></div>
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--tt-secondary);border:1px solid var(--tt-border)"></div>
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--tt-muted)"></div>
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--tt-destructive)"></div>
+          </div>`)}
+        </div>`
+      )
+    },
+
+    space() {
+      return demo('space',
+        tips('Horizontal and vertical spacing.', '水平和垂直间距。'),
+        `<div class="p-stack">
+          ${surface('Space Component', '', `
+            <div class="tt-space tt-space--horizontal" style="gap:12px">
+              ${ttBtnSm('A', 'default')}${ttBtnSm('B', 'outline')}${ttBtnSm('C', 'secondary')}
+            </div>
+            <div class="tt-space tt-space--vertical" style="gap:8px;margin-top:12px">
+              <span class="tt-tag tt-tag--default">Vertical A</span>
+              <span class="tt-tag tt-tag--primary">Vertical B</span>
+              <span class="tt-tag tt-tag--success">Vertical C</span>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    safearea() {
+      return demo('safearea',
+        tips('Safe area inset padding.', '安全区域内边距。'),
+        `<div class="p-stack">
+          ${surface('Safe Area', '', `
+            <div style="border:1px dashed var(--tt-border);border-radius:var(--tt-radius);padding:12px;background:var(--tt-muted)">
+              <div class="p-note" style="text-align:center">Content between safe areas</div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    sticky() {
+      return demo('sticky',
+        tips('Sticks element to top on scroll.', '滚动时吸附顶部。'),
+        `<div class="p-stack">
+          ${surface('Sticky Element', '', `
+            <div style="background:var(--tt-primary);padding:10px 16px;border-radius:8px"><span style="color:var(--tt-primary-foreground);font-size:12px">Sticky element (offset: 200rpx)</span></div>
+            <div class="p-note" style="margin-top:8px">Scroll parent to see sticky behaviour.</div>
+          `)}
+        </div>`
+      )
+    },
+
+    row() {
+      return demo('row',
+        tips('12-column grid layout.', '12 列栅格布局。'),
+        `<div class="p-stack">
+          ${surface('Grid Layout', '', `
+            <div style="display:flex;gap:4px;margin-bottom:6px">
+              <div style="flex:1;background:var(--tt-primary);color:var(--tt-primary-foreground);text-align:center;padding:8px 0;border-radius:6px;font-size:11px">8</div>
+              <div style="flex:1;background:var(--tt-muted-foreground);color:#fff;text-align:center;padding:8px 0;border-radius:6px;font-size:11px">8</div>
+              <div style="flex:1;background:var(--tt-primary);color:var(--tt-primary-foreground);text-align:center;padding:8px 0;border-radius:6px;font-size:11px">8</div>
+            </div>
+            <div style="display:flex;gap:4px">
+              <div style="flex:6;background:var(--tt-primary);color:var(--tt-primary-foreground);text-align:center;padding:8px 0;border-radius:6px;font-size:11px">6</div>
+              <div style="flex:12;background:var(--tt-muted-foreground);color:#fff;text-align:center;padding:8px 0;border-radius:6px;font-size:11px">12</div>
+              <div style="flex:6;background:var(--tt-primary);color:var(--tt-primary-foreground);text-align:center;padding:8px 0;border-radius:6px;font-size:11px">6</div>
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    grid() {
+      return demo('grid',
+        tips('N-column grid with border.', 'N 列宫格。'),
+        `<div class="p-stack">
+          ${surface('Grid', '', `
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--tt-border);border:1px solid var(--tt-border);border-radius:var(--tt-radius);overflow:hidden">
+              ${[1,2,3,4,5,6,7,8].map(i => `<div style="background:var(--tt-background);padding:12px 0;text-align:center;font-size:12px">${i}</div>`).join('')}
+            </div>
+          `)}
+        </div>`
+      )
+    },
+
+    typography() {
+      return demo('typography',
+        tips('View typography styles.', '查看排版样式。'),
+        `<div class="p-stack">
+          ${surface('Typography', '', `<div class="p-stack" style="gap:4px">
+            <div style="font-size:18px;font-weight:700">Heading H2</div>
+            <div style="font-size:14px;font-weight:600">Heading H4</div>
+            <div style="font-size:13px">Regular body text.</div>
+            <div style="font-size:13px;font-weight:700">Bold text</div>
+            <a style="font-size:13px;color:var(--tt-primary);text-decoration:underline">Link text</a>
+          </div>`)}
+        </div>`
+      )
+    },
+
+    icon() {
+      return demo('icon',
+        tips('Browse icon gallery.', '浏览图标集。'),
+        `<div class="p-stack">
+          ${surface('Icon Gallery', '', `<div class="p-note">Icons render from the tt-icon component. Preview the full gallery in the playground.</div>`)}
+          ${surface('Sizes', '', `<div class="p-cluster" style="align-items:flex-end;gap:12px">
+            ${[16,20,24,32].map(s => `<div style="width:${s+12}px;height:${s+12}px;border-radius:50%;background:var(--tt-muted);display:flex;align-items:center;justify-content:center;font-size:${s*0.6}px">★</div>`).join('')}
+          </div>`)}
+        </div>`
+      )
+    },
   }
 
-  function buildDemo(id, ctx = {}) {
+  function buildDemo(id, ctx) {
     const renderer = renderers[id]
-    if (!renderer) return fallbackDemo(id, ctx)
-    return renderer(ctx)
+    if (!renderer) return fallbackDemo(id, ctx || {})
+    return renderer(ctx || {})
   }
 
-  window.TTDocs.getPhoneRender = function getPhoneRender(id, ctx = {}) {
-    return buildDemo(id, ctx).html
+  window.TTDocs.getPhoneRender = function(id, ctx) { return buildDemo(id, ctx).html }
+  window.TTDocs.getPhoneDemoMeta = function(id, lang) {
+    const d = buildDemo(id, { lang: lang || 'en' })
+    return { tip: getTipText(d.tip, lang || 'en'), interactive: typeof d.mount === 'function' }
   }
-
-  window.TTDocs.getPhoneDemoMeta = function getPhoneDemoMeta(id, lang = 'en') {
-    const current = buildDemo(id, { lang })
-    return {
-      tip: getTipText(current.tip, lang),
-      interactive: typeof current.mount === 'function',
-    }
-  }
-
-  window.TTDocs.mountPhoneDemo = function mountPhoneDemo(root, id, ctx = {}) {
-    const current = buildDemo(id, ctx)
-    if (typeof current.mount !== 'function') return null
-    return current.mount(root, ctx)
+  window.TTDocs.mountPhoneDemo = function(root, id, ctx) {
+    const d = buildDemo(id, ctx)
+    if (typeof d.mount !== 'function') return null
+    return d.mount(root, ctx)
   }
 })()
