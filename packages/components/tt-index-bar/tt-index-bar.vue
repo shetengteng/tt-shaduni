@@ -1,18 +1,38 @@
 <template>
   <view class="tt-index-bar">
-    <scroll-view scroll-y class="tt-index-bar__content">
+    <scroll-view scroll-y class="tt-index-bar__content" :scroll-into-view="scrollTarget">
       <slot />
     </scroll-view>
     <view class="tt-index-bar__sidebar">
-      <text v-for="idx in indexList" :key="idx" class="tt-index-bar__index" :class="{ 'tt-index-bar__index--active': activeIndex === idx }" @click="$emit('select', idx)">{{ idx }}</text>
+      <text
+        v-for="idx in indexList"
+        :key="idx"
+        class="tt-index-bar__index"
+        :class="{ 'tt-index-bar__index--active': currentIdx === idx }"
+        @click="onSelect(idx)"
+      >{{ idx }}</text>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import { indexBarProps } from './props'
-defineProps(indexBarProps)
-defineEmits(['select'])
+
+const props = defineProps(indexBarProps)
+const emit = defineEmits(['update:activeIndex', 'select'])
+
+const innerIdx = ref(props.activeIndex)
+const currentIdx = computed(() => props.activeIndex || innerIdx.value)
+const scrollTarget = ref('')
+
+function onSelect(idx: string) {
+  innerIdx.value = idx
+  scrollTarget.value = ''
+  setTimeout(() => { scrollTarget.value = `tt-index-anchor-${idx}` }, 0)
+  emit('update:activeIndex', idx)
+  emit('select', idx)
+}
 </script>
 
 <style>

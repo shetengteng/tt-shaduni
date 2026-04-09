@@ -30,15 +30,7 @@
     <view class="demo-block" id="demo-steps" v-if="!only || only === 'steps'">
       <text class="demo-label">{{ t('steps') }}</text>
       <text class="demo-desc">{{ t('steps.desc') }}</text>
-      <view class="steps-row">
-        <view class="steps-line-bg" />
-        <view class="step-node" v-for="(s, i) in stepItems" :key="i">
-          <view class="step-circle" :class="{ 'step-circle--done': i < 1, 'step-circle--active': i === 1 }">
-            <text class="step-circle__text">{{ i < 1 ? '✓' : i + 1 }}</text>
-          </view>
-          <text class="step-title" :class="{ 'step-title--active': i <= 1 }">{{ s.title }}</text>
-        </view>
-      </view>
+      <tt-steps :active="1" :items="stepItems" />
     </view>
 
     <view class="demo-block" id="demo-sidebar" v-if="!only || only === 'sidebar'">
@@ -85,9 +77,9 @@
       <text class="demo-desc">{{ t('indexBar.desc') }}</text>
       <view class="indexbar-demo-wrap">
         <tt-index-bar :index-list="indexLetters" :active-index="activeIdx" @select="activeIdx = $event">
-          <view v-for="letter in indexLetters" :key="letter" class="indexbar-group">
+          <view v-for="letter in indexLetters" :key="letter" :id="'tt-index-anchor-' + letter" class="indexbar-group">
             <text class="indexbar-group__title">{{ letter }}</text>
-            <view class="indexbar-group__item" v-for="n in 2" :key="n">
+            <view class="indexbar-group__item" v-for="n in 3" :key="n">
               <text class="indexbar-group__text">{{ letter }} - Item {{ n }}</text>
             </view>
           </view>
@@ -121,61 +113,6 @@ const activeIdx = ref('A')
   border: 2rpx solid var(--tt-border, #e5e5e5);
   border-radius: var(--tt-radius, 12rpx);
   overflow: hidden;
-}
-.steps-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  position: relative;
-  padding: 0 24rpx;
-}
-.steps-line-bg {
-  position: absolute;
-  top: 22rpx;
-  left: 60rpx;
-  right: 60rpx;
-  height: 4rpx;
-  background: var(--tt-border, #d4d4d4);
-}
-.step-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12rpx;
-  position: relative;
-  z-index: 1;
-}
-.step-circle {
-  width: 48rpx;
-  height: 48rpx;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--tt-muted, #f5f5f5);
-  border: 2rpx solid var(--tt-border, #e5e5e5);
-}
-.step-circle--done {
-  background: var(--tt-primary, #171717);
-  border-color: var(--tt-primary, #171717);
-}
-.step-circle--active {
-  border-color: var(--tt-primary, #171717);
-  border-width: 4rpx;
-}
-.step-circle__text {
-  font-size: 22rpx;
-  color: var(--tt-muted-foreground, #737373);
-}
-.step-circle--done .step-circle__text { color: #fff; }
-.step-circle--active .step-circle__text { color: var(--tt-primary, #171717); font-weight: 600; }
-.step-title {
-  font-size: 22rpx;
-  color: var(--tt-muted-foreground, #a3a3a3);
-}
-.step-title--active {
-  color: var(--tt-foreground, #0a0a0a);
-  font-weight: 500;
 }
 .swipe-demo-cell {
   padding: 40rpx 24rpx;
