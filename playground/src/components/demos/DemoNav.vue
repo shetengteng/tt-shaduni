@@ -30,14 +30,15 @@
     <view class="demo-block" id="demo-steps" v-if="!only || only === 'steps'">
       <text class="demo-label">{{ t('steps') }}</text>
       <text class="demo-desc">{{ t('steps.desc') }}</text>
-      <tt-steps :active="1">
-        <view class="step-item" v-for="(s, i) in stepItems" :key="i">
+      <view class="steps-row">
+        <view class="steps-line-bg" />
+        <view class="step-node" v-for="(s, i) in stepItems" :key="i">
           <view class="step-circle" :class="{ 'step-circle--done': i < 1, 'step-circle--active': i === 1 }">
             <text class="step-circle__text">{{ i < 1 ? '✓' : i + 1 }}</text>
           </view>
           <text class="step-title" :class="{ 'step-title--active': i <= 1 }">{{ s.title }}</text>
         </view>
-      </tt-steps>
+      </view>
     </view>
 
     <view class="demo-block" id="demo-sidebar" v-if="!only || only === 'sidebar'">
@@ -78,6 +79,21 @@
         </view>
       </tt-swipe-action>
     </view>
+
+    <view class="demo-block" id="demo-indexbar" v-if="!only || only === 'indexbar'">
+      <text class="demo-label">{{ t('indexBar') }}</text>
+      <text class="demo-desc">{{ t('indexBar.desc') }}</text>
+      <view class="indexbar-demo-wrap">
+        <tt-index-bar :index-list="indexLetters" :active-index="activeIdx" @select="activeIdx = $event">
+          <view v-for="letter in indexLetters" :key="letter" class="indexbar-group">
+            <text class="indexbar-group__title">{{ letter }}</text>
+            <view class="indexbar-group__item" v-for="n in 2" :key="n">
+              <text class="indexbar-group__text">{{ letter }} - Item {{ n }}</text>
+            </view>
+          </view>
+        </tt-index-bar>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -96,6 +112,8 @@ const sideIdx = ref(0)
 const page = ref(1)
 const ddVal = ref('')
 const ddOptions = [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' }, { text: 'Sales', value: '2' }]
+const indexLetters = ['A', 'B', 'C', 'D', 'E']
+const activeIdx = ref('A')
 </script>
 
 <style>
@@ -104,12 +122,28 @@ const ddOptions = [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' 
   border-radius: var(--tt-radius, 12rpx);
   overflow: hidden;
 }
-.step-item {
-  flex: 1;
+.steps-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 24rpx;
+}
+.steps-line-bg {
+  position: absolute;
+  top: 22rpx;
+  left: 60rpx;
+  right: 60rpx;
+  height: 4rpx;
+  background: var(--tt-border, #d4d4d4);
+}
+.step-node {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
+  position: relative;
+  z-index: 1;
 }
 .step-circle {
   width: 48rpx;
@@ -148,6 +182,28 @@ const ddOptions = [{ text: 'Default', value: '0' }, { text: 'Price', value: '1' 
   background: var(--tt-background, #fff);
   border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
   font-size: 28rpx;
+  color: var(--tt-foreground, #0a0a0a);
+}
+.indexbar-demo-wrap {
+  height: 400rpx;
+  border: 2rpx solid var(--tt-border, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
+  overflow: hidden;
+  position: relative;
+}
+.indexbar-group__title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--tt-muted-foreground, #737373);
+  padding: 12rpx 24rpx;
+  background: var(--tt-muted, #f5f5f5);
+}
+.indexbar-group__item {
+  padding: 20rpx 24rpx;
+  border-bottom: 1rpx solid var(--tt-border, #e5e5e5);
+}
+.indexbar-group__text {
+  font-size: 26rpx;
   color: var(--tt-foreground, #0a0a0a);
 }
 </style>

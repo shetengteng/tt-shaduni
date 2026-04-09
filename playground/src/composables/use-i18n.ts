@@ -113,6 +113,8 @@ const dict: Record<string, Record<string, string>> = {
   'dropdown.desc': { en: 'Filter/sort dropdown with options', zh: '筛选/排序下拉菜单' },
   'swipeAction': { en: 'SwipeAction', zh: '滑动操作' },
   'swipeAction.desc': { en: 'Swipe cell to reveal actions', zh: '滑动单元格显示操作按钮' },
+  'indexBar': { en: 'IndexBar', zh: '索引栏' },
+  'indexBar.desc': { en: 'Alphabetic index sidebar for quick navigation', zh: '字母索引侧栏，快速定位导航' },
 
   // Feedback
   'loading': { en: 'Loading', zh: '加载' },

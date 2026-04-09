@@ -62,6 +62,7 @@
 		{ "path": "pages/comp/pagination", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/dropdownmenu", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/swipeaction", "style": { "navigationStyle": "custom" } },
+		{ "path": "pages/comp/indexbar", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/popup", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/dialog", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/toast", "style": { "navigationStyle": "custom" } },

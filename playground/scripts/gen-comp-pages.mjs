@@ -59,6 +59,7 @@ const components = [
   { id: 'pagination', cat: 'nav' },
   { id: 'dropdownmenu', cat: 'nav' },
   { id: 'swipeaction', cat: 'nav' },
+  { id: 'indexbar', cat: 'nav' },
   { id: 'popup', cat: 'feedback' },
   { id: 'dialog', cat: 'feedback' },
   { id: 'toast', cat: 'feedback' },

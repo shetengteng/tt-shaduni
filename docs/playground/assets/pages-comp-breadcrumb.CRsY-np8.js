@@ -1,0 +1,1 @@
+import{d as a,c as s,w as o,o as m,a as r}from"./index-r4639_QP.js";import{C as t}from"./CompPageLayout.wpikoR8E.js";import{D as e}from"./DemoNav.TsZaBb7e.js";import"./use-i18n.K5lUwBhM.js";import"./tt-cell.Dz6zMJSj.js";const p=a({__name:"breadcrumb",setup:a=>(a,p)=>(m(),s(t,null,{default:o(()=>[r(e,{only:"breadcrumb"})]),_:1}))});export{p as default};

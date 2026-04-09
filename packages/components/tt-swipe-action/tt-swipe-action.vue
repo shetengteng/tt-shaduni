@@ -1,6 +1,6 @@
 <template>
   <view class="tt-swipe-action" :class="{ 'tt-swipe-action--disabled': disabled }">
-    <view class="tt-swipe-action__wrapper" :style="wrapStyle" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
+    <view class="tt-swipe-action__wrapper" :style="wrapStyle" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd" @mousedown="onMouseDown">
       <view v-if="leftActions.length" class="tt-swipe-action__left">
         <view v-for="(btn, i) in leftActions" :key="i" class="tt-swipe-action__btn" :style="{ background: btn.bgColor || 'var(--tt-primary,#171717)', color: btn.color || '#fff' }" @click="$emit('click', { position: 'left', index: i })">
           <text>{{ btn.text }}</text>
@@ -50,6 +50,30 @@ function onTouchEnd() {
     const maxLeft = props.rightActions.length ? -80 : 0
     offset.value = offset.value > 0 ? maxRight : maxLeft
   }
+}
+
+function onMouseDown(e: MouseEvent) {
+  if (props.disabled) return
+  startX.value = e.clientX
+  startOffset.value = offset.value
+  const onMouseMove = (ev: MouseEvent) => {
+    const dx = ev.clientX - startX.value
+    const maxRight = props.leftActions.length ? 80 : 0
+    const maxLeft = props.rightActions.length ? -80 : 0
+    offset.value = Math.min(maxRight, Math.max(maxLeft, startOffset.value + dx))
+  }
+  const onMouseUp = () => {
+    if (Math.abs(offset.value) < 30) offset.value = 0
+    else {
+      const maxRight = props.leftActions.length ? 80 : 0
+      const maxLeft = props.rightActions.length ? -80 : 0
+      offset.value = offset.value > 0 ? maxRight : maxLeft
+    }
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', onMouseUp)
+  }
+  document.addEventListener('mousemove', onMouseMove)
+  document.addEventListener('mouseup', onMouseUp)
 }
 
 function close() { offset.value = 0 }
