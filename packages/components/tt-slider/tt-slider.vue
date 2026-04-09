@@ -35,24 +35,23 @@ function onChange(e: any) {
 }
 </script>
 
-<style>
+<style scoped>
 .tt-slider { padding: 16rpx 0; }
 .tt-slider__native { width: 100%; margin: 0; }
 .tt-slider--disabled { opacity: .5; pointer-events: none; }
 
-/* shadcn-style overrides for UniApp H5 slider internals */
-.tt-slider .uni-slider-handle-wrapper {
+.tt-slider :deep(.uni-slider-handle-wrapper) {
   height: 4px !important;
   border-radius: 999px !important;
   background: var(--tt-muted, #f5f5f5) !important;
   overflow: visible !important;
 }
-.tt-slider .uni-slider-track {
+.tt-slider :deep(.uni-slider-track) {
   height: 4px !important;
   border-radius: 999px !important;
   background: var(--tt-primary, #171717) !important;
 }
-.tt-slider .uni-slider-handle {
+.tt-slider :deep(.uni-slider-handle) {
   position: absolute !important;
   width: 20px !important;
   height: 20px !important;
@@ -66,11 +65,11 @@ function onChange(e: any) {
   cursor: grab !important;
   z-index: 2 !important;
 }
-.tt-slider .uni-slider-handle::before,
-.tt-slider .uni-slider-handle::after {
+.tt-slider :deep(.uni-slider-handle)::before,
+.tt-slider :deep(.uni-slider-handle)::after {
   display: none !important;
 }
-.tt-slider .uni-slider-thumb {
+.tt-slider :deep(.uni-slider-thumb) {
   width: 0 !important;
   height: 0 !important;
   opacity: 0 !important;

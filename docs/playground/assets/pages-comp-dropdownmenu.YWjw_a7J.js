@@ -1,1 +1,0 @@
-import{d as o,c as a,w as s,o as m,a as t}from"./index-DV-LnFYt.js";import{C as e}from"./CompPageLayout.Bq0xxb3w.js";import{D as r}from"./DemoNav.MtU5uzPn.js";import"./use-i18n.Cucy90rm.js";import"./tt-cell.CbdreIfP.js";const n=o({__name:"dropdownmenu",setup:o=>(o,n)=>(m(),a(e,null,{default:s(()=>[t(r,{only:"dropdownmenu"})]),_:1}))});export{n as default};

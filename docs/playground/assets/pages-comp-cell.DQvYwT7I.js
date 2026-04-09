@@ -1,0 +1,1 @@
+import{d as a,c as s,w as o,o as t,a as e}from"./index-hj3h86bM.js";import{C as l}from"./CompPageLayout.Dz4aYi82.js";import{D as m}from"./DemoNav.DwPiZzqE.js";import"./use-i18n.DJHTavMj.js";import"./tt-cell.D2b7q-3v.js";const r=a({__name:"cell",setup:a=>(a,r)=>(t(),s(l,null,{default:o(()=>[e(m,{only:"cell"})]),_:1}))});export{r as default};

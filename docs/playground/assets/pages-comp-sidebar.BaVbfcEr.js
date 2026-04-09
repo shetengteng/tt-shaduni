@@ -1,1 +1,0 @@
-import{d as a,c as s,w as o,o as t,a as e}from"./index-DV-LnFYt.js";import{C as m}from"./CompPageLayout.Bq0xxb3w.js";import{D as r}from"./DemoNav.MtU5uzPn.js";import"./use-i18n.Cucy90rm.js";import"./tt-cell.CbdreIfP.js";const i=a({__name:"sidebar",setup:a=>(a,i)=>(t(),s(m,null,{default:o(()=>[e(r,{only:"sidebar"})]),_:1}))});export{i as default};

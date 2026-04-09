@@ -1,1 +1,0 @@
-import{d as o,c as t,w as s,o as a,a as p}from"./index-DV-LnFYt.js";import{C as e}from"./CompPageLayout.Bq0xxb3w.js";import{D as m}from"./DemoFeedback.DOtjsScX.js";import"./use-i18n.Cucy90rm.js";import"./tt-button.jrvbHKdt.js";import"./tt-cell.CbdreIfP.js";const r=o({__name:"popup",setup:o=>(o,r)=>(a(),t(e,null,{default:s(()=>[p(m,{only:"popup"})]),_:1}))});export{r as default};
