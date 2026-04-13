@@ -14,7 +14,8 @@ window.TTDocs.componentGroups["display"] = [
   "table",
   "descriptions",
   "list",
-  "tooltip"
+  "tooltip",
+  "drag"
 ]
 document.write('<script src="./js/modules/components/card.js"><\/script>')
 document.write('<script src="./js/modules/components/badge.js"><\/script>')
@@ -30,3 +31,4 @@ document.write('<script src="./js/modules/components/table.js"><\/script>')
 document.write('<script src="./js/modules/components/descriptions.js"><\/script>')
 document.write('<script src="./js/modules/components/list.js"><\/script>')
 document.write('<script src="./js/modules/components/tooltip.js"><\/script>')
+document.write('<script src="./js/modules/components/drag.js"><\/script>')

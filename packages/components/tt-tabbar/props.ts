@@ -1,10 +1,15 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
-export interface TabbarItem { text: string; icon?: string }
+export interface TabbarItem {
+  text: string
+  icon?: string
+  selectedIcon?: string
+  name?: string
+}
 
 export const tabbarProps = {
   modelValue: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
   items: {
@@ -15,6 +20,10 @@ export const tabbarProps = {
     type: Boolean,
     default: true,
   },
+  placeholder: {
+    type: Boolean,
+    default: true,
+  },
   border: {
     type: Boolean,
     default: true,
@@ -22,6 +31,14 @@ export const tabbarProps = {
   safeAreaInsetBottom: {
     type: Boolean,
     default: true,
+  },
+  activeColor: {
+    type: String,
+    default: '',
+  },
+  inactiveColor: {
+    type: String,
+    default: '',
   },
 }
 

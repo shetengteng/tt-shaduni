@@ -139,11 +139,23 @@
         <tt-tooltip content="Bottom tip" placement="bottom"><tt-button size="sm">Bottom</tt-button></tt-tooltip>
       </view>
     </view>
+
+    <view class="demo-block" id="demo-drag" v-if="!only || only === 'drag'">
+      <text class="demo-label">{{ t('drag') }}</text>
+      <text class="demo-desc">{{ t('drag.desc') }}</text>
+      <tt-drag v-model="dragItems" :columns="3" :gap="16" :border-radius="12">
+        <template #default="{ item }">
+          <view class="drag-demo-cell">
+            <text class="drag-demo-cell__text">{{ item.text }}</text>
+          </view>
+        </template>
+      </tt-drag>
+    </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { ref, inject } from 'vue'
 import '@/styles/demo-shared.css'
 defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
@@ -151,6 +163,10 @@ const t = inject<(key: string) => string>('t', (k) => k)
 const cols = [{ key: 'name', title: 'Name' }, { key: 'age', title: 'Age' }, { key: 'role', title: 'Role' }]
 const rows = [{ name: 'Alice', age: 28, role: 'Dev' }, { name: 'Bob', age: 32, role: 'PM' }]
 const descItems = [{ label: 'Name', value: 'Alice' }, { label: 'Age', value: '28' }, { label: 'Email', value: 'alice@example.com' }, { label: 'Role', value: 'Developer' }]
+const dragItems = ref([
+  { text: 'Item 1' }, { text: 'Item 2' }, { text: 'Item 3' },
+  { text: 'Item 4' }, { text: 'Item 5' }, { text: 'Item 6' },
+])
 </script>
 
 <style>
@@ -172,5 +188,18 @@ const descItems = [{ label: 'Name', value: 'Alice' }, { label: 'Age', value: '28
   border-bottom: 2rpx solid var(--tt-border, #e5e5e5);
   font-size: 28rpx;
   color: var(--tt-foreground, #0a0a0a);
+}
+.drag-demo-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--tt-muted, #f5f5f5);
+  border-radius: 12rpx;
+}
+.drag-demo-cell__text {
+  font-size: 26rpx;
+  color: var(--tt-foreground, #0a0a0a);
+  font-weight: 500;
 }
 </style>
