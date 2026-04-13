@@ -1,1 +1,0 @@
-import{d as t,c as s,w as o,o as a,a as m}from"./index-95ndKc2a.js";import{C as i}from"./CompPageLayout.D5Fwjrf5.js";import{D as r}from"./DemoLayout.DUoma5Jy.js";import"./use-i18n.BSS-CVWO.js";import"./tt-button.GN9zh6Rv.js";import"./tt-tag.B54noljI.js";const e=t({__name:"sticky",setup:t=>(t,e)=>(a(),s(i,null,{default:o(()=>[m(r,{only:"sticky"})]),_:1}))});export{e as default};
