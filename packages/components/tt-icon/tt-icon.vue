@@ -1,45 +1,66 @@
 <template>
-  <text class="tt-icon" :style="iconStyle">{{ iconChar }}</text>
+  <!-- #ifdef MP -->
+  <view class="tt-icon" :style="mpStyle" @click="emit('click')" />
+  <!-- #endif -->
+  <!-- #ifndef MP -->
+  <view class="tt-icon" v-html="svgHtml" :style="h5Style" @click="emit('click')" />
+  <!-- #endif -->
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { iconProps } from './props'
-
-const ICON_MAP: Record<string, string> = {
-  home: '⌂', search: '⌕', user: '♟', setting: '⚙', close: '✕', check: '✓',
-  'arrow-left': '‹', 'arrow-right': '›', 'arrow-up': '‸', 'arrow-down': '⌄',
-  plus: '+', minus: '−', star: '★', 'star-o': '☆', heart: '♥', 'heart-o': '♡',
-  edit: '✎', delete: '✖', info: 'ℹ', warning: '⚠', success: '✔', error: '✘',
-  loading: '⟳', refresh: '↻', share: '⇧', link: '🔗', copy: '⧉', menu: '☰',
-  more: '⋯', filter: '⧫', sort: '⇅', calendar: '📅', clock: '⏱', location: '⊕',
-  phone: '✆', mail: '✉', camera: '📷', image: '🖼', file: '📄', folder: '📁',
-  lock: '🔒', unlock: '🔓', eye: '👁', 'eye-off': '⊘', bell: '🔔', cart: '🛒',
-  tag: '🏷', 'thumbs-up': '👍', 'thumbs-down': '👎',
-}
+import { useSvgIcon } from '../../composables/use-svg-icon'
 
 const props = defineProps(iconProps)
+const emit = defineEmits<{ (e: 'click'): void }>()
 
-const iconChar = computed(() => ICON_MAP[props.name] || props.name)
+const { svgHtml, svgDataUri } = useSvgIcon(
+  () => props.name,
+  () => props.svg,
+  () => props.color,
+)
 
-const iconStyle = computed(() => {
-  const size = typeof props.size === 'number' ? `${props.size}px` : props.size
-  return {
-    fontSize: size,
-    lineHeight: size,
-    width: size,
-    height: size,
-    color: props.color || undefined,
+const sizeWithUnit = computed(() => {
+  const { size } = props
+  if (typeof size === 'number') return `${size}rpx`
+  return size
+})
+
+const h5Style = computed(() => {
+  const w = sizeWithUnit.value
+  let s = `width:${w};height:${w};`
+  if (props.color) s += `color:${props.color};`
+  return s
+})
+
+const mpStyle = computed(() => {
+  const w = sizeWithUnit.value
+  let s = `width:${w};height:${w};`
+  if (svgDataUri.value) {
+    s += `background-image:url("${svgDataUri.value}");`
   }
+  return s
 })
 </script>
 
 <style>
+/* #ifndef MP */
+.tt-icon :deep(svg) {
+  width: 100% !important;
+  height: 100% !important;
+}
+/* #endif */
+/* #ifdef MP */
+.tt-icon {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+/* #endif */
 .tt-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-style: normal;
-  color: inherit;
 }
 </style>

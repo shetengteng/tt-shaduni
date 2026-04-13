@@ -3,11 +3,15 @@ import type { ExtractPropTypes, PropType } from 'vue'
 export const iconProps = {
   name: {
     type: String,
-    required: true as const,
+    default: '',
+  },
+  svg: {
+    type: String,
+    default: '',
   },
   size: {
     type: [String, Number] as PropType<string | number>,
-    default: 16,
+    default: 48,
   },
   color: {
     type: String,

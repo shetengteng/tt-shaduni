@@ -45,6 +45,7 @@
     "docs:build": "npm run docs:gen && vitepress build docs-vitepress",
     "docs:playground": "cd playground && npm run build:h5 && rm -rf ../docs/playground && cp -r dist/build/h5 ../docs/playground",
     "release": "node scripts/release.mjs",
+    "icons:extract": "node scripts/extract-icons.mjs",
     "prepublishOnly": "npm run build:all"
   },
   "repository": {
@@ -62,6 +63,7 @@
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^20.8.9",
+    "remixicon": "^4.9.1",
     "vitest": "^4.1.3",
     "vue": "^3.5.32"
   }

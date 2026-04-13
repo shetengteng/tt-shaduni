@@ -12,9 +12,9 @@
           @click="onCopy(name)"
         >
           <view class="icon-card__icon">
-            <tt-icon :name="name" size="28" />
+            <tt-icon :name="name" :size="56" />
           </view>
-          <text class="icon-card__name">{{ name }}</text>
+          <text class="icon-card__name">{{ displayName(name) }}</text>
         </view>
       </view>
       <view v-if="copied" class="icon-toast">
@@ -22,15 +22,28 @@
       </view>
     </view>
 
+    <view class="demo-block" id="demo-icon-fill">
+      <text class="demo-label">{{ t('icon.fill') || 'Fill Variant' }}</text>
+      <text class="demo-desc">{{ t('icon.fill.desc') || 'Filled style icons' }}</text>
+      <view class="icon-grid">
+        <view v-for="name in fillIcons" :key="name" class="icon-card">
+          <view class="icon-card__icon">
+            <tt-icon :name="name" :size="56" />
+          </view>
+          <text class="icon-card__name">{{ displayName(name) }}</text>
+        </view>
+      </view>
+    </view>
+
     <view class="demo-block" id="demo-icon-sizes">
       <text class="demo-label">{{ t('icon.sizes') }}</text>
       <text class="demo-desc">{{ t('icon.sizes.desc') }}</text>
       <view class="icon-showcase">
-        <view v-for="s in [16, 20, 24, 32, 40]" :key="s" class="icon-showcase__item">
-          <view class="icon-showcase__circle" :style="{ width: (s * 2 + 24) + 'rpx', height: (s * 2 + 24) + 'rpx' }">
-            <tt-icon name="star" :size="s" />
+        <view v-for="s in [32, 40, 48, 64, 80]" :key="s" class="icon-showcase__item">
+          <view class="icon-showcase__circle" :style="{ width: (s + 24) + 'rpx', height: (s + 24) + 'rpx' }">
+            <tt-icon name="ri-star-fill" :size="s" />
           </view>
-          <text class="icon-showcase__label">{{ s }}</text>
+          <text class="icon-showcase__label">{{ s }}rpx</text>
         </view>
       </view>
     </view>
@@ -41,7 +54,7 @@
       <view class="icon-colors">
         <view v-for="c in colorSet" :key="c.color" class="icon-colors__item">
           <view class="icon-colors__circle" :style="{ background: c.bg }">
-            <tt-icon name="heart" size="28" :color="c.color" />
+            <tt-icon name="ri-heart-fill" :size="56" :color="c.color" />
           </view>
           <text class="icon-colors__label">{{ c.label }}</text>
         </view>
@@ -70,16 +83,29 @@ function onCopy(name: string) {
   setTimeout(() => { if (copied.value === name) copied.value = '' }, 1500)
 }
 
+function displayName(name: string) {
+  return name.replace(/^ri-/, '').replace(/-(?:line|fill)$/, '')
+}
+
 const iconNames = [
-  'home', 'search', 'user', 'setting', 'close', 'check',
-  'arrow-left', 'arrow-right', 'arrow-up', 'arrow-down',
-  'plus', 'minus', 'star', 'star-o', 'heart', 'heart-o',
-  'edit', 'delete', 'info', 'warning', 'success', 'error',
-  'loading', 'refresh', 'share', 'link', 'copy', 'menu',
-  'more', 'filter', 'sort', 'calendar', 'clock', 'location',
-  'phone', 'mail', 'camera', 'image', 'file', 'folder',
-  'lock', 'unlock', 'eye', 'eye-off', 'bell', 'cart',
-  'tag', 'thumbs-up', 'thumbs-down',
+  'ri-home-line', 'ri-search-line', 'ri-user-line', 'ri-settings-line',
+  'ri-close-line', 'ri-check-line', 'ri-arrow-left-s-line', 'ri-arrow-right-s-line',
+  'ri-arrow-up-s-line', 'ri-arrow-down-s-line', 'ri-add-line', 'ri-subtract-line',
+  'ri-star-line', 'ri-heart-line', 'ri-edit-line', 'ri-delete-bin-line',
+  'ri-information-line', 'ri-error-warning-line', 'ri-checkbox-circle-line', 'ri-close-circle-line',
+  'ri-loader-4-line', 'ri-refresh-line', 'ri-share-line', 'ri-link',
+  'ri-file-copy-line', 'ri-menu-line', 'ri-more-line', 'ri-filter-line',
+  'ri-arrow-up-down-line', 'ri-calendar-line', 'ri-time-line', 'ri-map-pin-line',
+  'ri-phone-line', 'ri-mail-line', 'ri-camera-line', 'ri-image-line',
+  'ri-file-line', 'ri-folder-line', 'ri-lock-line', 'ri-lock-unlock-line',
+  'ri-eye-line', 'ri-eye-off-line', 'ri-notification-line', 'ri-shopping-cart-line',
+  'ri-price-tag-line', 'ri-thumb-up-line', 'ri-thumb-down-line',
+]
+
+const fillIcons = [
+  'ri-home-fill', 'ri-star-fill', 'ri-heart-fill', 'ri-notification-fill',
+  'ri-lock-fill', 'ri-eye-fill', 'ri-mail-fill', 'ri-calendar-fill',
+  'ri-folder-fill', 'ri-camera-fill',
 ]
 </script>
 

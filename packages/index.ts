@@ -91,6 +91,8 @@ export type { TtSheetProps as SheetProps } from './components/tt-sheet'
 // Composables
 export { useTheme } from './composables/use-theme'
 export type { ThemeMode } from './composables/use-theme'
+export { useSvgIcon, preloadSvgIcons, clearSvgIconCache } from './composables/use-svg-icon'
+export type { UseSvgIconOptions, UseSvgIconReturn } from './composables/use-svg-icon'
 
 // Tokens & Utils
 export { lightTokens, darkTokens } from './styles/tokens'

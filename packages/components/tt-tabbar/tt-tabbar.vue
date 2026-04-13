@@ -9,7 +9,8 @@
         @click="onSelect(i)"
       >
         <view class="tt-tabbar__icon">
-          <text>{{ iconMap[item.icon || ''] || '○' }}</text>
+          <tt-icon v-if="item.icon" :name="item.icon" :size="36" />
+          <text v-else>○</text>
         </view>
         <text class="tt-tabbar__label">{{ item.text }}</text>
       </view>
@@ -23,17 +24,6 @@ import { tabbarProps } from './props'
 
 const props = defineProps(tabbarProps)
 const emit = defineEmits(['update:modelValue', 'change'])
-
-const iconMap: Record<string, string> = {
-  home: '⌂',
-  list: '☰',
-  user: '♟',
-  search: '⌕',
-  cart: '🛒',
-  msg: '✉',
-  star: '★',
-  setting: '⚙',
-}
 
 function onSelect(i: number) {
   emit('update:modelValue', i)
