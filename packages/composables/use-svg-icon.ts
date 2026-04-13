@@ -26,7 +26,7 @@ export function useSvgIcon(
   getName: () => string,
   getSvg: () => string,
   getColor: () => string,
-  dir = '/static/svg',
+  dir = './static/svg',
 ): UseSvgIconReturn {
   const svgRaw = ref('')
 

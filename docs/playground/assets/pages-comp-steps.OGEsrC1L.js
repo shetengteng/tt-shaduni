@@ -1,1 +1,0 @@
-import{d as s,c as t,w as o,o as a,a as e}from"./index-BXW2MmL2.js";import{C as m}from"./CompPageLayout.B8V8nfDs.js";import{D as p}from"./DemoNav.CNoH8A8o.js";import"./use-i18n.DCFuWTcg.js";import"./tt-cell.CN6z33-A.js";import"./tt-icon.CHqALBVH.js";const r=s({__name:"steps",setup:s=>(s,r)=>(a(),t(m,null,{default:o(()=>[e(p,{only:"steps"})]),_:1}))});export{r as default};

@@ -1,1 +1,0 @@
-import{d as t,c as s,w as o,o as e,a}from"./index-BXW2MmL2.js";import{C as m}from"./CompPageLayout.B8V8nfDs.js";import{D as r}from"./DemoFeedback.CoSiOiZu.js";import"./use-i18n.DCFuWTcg.js";import"./tt-button.ClhxPe3y.js";import"./tt-cell.CN6z33-A.js";const p=t({__name:"sheet",setup:t=>(t,p)=>(e(),s(m,null,{default:o(()=>[a(r,{only:"sheet"})]),_:1}))});export{p as default};
