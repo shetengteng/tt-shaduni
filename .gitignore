@@ -15,4 +15,5 @@ allure-results/**
 
 playground/node_modules/
 playground/dist/
+playground/src/.tt-ui-packages/
 .github/workflows/
