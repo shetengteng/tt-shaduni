@@ -98,7 +98,7 @@ const t = inject<(key: string) => string>('t', (k) => k)
 const tabIdx = ref(0)
 const tabItems = [{ label: 'Home', value: 0 }, { label: 'Profile', value: 1 }, { label: 'Setting', value: 2 }]
 const tbIdx = ref(0)
-const tabbarItems = [{ text: 'Home', icon: 'home' }, { text: 'List', icon: 'list' }, { text: 'Me', icon: 'user' }]
+const tabbarItems = [{ text: 'Home', icon: 'ri-home-line' }, { text: 'List', icon: 'ri-menu-line' }, { text: 'Me', icon: 'ri-user-line' }]
 const stepItems = [
   { title: 'Order', description: 'Place order' },
   { title: 'Pay', description: 'Make payment' },

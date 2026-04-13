@@ -112,7 +112,7 @@ const fillIcons = [
 <style>
 .icon-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(120rpx, 1fr));
   gap: 16rpx;
 }
 .icon-card {
@@ -166,6 +166,7 @@ const fillIcons = [
   align-items: flex-end;
   gap: 28rpx;
   padding: 24rpx 0;
+  flex-wrap: wrap;
 }
 .icon-showcase__item {
   display: flex;
@@ -189,6 +190,7 @@ const fillIcons = [
   display: flex;
   gap: 28rpx;
   padding: 24rpx 0;
+  flex-wrap: wrap;
 }
 .icon-colors__item {
   display: flex;

@@ -5,7 +5,7 @@
   >
     <view class="tt-navbar__left" @click="handleLeftClick">
       <slot name="left">
-        <text v-if="leftArrow" class="tt-navbar__arrow">‹</text>
+        <tt-icon v-if="leftArrow" name="ri-arrow-left-s-line" :size="40" class="tt-navbar__arrow" />
         <text v-if="leftText" class="tt-navbar__left-text">{{ leftText }}</text>
       </slot>
     </view>
@@ -64,9 +64,7 @@ function handleLeftClick() {
 }
 
 .tt-navbar__arrow {
-  font-size: 48rpx;
   color: var(--tt-foreground, #0a0a0a);
-  line-height: 1;
 }
 
 .tt-navbar__left-text {

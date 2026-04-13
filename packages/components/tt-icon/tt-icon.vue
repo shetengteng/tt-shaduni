@@ -46,9 +46,10 @@ const mpStyle = computed(() => {
 
 <style>
 /* #ifndef MP */
-.tt-icon :deep(svg) {
+.tt-icon svg {
   width: 100% !important;
   height: 100% !important;
+  display: block;
 }
 /* #endif */
 /* #ifdef MP */
@@ -62,5 +63,7 @@ const mpStyle = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 </style>

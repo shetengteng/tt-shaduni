@@ -12,6 +12,7 @@
   border: 1px solid var(--tt-border, #e5e5e5);
   background: var(--tt-card, var(--tt-background, #fff));
   transition: border-color .2s;
+  min-width: 0;
 }
 .demo-label {
   display: block;
