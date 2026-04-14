@@ -1,5 +1,6 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
+import { builtinIcons } from '../icons/builtin'
 
 export interface UseSvgIconOptions {
   name?: string
@@ -20,7 +21,11 @@ export interface UseSvgIconReturn {
   reload: () => Promise<void>
 }
 
-const svgCache = new Map<string, string>()
+const svgCache = new Map<string, string>(Object.entries(builtinIcons))
+
+function isCssVariable(color: string): boolean {
+  return color.trim().startsWith('var(')
+}
 
 export function useSvgIcon(
   getName: () => string,
@@ -33,7 +38,7 @@ export function useSvgIcon(
   const svgHtml = computed(() => {
     if (!svgRaw.value) return ''
     const color = getColor()
-    if (!color) return svgRaw.value
+    if (!color || isCssVariable(color) || color === 'currentColor') return svgRaw.value
     return svgRaw.value.replace(/currentColor/g, color)
   })
 

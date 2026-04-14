@@ -30,7 +30,6 @@ describe('TtToast', () => {
       props: { show: true, type: 'success' },
     })
     expect(wrapper.find('.tt-toast__icon').exists()).toBe(true)
-    expect(wrapper.text()).toContain('✓')
   })
 
   it('shows loading spinner for type=loading', () => {
@@ -44,7 +43,7 @@ describe('TtToast', () => {
     const wrapper = mount(TtToast, {
       props: { show: true, type: 'fail' },
     })
-    expect(wrapper.text()).toContain('✕')
+    expect(wrapper.find('.tt-toast__icon').exists()).toBe(true)
   })
 
   it('auto closes after duration', async () => {

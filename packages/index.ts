@@ -93,6 +93,7 @@ export { useTheme } from './composables/use-theme'
 export type { ThemeMode } from './composables/use-theme'
 export { useSvgIcon, preloadSvgIcons, clearSvgIconCache } from './composables/use-svg-icon'
 export type { UseSvgIconOptions, UseSvgIconReturn } from './composables/use-svg-icon'
+export { builtinIcons } from './icons/builtin'
 
 // Tokens & Utils
 export { lightTokens, darkTokens } from './styles/tokens'

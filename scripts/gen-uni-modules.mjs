@@ -19,6 +19,7 @@ mkdirSync(outDir, { recursive: true })
 
 cpSync(resolve(pkgDir, 'components'), resolve(outDir, 'components'), { recursive: true, filter: (src) => !src.includes('__tests__') })
 cpSync(resolve(pkgDir, 'composables'), resolve(outDir, 'composables'), { recursive: true })
+cpSync(resolve(pkgDir, 'icons'), resolve(outDir, 'icons'), { recursive: true })
 cpSync(resolve(pkgDir, 'styles'), resolve(outDir, 'styles'), { recursive: true })
 cpSync(resolve(pkgDir, 'utils'), resolve(outDir, 'utils'), { recursive: true })
 cpSync(resolve(pkgDir, 'index.ts'), resolve(outDir, 'index.ts'))

@@ -12,7 +12,7 @@
         <text class="pg-hd__btn-lang">{{ lang === 'en' ? '中' : 'En' }}</text>
       </view>
       <view class="pg-hd__btn" @click="$emit('toggleTheme')">
-        <text class="pg-hd__btn-theme">{{ isDark ? '☀' : '☽' }}</text>
+        <tt-icon :name="isDark ? 'ri-sun-line' : 'ri-moon-line'" :size="36" color="var(--tt-foreground, #0a0a0a)" />
       </view>
     </view>
   </view>
@@ -85,10 +85,6 @@ defineEmits(['toggleLang', 'toggleTheme'])
   font-size: 24rpx;
   font-weight: 600;
   color: var(--tt-foreground, #0a0a0a);
-  line-height: 1;
-}
-.pg-hd__btn-theme {
-  font-size: 36rpx;
   line-height: 1;
 }
 </style>

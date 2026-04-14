@@ -19,6 +19,16 @@
         <tt-button size="lg">Large</tt-button>
       </view>
       <view class="demo-row">
+        <tt-button variant="default"><tt-icon name="ri-add-line" :size="32" color="currentColor" /> Add</tt-button>
+        <tt-button variant="outline"><tt-icon name="ri-edit-line" :size="32" color="currentColor" /> Edit</tt-button>
+        <tt-button variant="destructive"><tt-icon name="ri-delete-bin-line" :size="32" color="currentColor" /> Delete</tt-button>
+      </view>
+      <view class="demo-row">
+        <tt-button variant="default" size="icon"><tt-icon name="ri-heart-line" :size="36" color="currentColor" /></tt-button>
+        <tt-button variant="outline" size="icon"><tt-icon name="ri-share-line" :size="36" color="currentColor" /></tt-button>
+        <tt-button variant="ghost" size="icon"><tt-icon name="ri-more-line" :size="36" color="currentColor" /></tt-button>
+      </view>
+      <view class="demo-row">
         <tt-button disabled>Disabled</tt-button>
         <tt-button loading>Loading</tt-button>
       </view>
