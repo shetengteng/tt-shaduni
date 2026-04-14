@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Styles — TT ShadUni</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/shared.css" />
+  <link rel="stylesheet" href="./css/styles-page.css" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/></svg>
+      TT ShadUni
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">{{ t.home }}</a>
+      <a class="nav-link" href="components.html">{{ t.components }}</a>
+      <a class="nav-link active" href="styles.html">{{ t.styles }}</a>
+      <a class="nav-link" href="https://github.com/shetengteng/tt-shaduni" target="_blank">GitHub</a>
+      <button class="nav-btn" @click="toggleLang">{{ lang==='en'?'中':'En' }}</button>
+      <button class="nav-btn" @click="toggleTheme">
+        <svg v-if="!isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <div class="container">
+      <h1 class="page-title fade-in">{{ t.stylesTitle }}</h1>
+      <p class="page-desc fade-in fade-in-d1">{{ t.stylesDesc }}</p>
+
+      <!-- Overview -->
+      <section class="doc-section fade-in fade-in-d2">
+        <h2>{{ t.overviewTitle }}</h2>
+        <p>{{ t.overviewDesc }}</p>
+        <div class="file-grid">
+          <div class="file-card" v-for="f in files" :key="f.name">
+            <div class="file-name">{{ f.name }}</div>
+            <div class="file-desc">{{ f.desc }}</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Install -->
+      <section class="doc-section fade-in fade-in-d3">
+        <h2>{{ t.installTitle }}</h2>
+
+        <h3>{{ t.npmTitle }}</h3>
+        <pre class="code-block"><code>{{ t.npmCode }}</code></pre>
+
+        <h3>{{ t.uniModulesTitle }}</h3>
+        <pre class="code-block"><code>{{ t.uniModulesCode }}</code></pre>
+      </section>
+
+      <!-- Theme -->
+      <section class="doc-section fade-in fade-in-d4">
+        <h2>{{ t.themeTitle }}</h2>
+        <p>{{ t.themeDesc }}</p>
+        <pre class="code-block"><code>{{ t.themeExample }}</code></pre>
+
+        <h3>{{ t.themeTokensTitle }}</h3>
+        <div class="token-grid">
+          <div class="token-row" v-for="tok in themeTokens" :key="tok.name">
+            <div class="token-swatch" :style="{ background: tok.light }"></div>
+            <code class="token-name">{{ tok.name }}</code>
+            <span class="token-val">{{ tok.light }}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Variables -->
+      <section class="doc-section fade-in fade-in-d5">
+        <h2>{{ t.varsTitle }}</h2>
+        <p>{{ t.varsDesc }}</p>
+        <pre class="code-block"><code>{{ t.varsExample }}</code></pre>
+
+        <h3>{{ t.spacingTitle }}</h3>
+        <div class="spacing-grid">
+          <div class="spacing-row" v-for="sp in spacings" :key="sp.name">
+            <code>{{ sp.name }}</code>
+            <div class="spacing-bar" :style="{ width: sp.px + 'px' }"></div>
+            <span>{{ sp.value }}</span>
+          </div>
+        </div>
+
+        <h3>{{ t.radiusTitle }}</h3>
+        <div class="radius-grid">
+          <div class="radius-item" v-for="r in radii" :key="r.name">
+            <div class="radius-box" :style="{ borderRadius: r.px + 'px' }"></div>
+            <code>{{ r.name }}</code>
+            <span>{{ r.value }}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Utilities -->
+      <section class="doc-section">
+        <h2>{{ t.utilTitle }}</h2>
+        <p>{{ t.utilDesc }}</p>
+
+        <div class="util-category" v-for="cat in utilCategories" :key="cat.title">
+          <h3>{{ cat.title }}</h3>
+          <div class="util-table">
+            <div class="util-row util-header">
+              <div>Class</div>
+              <div>CSS</div>
+            </div>
+            <div class="util-row" v-for="u in cat.items" :key="u.cls">
+              <code>{{ u.cls }}</code>
+              <code class="util-val">{{ u.css }}</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>TT ShadUni &copy; 2026. MIT License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/shetengteng/tt-shaduni">GitHub</a>
+          <a href="components.html">{{ t.components }}</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="./js/i18n.js"></script>
+<script>
+const stylesI18n = {
+  en: {
+    styles: 'Styles',
+    stylesTitle: 'Style System',
+    stylesDesc: 'TT ShadUni provides a complete style system: theme CSS variables, SCSS design tokens, and Tailwind-inspired utility classes. Import them in your project to get a consistent design language without defining your own.',
+    overviewTitle: 'File Overview',
+    overviewDesc: 'The style system consists of three files, each with a single responsibility:',
+    fileTheme: 'CSS custom properties for light & dark themes. All --tt-* variables.',
+    fileVars: 'SCSS variables for spacing, radius, and colors. All values use !default so your project can override.',
+    fileUtils: 'Ready-to-use utility classes: flex, text, background, spacing, border, layout, etc.',
+    installTitle: 'Installation',
+    npmTitle: 'npm / ESM project',
+    npmCode: '// main.ts or App.vue\nimport \'tt-shaduni/styles/theme.css\'\n\n// In your SCSS files:\n@import \'tt-shaduni/styles/utilities.scss\'',
+    uniModulesTitle: 'uni_modules project',
+    uniModulesCode: '// App.vue <style lang="scss">\n@import \'@/uni_modules/tt-shaduni/styles/theme.css\';\n@import \'@/uni_modules/tt-shaduni/styles/utilities.scss\';',
+    themeTitle: 'Theme (CSS Variables)',
+    themeDesc: 'theme.css defines CSS custom properties for light and dark modes. Add [data-theme="dark"] or .theme-dark to switch.',
+    themeExample: '<!-- Auto light -->\n<view class="bg-background text-foreground">...</view>\n\n<!-- Force dark -->\n<view data-theme="dark" class="bg-background text-foreground">\n  Uses dark palette\n</view>',
+    themeTokensTitle: 'Token Reference (Light)',
+    varsTitle: 'SCSS Variables',
+    varsDesc: 'variables.scss provides SCSS variables used by utility classes. All values have !default — override them in your uni.scss before importing.',
+    varsExample: '// uni.scss — override before import\n$tt-spacing-xl: 40rpx;  // default is 48rpx\n\n// Then in your SCSS:\n@import \'@/uni_modules/tt-shaduni/styles/utilities.scss\';',
+    spacingTitle: 'Spacing Scale',
+    radiusTitle: 'Border Radius Scale',
+    utilTitle: 'Utility Classes',
+    utilDesc: 'utilities.scss provides Tailwind-inspired classes. Use them directly in your template class attribute.',
+    catText: 'Text & Font',
+    catBg: 'Background',
+    catSpacing: 'Spacing (Padding & Margin)',
+    catBorder: 'Border & Radius',
+    catLayout: 'Layout & Position',
+  },
+  zh: {
+    styles: '样式',
+    stylesTitle: '样式系统',
+    stylesDesc: 'TT ShadUni 提供了完整的样式系统：主题 CSS 变量、SCSS 设计令牌和 Tailwind 风格的工具类。直接引入即可获得一致的设计语言，无需每个项目重复定义。',
+    overviewTitle: '文件概览',
+    overviewDesc: '样式系统由三个文件组成，各司其职：',
+    fileTheme: 'CSS 自定义属性，定义 light/dark 双主题的所有 --tt-* 变量。',
+    fileVars: 'SCSS 变量，定义间距、圆角和颜色。所有值均使用 !default，项目端可覆盖。',
+    fileUtils: '开箱即用的工具类：flex、文字、背景、间距、边框、布局等。',
+    installTitle: '引入方式',
+    npmTitle: 'npm / ESM 项目',
+    npmCode: '// main.ts 或 App.vue\nimport \'tt-shaduni/styles/theme.css\'\n\n// 在 SCSS 文件中：\n@import \'tt-shaduni/styles/utilities.scss\'',
+    uniModulesTitle: 'uni_modules 项目',
+    uniModulesCode: '// App.vue <style lang="scss">\n@import \'@/uni_modules/tt-shaduni/styles/theme.css\';\n@import \'@/uni_modules/tt-shaduni/styles/utilities.scss\';',
+    themeTitle: '主题（CSS 变量）',
+    themeDesc: 'theme.css 为 light/dark 模式定义 CSS 自定义属性。添加 [data-theme="dark"] 或 .theme-dark 即可切换暗色。',
+    themeExample: '<!-- 自动亮色 -->\n<view class="bg-background text-foreground">...</view>\n\n<!-- 强制暗色 -->\n<view data-theme="dark" class="bg-background text-foreground">\n  使用暗色调色板\n</view>',
+    themeTokensTitle: '令牌参考（亮色）',
+    varsTitle: 'SCSS 变量',
+    varsDesc: 'variables.scss 提供工具类使用的 SCSS 变量。所有值均带 !default，在引入前于 uni.scss 中覆盖即可自定义。',
+    varsExample: '// uni.scss — 在引入前覆盖\n$tt-spacing-xl: 40rpx;  // 默认 48rpx\n\n// 然后在 SCSS 中：\n@import \'@/uni_modules/tt-shaduni/styles/utilities.scss\';',
+    spacingTitle: '间距尺度',
+    radiusTitle: '圆角尺度',
+    utilTitle: '工具类',
+    utilDesc: 'utilities.scss 提供 Tailwind 风格的工具类，直接在模板的 class 属性中使用。',
+    catText: '文字与字重',
+    catBg: '背景',
+    catSpacing: '间距（Padding & Margin）',
+    catBorder: '边框与圆角',
+    catLayout: '布局与定位',
+  }
+}
+
+const { createApp, ref, computed } = Vue
+
+createApp({
+  setup() {
+    const isDark = ref(false)
+    const lang = ref('en')
+    const t = computed(() => ({...TTDocs.i18n[lang.value], ...stylesI18n[lang.value]}))
+
+    function toggleTheme() {
+      isDark.value = !isDark.value
+      document.documentElement.classList.toggle('dark', isDark.value)
+    }
+    function toggleLang() { lang.value = lang.value === 'en' ? 'zh' : 'en' }
+
+    const files = computed(() => [
+      { name: 'theme.css', desc: t.value.fileTheme },
+      { name: 'variables.scss', desc: t.value.fileVars },
+      { name: 'utilities.scss', desc: t.value.fileUtils },
+    ])
+
+    const themeTokens = [
+      { name: '--tt-background', light: '#ffffff' },
+      { name: '--tt-foreground', light: '#0a0a0a' },
+      { name: '--tt-primary', light: '#171717' },
+      { name: '--tt-primary-foreground', light: '#fafafa' },
+      { name: '--tt-secondary', light: '#f5f5f5' },
+      { name: '--tt-muted', light: '#f5f5f5' },
+      { name: '--tt-muted-foreground', light: '#737373' },
+      { name: '--tt-card', light: '#f4f4f5' },
+      { name: '--tt-border', light: '#e5e5e5' },
+      { name: '--tt-success', light: '#22c55e' },
+      { name: '--tt-warning', light: '#f97316' },
+      { name: '--tt-error', light: '#ef4444' },
+    ]
+
+    const spacings = [
+      { name: '$tt-spacing-xs', value: '8rpx', px: 4 },
+      { name: '$tt-spacing-sm', value: '16rpx', px: 8 },
+      { name: '$tt-spacing-md', value: '24rpx', px: 12 },
+      { name: '$tt-spacing-lg', value: '32rpx', px: 16 },
+      { name: '$tt-spacing-xl', value: '48rpx', px: 24 },
+    ]
+
+    const radii = [
+      { name: '$tt-radius-sm', value: '6rpx', px: 3 },
+      { name: '$tt-radius-md', value: '12rpx', px: 6 },
+      { name: '$tt-radius-lg', value: '16rpx', px: 8 },
+      { name: '$tt-radius-xl', value: '24rpx', px: 12 },
+    ]
+
+    const utilCategories = computed(() => [
+      { title: 'Flex', items: [
+        { cls: '.flex-row', css: 'display: flex; flex-direction: row' },
+        { cls: '.flex-col', css: 'display: flex; flex-direction: column' },
+        { cls: '.flex-center', css: 'display: flex; align-items: center; justify-content: center' },
+        { cls: '.flex-between', css: 'display: flex; align-items: center; justify-content: space-between' },
+        { cls: '.flex-1', css: 'flex: 1; min-width: 0' },
+        { cls: '.flex-wrap', css: 'flex-wrap: wrap' },
+        { cls: '.flex-shrink-0', css: 'flex-shrink: 0' },
+      ]},
+      { title: t.value.catText, items: [
+        { cls: '.text-xs', css: 'font-size: 22rpx' },
+        { cls: '.text-sm', css: 'font-size: 26rpx' },
+        { cls: '.text-base', css: 'font-size: 28rpx' },
+        { cls: '.text-lg', css: 'font-size: 32rpx' },
+        { cls: '.text-xl', css: 'font-size: 36rpx' },
+        { cls: '.font-medium', css: 'font-weight: 500' },
+        { cls: '.font-semibold', css: 'font-weight: 600' },
+        { cls: '.font-bold', css: 'font-weight: 700' },
+        { cls: '.text-foreground', css: 'color: var(--tt-foreground)' },
+        { cls: '.text-muted', css: 'color: var(--tt-muted-foreground)' },
+        { cls: '.text-success', css: 'color: var(--tt-success)' },
+        { cls: '.truncate', css: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap' },
+      ]},
+      { title: t.value.catBg, items: [
+        { cls: '.bg-background', css: 'background-color: var(--tt-background)' },
+        { cls: '.bg-card', css: 'background-color: var(--tt-card)' },
+        { cls: '.bg-primary', css: 'background-color: var(--tt-primary)' },
+        { cls: '.bg-muted', css: 'background-color: var(--tt-muted)' },
+        { cls: '.bg-success', css: 'background-color: var(--tt-success)' },
+        { cls: '.bg-transparent', css: 'background-color: transparent' },
+      ]},
+      { title: t.value.catSpacing, items: [
+        { cls: '.p-0', css: 'padding: 0' },
+        { cls: '.p-sm', css: 'padding: $tt-spacing-sm' },
+        { cls: '.p-md', css: 'padding: $tt-spacing-md' },
+        { cls: '.px-md', css: 'padding-left/right: $tt-spacing-md' },
+        { cls: '.py-lg', css: 'padding-top/bottom: $tt-spacing-lg' },
+        { cls: '.m-0', css: 'margin: 0' },
+        { cls: '.mt-sm', css: 'margin-top: $tt-spacing-sm' },
+        { cls: '.mb-lg', css: 'margin-bottom: $tt-spacing-lg' },
+        { cls: '.mx-md', css: 'margin-left/right: $tt-spacing-md' },
+      ]},
+      { title: t.value.catBorder, items: [
+        { cls: '.border', css: 'border: 1rpx solid var(--tt-border)' },
+        { cls: '.border-t', css: 'border-top: 1rpx solid var(--tt-border)' },
+        { cls: '.border-b', css: 'border-bottom: 1rpx solid var(--tt-border)' },
+        { cls: '.rounded-sm', css: 'border-radius: $tt-radius-sm' },
+        { cls: '.rounded-md', css: 'border-radius: $tt-radius-md' },
+        { cls: '.rounded-lg', css: 'border-radius: $tt-radius-lg' },
+        { cls: '.rounded-full', css: 'border-radius: 9999rpx' },
+      ]},
+      { title: t.value.catLayout, items: [
+        { cls: '.w-full', css: 'width: 100%' },
+        { cls: '.h-full', css: 'height: 100%' },
+        { cls: '.relative', css: 'position: relative' },
+        { cls: '.absolute', css: 'position: absolute' },
+        { cls: '.fixed', css: 'position: fixed' },
+        { cls: '.hidden', css: 'display: none' },
+        { cls: '.overflow-hidden', css: 'overflow: hidden' },
+        { cls: '.z-50', css: 'z-index: 50' },
+      ]},
+    ])
+
+    return { isDark, lang, t, files, themeTokens, spacings, radii, utilCategories, toggleTheme, toggleLang }
+  }
+}).mount('#app')
+</script>
+</body>
+</html>

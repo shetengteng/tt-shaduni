@@ -2,7 +2,7 @@ window.TTDocs = window.TTDocs || {}
 
 window.TTDocs.i18n = {
   en: {
-    home: 'Home', components: 'Components', switchLang: 'Switch Language', toggleTheme: 'Toggle Theme',
+    home: 'Home', components: 'Components', styles: 'Styles', switchLang: 'Switch Language', toggleTheme: 'Toggle Theme',
     heroTitle1: 'TT ShadUni', heroTitle2: 'Component Library',
     heroDesc: 'A shadcn-inspired, multi-platform UI component library for UniApp. Build beautiful H5, Mini-program, and App interfaces with one codebase.',
     viewComponents: 'Browse Components',
@@ -17,7 +17,7 @@ window.TTDocs.i18n = {
     s1: 'Components', s2: 'Test Cases', s3: 'KB Gzipped', s4: 'Platforms',
   },
   zh: {
-    home: '首页', components: '组件', switchLang: '切换语言', toggleTheme: '切换主题',
+    home: '首页', components: '组件', styles: '样式', switchLang: '切换语言', toggleTheme: '切换主题',
     heroTitle1: 'TT ShadUni', heroTitle2: '组件库',
     heroDesc: '基于 shadcn 设计风格的 UniApp 多端 UI 组件库。一套代码，同时构建 H5、小程序和 App。',
     viewComponents: '浏览组件',

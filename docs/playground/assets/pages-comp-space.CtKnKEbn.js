@@ -1,0 +1,1 @@
+import{d as t,c as s,w as a,o,a as m}from"./index-QNEYGWcJ.js";import{C as e}from"./CompPageLayout.CzLlNN4O.js";import{D as p}from"./DemoLayout.D1xVtfOW.js";import"./use-i18n.C3bnb4FX.js";import"./tt-button.B_YSykZb.js";import"./tt-tag.D7GO_tQy.js";const r=t({__name:"space",setup:t=>(t,r)=>(o(),s(e,null,{default:a(()=>[m(p,{only:"space"})]),_:1}))});export{r as default};
