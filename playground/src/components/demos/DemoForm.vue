@@ -85,6 +85,18 @@
       <text class="demo-desc">{{ t('calendar.desc') }}</text>
       <tt-calendar v-model="calendarDate" :locale="lang" />
       <text v-if="calendarDate" class="demo-hint">Selected: {{ calendarDate }}</text>
+
+      <tt-divider />
+      <text class="demo-label">{{ lang === 'zh' ? '紧凑模式（无 bottom）' : 'Compact (no bottom)' }}</text>
+      <tt-calendar v-model="calendarDate2" :locale="lang" :show-bottom="false" />
+
+      <tt-divider />
+      <text class="demo-label">{{ lang === 'zh' ? '禁用未来日期' : 'Disable Future' }}</text>
+      <tt-calendar v-model="calendarDate2" :locale="lang" :max-date="todayStr" />
+
+      <tt-divider />
+      <text class="demo-label">{{ lang === 'zh' ? '打卡日历 (formatter)' : 'Check-in (formatter)' }}</text>
+      <tt-calendar v-model="calendarDate3" :locale="lang" :max-date="todayStr" :formatter="checkInFormatter" />
     </view>
 
     <view class="demo-block" id="demo-upload" v-if="!only || only === 'upload'">
@@ -134,6 +146,33 @@ const pickerCols = [{ text: 'A', value: 'a' }, { text: 'B', value: 'b' }, { text
 const showDate = ref(false)
 const dateVal = ref('')
 const calendarDate = ref('')
+const calendarDate2 = ref('')
+const calendarDate3 = ref('')
+const todayStr = new Date().toISOString().slice(0, 10)
+
+const checkInData: Record<string, { done: number; total: number }> = {}
+const now = new Date()
+for (let i = 1; i <= 14; i++) {
+  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i)
+  const ds = d.toISOString().slice(0, 10)
+  const total = 3
+  const done = i % 3 === 0 ? 0 : i % 2 === 0 ? total : Math.floor(Math.random() * total) + 1
+  if (done > 0) checkInData[ds] = { done, total }
+}
+
+function checkInFormatter(day: { dateStr: string; style?: Record<string, string>; bottom?: string }) {
+  const data = checkInData[day.dateStr]
+  if (!data) return
+  const { done, total } = data
+  if (done === total && total > 0) {
+    day.style = { backgroundColor: 'rgba(34,197,94,0.18)' }
+    day.bottom = `${done}/${total}`
+  } else if (done > 0) {
+    day.style = { backgroundColor: 'rgba(249,115,22,0.18)' }
+    day.bottom = `${done}/${total}`
+  }
+}
+
 const files = ref<Array<{ url: string }>>([])
 const fname = ref('')
 const femail = ref('')

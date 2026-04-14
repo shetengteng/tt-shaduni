@@ -1,1 +1,0 @@
-import{d as a,c as t,w as o,o as s,a as m}from"./index-QNEYGWcJ.js";import{C as r}from"./CompPageLayout.CzLlNN4O.js";import{D as e}from"./DemoNav.CDDyOIi9.js";import"./use-i18n.C3bnb4FX.js";import"./tt-cell.0sneOCfD.js";import"./tt-icon.B0YQHRvf.js";const i=a({__name:"tabbar",setup:a=>(a,i)=>(s(),t(r,null,{default:o(()=>[m(e,{only:"tabbar"})]),_:1}))});export{i as default};

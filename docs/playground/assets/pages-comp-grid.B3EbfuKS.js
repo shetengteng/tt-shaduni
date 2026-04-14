@@ -1,0 +1,1 @@
+import{d as t,c as o,w as s,o as a,a as m}from"./index-BR1w2AH7.js";import{C as r}from"./CompPageLayout.D9yyRCLr.js";import{D as i}from"./DemoLayout.By7bixXY.js";import"./use-i18n.BdTaNsyB.js";import"./tt-button.CVmxnmat.js";import"./tt-tag.ZjQJQX8f.js";const e=t({__name:"grid",setup:t=>(t,e)=>(a(),o(r,null,{default:s(()=>[m(i,{only:"grid"})]),_:1}))});export{e as default};

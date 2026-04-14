@@ -1,5 +1,16 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export interface CalendarDay {
+  date: Date
+  dateStr: string
+  day: number
+  isToday: boolean
+  isSelected: boolean
+  disabled: boolean
+  style?: Record<string, string>
+  bottom?: string
+}
+
 export const calendarProps = {
   modelValue: {
     type: String,
@@ -24,6 +35,14 @@ export const calendarProps = {
   locale: {
     type: String as PropType<'en' | 'zh'>,
     default: 'en',
+  },
+  formatter: {
+    type: Function as PropType<(day: CalendarDay) => void>,
+    default: undefined,
+  },
+  showBottom: {
+    type: Boolean,
+    default: true,
   },
 }
 
