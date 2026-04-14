@@ -18,6 +18,11 @@
       "require": "./dist/lib/resolver/index.cjs",
       "types": "./dist/types/resolver/index.d.ts"
     },
+    "./cloud-emas": {
+      "import": "./dist/es/cloud-emas/index.mjs",
+      "require": "./dist/lib/cloud-emas/index.cjs",
+      "types": "./dist/types/cloud-emas/index.d.ts"
+    },
     "./styles/*": "./packages/styles/*",
     "./package.json": "./package.json"
   },

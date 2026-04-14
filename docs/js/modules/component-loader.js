@@ -5,7 +5,8 @@ window.TTDocs.componentGroupOrder = [
   "display",
   "navigation",
   "feedback",
-  "layout"
+  "layout",
+  "cloud"
 ]
 document.write('<script src="./js/modules/basic-components.js"><\/script>')
 document.write('<script src="./js/modules/form-components.js"><\/script>')
@@ -13,3 +14,4 @@ document.write('<script src="./js/modules/display-components.js"><\/script>')
 document.write('<script src="./js/modules/navigation-components.js"><\/script>')
 document.write('<script src="./js/modules/feedback-components.js"><\/script>')
 document.write('<script src="./js/modules/layout-components.js"><\/script>')
+document.write('<script src="./js/modules/cloud-components.js"><\/script>')

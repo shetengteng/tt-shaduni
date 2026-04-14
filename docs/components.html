@@ -82,7 +82,7 @@
             </table>
           </div>
         </div>
-        <div class="phone-wrap">
+        <div v-if="comp.cat !== 'cloud'" class="phone-wrap">
           <div class="phone-panel">
             <div class="phone-panel__head">
               <div>
@@ -136,7 +136,7 @@ createApp({
 
     const groups = computed(() => {
       const cats = TTDocs.categories[lang.value]
-      const order = ['basic','form','display','navigation','feedback','layout']
+      const order = ['basic','form','display','navigation','feedback','layout','cloud']
       return order.map(cat => ({
         label: cats[cat],
         items: TTDocs.allComponents.filter(c => c.cat === cat)

@@ -98,3 +98,6 @@ export { builtinIcons } from './icons/builtin'
 // Tokens & Utils
 export { lightTokens, darkTokens } from './styles/tokens'
 export { tokenToVar, tokensToStyle, diffTokens } from './utils/token-to-var'
+
+// Cloud EMAS — 独立子路径按需导入，不在主入口导出
+// import { createEmas, ... } from 'tt-shaduni/cloud-emas'

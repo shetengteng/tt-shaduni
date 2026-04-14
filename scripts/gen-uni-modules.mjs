@@ -20,6 +20,7 @@ mkdirSync(outDir, { recursive: true })
 cpSync(resolve(pkgDir, 'components'), resolve(outDir, 'components'), { recursive: true, filter: (src) => !src.includes('__tests__') })
 cpSync(resolve(pkgDir, 'composables'), resolve(outDir, 'composables'), { recursive: true })
 cpSync(resolve(pkgDir, 'icons'), resolve(outDir, 'icons'), { recursive: true })
+cpSync(resolve(pkgDir, 'cloud-emas'), resolve(outDir, 'cloud-emas'), { recursive: true })
 cpSync(resolve(pkgDir, 'styles'), resolve(outDir, 'styles'), { recursive: true })
 cpSync(resolve(pkgDir, 'utils'), resolve(outDir, 'utils'), { recursive: true })
 cpSync(resolve(pkgDir, 'index.ts'), resolve(outDir, 'index.ts'))
@@ -43,8 +44,8 @@ const tsFiles = walkDir(outDir).filter(f => extname(f) === '.ts' && !f.endsWith(
 for (const tsFile of tsFiles) {
   const jsFile = tsFile.replace(/\.ts$/, '.js')
   const src = readFileSync(tsFile, 'utf8')
-  const { code } = transformSync(src, { loader: 'ts', format: 'esm', target: 'es2020' })
-  writeFileSync(jsFile, code)
+  const { code } = transformSync(src, { loader: 'ts', format: 'esm', target: 'es2020', charset: 'utf8' })
+  writeFileSync(jsFile, code, 'utf8')
   unlinkSync(tsFile)
 }
 console.log(`  ${tsFiles.length} .ts files compiled to .js`)
@@ -59,7 +60,7 @@ for (const vueFile of vueFiles) {
   const scriptRe = /<script([^>]*)lang="ts"([^>]*)>([\s\S]*?)<\/script>/g
   content = content.replace(scriptRe, (full, before, after, body) => {
     try {
-      const { code } = transformSync(body, { loader: 'ts', format: 'esm', target: 'es2020' })
+      const { code } = transformSync(body, { loader: 'ts', format: 'esm', target: 'es2020', charset: 'utf8' })
       return `<script${before}${after}>${code}</script>`
     } catch (e) {
       console.warn(`  ⚠ esbuild failed for ${vueFile}, falling back to regex`)

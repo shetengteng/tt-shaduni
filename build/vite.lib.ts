@@ -9,9 +9,11 @@ export default defineConfig({
   build: {
     target: 'es2020',
     lib: {
-      entry: resolve(pkgRoot, 'index.ts'),
+      entry: {
+        index: resolve(pkgRoot, 'index.ts'),
+        'cloud-emas/index': resolve(pkgRoot, 'cloud-emas/index.ts'),
+      },
       formats: ['es', 'cjs'],
-      fileName: (format) => `tt-shaduni.${format === 'es' ? 'mjs' : 'cjs'}`,
     },
     rollupOptions: {
       external: ['vue', '@dcloudio/uni-app'],

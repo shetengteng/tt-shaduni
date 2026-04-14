@@ -34,6 +34,6 @@ window.TTDocs.i18n = {
 }
 
 window.TTDocs.categories = {
-  en: { basic: 'Basic', form: 'Form', display: 'Display', navigation: 'Navigation', feedback: 'Feedback', layout: 'Layout' },
-  zh: { basic: '基础', form: '表单', display: '展示', navigation: '导航', feedback: '反馈', layout: '布局' }
+  en: { basic: 'Basic', form: 'Form', display: 'Display', navigation: 'Navigation', feedback: 'Feedback', layout: 'Layout', cloud: 'Cloud' },
+  zh: { basic: '基础', form: '表单', display: '展示', navigation: '导航', feedback: '反馈', layout: '布局', cloud: '云服务' }
 }
