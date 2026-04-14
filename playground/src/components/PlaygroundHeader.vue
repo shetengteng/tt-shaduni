@@ -9,7 +9,7 @@
     </view>
     <view class="pg-hd__actions">
       <view class="pg-hd__btn" @click="$emit('toggleLang')">
-        <text class="pg-hd__btn-lang">{{ lang === 'en' ? '中' : 'En' }}</text>
+        <tt-icon name="ri-translate-line" :size="36" color="var(--tt-foreground, #0a0a0a)" />
       </view>
       <view class="pg-hd__btn" @click="$emit('toggleTheme')">
         <tt-icon :name="isDark ? 'ri-sun-line' : 'ri-moon-line'" :size="36" color="var(--tt-foreground, #0a0a0a)" />

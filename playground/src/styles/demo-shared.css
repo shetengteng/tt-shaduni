@@ -41,3 +41,10 @@
   color: var(--tt-muted-foreground, #737373);
   line-height: 1.5;
 }
+.demo-sub-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tt-muted-foreground, #737373);
+  margin-top: 8px;
+}

@@ -141,15 +141,64 @@
     </view>
 
     <view class="demo-block" id="demo-drag" v-if="!only || only === 'drag'">
-      <text class="demo-label">{{ t('drag') }}</text>
+      <text class="demo-label">{{ t('drag.grid') }}</text>
       <text class="demo-desc">{{ t('drag.desc') }}</text>
-      <tt-drag v-model="dragItems" :columns="3" :gap="16" :border-radius="12">
+      <tt-drag v-model="dragItems" :columns="3" :gap="6" :border-radius="8">
         <template #default="{ item }">
           <view class="drag-demo-cell">
             <text class="drag-demo-cell__text">{{ item.text }}</text>
           </view>
         </template>
       </tt-drag>
+    </view>
+
+    <view class="demo-block" v-if="!only || only === 'drag'">
+      <text class="demo-label">{{ t('drag.single') }}</text>
+      <tt-drag
+        v-model="dragSingleItems"
+        mode="single"
+        :single-item-height="90"
+        :gap="8"
+        :border-radius="8"
+        show-drag-handle
+        drag-handle-position="right"
+      >
+        <template #default="{ item }">
+          <view class="drag-demo-single">
+            <text class="drag-demo-single__text">{{ item.text }}</text>
+          </view>
+        </template>
+      </tt-drag>
+    </view>
+
+    <view class="demo-block" v-if="!only || only === 'drag'">
+      <text class="demo-label">{{ t('drag.deletable') }}</text>
+      <tt-drag
+        v-model="dragDeletableItems"
+        :columns="3"
+        :gap="6"
+        :border-radius="8"
+        deletable
+        shake
+      >
+        <template #default="{ item }">
+          <view class="drag-demo-cell drag-demo-cell--del">
+            <text class="drag-demo-cell__text">{{ item.text }}</text>
+          </view>
+        </template>
+      </tt-drag>
+    </view>
+
+    <view class="demo-block" v-if="!only || only === 'drag'">
+      <text class="demo-label">{{ t('drag.image') }}</text>
+      <tt-drag
+        v-model="dragImageItems"
+        mode="image"
+        key-name="url"
+        :columns="3"
+        :gap="6"
+        :border-radius="8"
+      />
     </view>
   </view>
 </template>
@@ -166,6 +215,21 @@ const descItems = [{ label: 'Name', value: 'Alice' }, { label: 'Age', value: '28
 const dragItems = ref([
   { text: 'Item 1' }, { text: 'Item 2' }, { text: 'Item 3' },
   { text: 'Item 4' }, { text: 'Item 5' }, { text: 'Item 6' },
+])
+const dragSingleItems = ref([
+  { text: 'Task A' }, { text: 'Task B' }, { text: 'Task C' }, { text: 'Task D' },
+])
+const dragDeletableItems = ref([
+  { text: 'Photo 1' }, { text: 'Photo 2' }, { text: 'Photo 3' },
+  { text: 'Photo 4' }, { text: 'Photo 5' }, { text: 'Photo 6' },
+])
+const dragImageItems = ref([
+  { url: 'https://picsum.photos/seed/d1/200' },
+  { url: 'https://picsum.photos/seed/d2/200' },
+  { url: 'https://picsum.photos/seed/d3/200' },
+  { url: 'https://picsum.photos/seed/d4/200' },
+  { url: 'https://picsum.photos/seed/d5/200' },
+  { url: 'https://picsum.photos/seed/d6/200' },
 ])
 </script>
 
@@ -197,8 +261,24 @@ const dragItems = ref([
   background: var(--tt-muted, #f5f5f5);
   border-radius: 12rpx;
 }
+.drag-demo-cell--del {
+  background: var(--tt-accent, #f0f0f0);
+}
 .drag-demo-cell__text {
   font-size: 26rpx;
+  color: var(--tt-foreground, #0a0a0a);
+  font-weight: 500;
+}
+.drag-demo-single {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 24rpx;
+  background: var(--tt-muted, #f5f5f5);
+  border-radius: 12rpx;
+}
+.drag-demo-single__text {
+  font-size: 28rpx;
   color: var(--tt-foreground, #0a0a0a);
   font-weight: 500;
 }

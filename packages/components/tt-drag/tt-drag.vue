@@ -1,5 +1,5 @@
 <template>
-	<view class="tt-drag">
+	<view class="tt-drag" @mouseenter="mouseenter" @mouseleave="mouseleave">
 		<movable-area
 			class="drag-area"
 			:style="{ height: areaHeight }">
@@ -25,7 +25,7 @@
 
 				<view
 					class="drag-content"
-					:class="{ 'shake': shake && !item._disabled, 'drag-content--active': !item._disabled }"
+					:class="{ 'shake': shake && !item._disabled, 'drag-content--active': item._scale !== 1 }"
 					:style="{
 						width: contentWidth,
 						height: contentHeight,
@@ -51,7 +51,7 @@
 					@touchend="handleDragHandleTouchEnd(item)">
 					<!-- 手柄插槽，允许用户自定义手柄内容 -->
 					<slot name="dragHandle" :item="item" :index="index">
-						<tt-icon name="ri-menu-line" :size="28" color="var(--tt-muted-foreground, #666)" />
+						<tt-icon name="ri-draggable-line" :size="28" color="var(--tt-muted-foreground, #666)" />
 					</slot>
 				</view>					<!-- 内容区域 -->
 					<view
@@ -259,10 +259,10 @@ export default {
 			const defaults = {
 				width: 60,
 				height: 60,
-				backgroundColor: 'rgba(0, 0, 0, 0.08)',
-				borderRadius: 30,
-				boxShadow: '0 2rpx 8rpx rgba(0, 0, 0, 0.15)',
-				offset: 20,
+				backgroundColor: 'transparent',
+				borderRadius: 0,
+				boxShadow: 'none',
+				offset: 8,
 				icon: 'bars',
 				iconSize: 20,
 				iconColor: '#666'
@@ -373,7 +373,6 @@ export default {
 		})
 	},
 	beforeUnmount() {
-		// 清理所有定时器和引用
 		this.clearAllTimers()
 		this.tempItem = null
 		this.dragListIndexMap.clear()
@@ -698,45 +697,34 @@ export default {
 				this.longPressTimer = null
 			}, this.longPressDuration)
 		},
-		// 触摸结束
 		touchend(e, item) {
-			// 优化: 记录触摸结束位置
 			if (e.changedTouches && e.changedTouches.length > 0) {
 				this.touchEndX = e.changedTouches[0].clientX
 				this.touchEndY = e.changedTouches[0].clientY
 			}
 			
-			// 单列手柄模式下，直接返回
 			if (this.showDragHandle && this.mode === 'single') {
 				return
 			}
 
-			// 优化: 清除所有定时器
 			const wasWaitingForLongPress = !!this.longPressTimer
 			this.clearAllTimers()
 
-			// 如果还在等待长按，说明是点击或短按，执行预览等操作
 			const isClick = wasWaitingForLongPress
 
-			// 预览功能（用于图片模式）
 			if (this.mode === 'image' && isClick) {
 				this.previewImage(item, true)
 			}
 
-			// 禁用拖拽
-			item._disabled = true
 			item._scale = 1
 			item._opacity = 1
-			
-			// 先恢复到拖动开始前的位置
 			item._x = item._oldX
 			item._y = item._oldY
 			item._offset = 0
 			item._moveEnd = false
 
-			// 使用 setTimeout 和 $nextTick 异步更新到最终位置
-			// 这样确保 _absX 和 _absY 已经被 onChange 正确更新
 			setTimeout(() => {
+				item._disabled = true
 				this.$nextTick(() => {
 					item._x = item._absX * this.itemWidthPx
 					item._y = item._absY * this.itemHeightPx
@@ -745,7 +733,7 @@ export default {
 					this.tempItem = null
 					this.changeStatus = true
 				})
-			}, 0)
+			}, 150)
 		},
 		// 预览图片
 		previewImage(item, isClick = false) {
@@ -789,50 +777,36 @@ export default {
 			} else if (isSwipe) {
 			}
 		},
-		// 鼠标进入（H5）
 		mouseenter() {
-			// #ifdef H5
-			this.dragList.forEach(v => {
-				v._disabled = false
-			})
-			// #endif
 		},
-		// 鼠标离开（H5）
 		mouseleave() {
 			// #ifdef H5
-			if (this.tempItem) {
-				// 优化: 使用统一的清理方法
-				this.clearAllTimers()
+			this.clearAllTimers()
+			
+			const tempItemId = this.tempItem?._dragId
+
+			this.dragList.forEach(v => {
+				v._disabled = true
+				v._zIndex = v._index + 9
+				v._offset = 0
+				v._moveEnd = false
 				
-				const tempItemId = this.tempItem._dragId
-				
-				this.dragList.forEach(v => {
-					v._disabled = true
-					v._zIndex = v._index + 9
-					v._offset = 0
-					v._moveEnd = false
+				if (tempItemId && v._dragId === tempItemId) {
+					v._scale = 1
+					v._opacity = 1
+					v._x = v._oldX
+					v._y = v._oldY
 					
-					if (v._dragId === tempItemId) {
-						v._scale = 1
-						v._opacity = 1
-						
-						// 先恢复到拖动开始前的位置
-						v._x = v._oldX
-						v._y = v._oldY
-						
-						this.$nextTick(() => {
-							// 异步更新到最终位置，确保 _absX 和 _absY 已经被 onChange 正确更新
-							v._x = v._absX * this.itemWidthPx
-							v._y = v._absY * this.itemHeightPx
-							v._oldX = v._x
-							v._oldY = v._y
-							// 优化: 清理 tempItem 引用,避免内存泄漏
-							this.tempItem = null
-						})
-					}
-				})
-				this.changeStatus = true
-			}
+					this.$nextTick(() => {
+						v._x = v._absX * this.itemWidthPx
+						v._y = v._absY * this.itemHeightPx
+						v._oldX = v._x
+						v._oldY = v._y
+					})
+				}
+			})
+			this.tempItem = null
+			this.changeStatus = true
 			// #endif
 		},
 		// 删除项
@@ -933,22 +907,16 @@ export default {
 		},
 		// 处理手柄触摸结束（用于手柄模式）
 		handleDragHandleTouchEnd(item) {
-			// 单列手柄模式下，触摸结束后禁用拖动并重置位置
 			if (this.showDragHandle && this.mode === 'single' && item) {
-				// 禁用拖拽
-				item._disabled = true
 				item._scale = 1
 				item._opacity = 1
-				
-				// 先恢复到拖动开始前的位置
 				item._x = item._oldX
 				item._y = item._oldY
 				item._offset = 0
 				item._moveEnd = false
 
-				// 使用 setTimeout 和 $nextTick 异步更新到最终位置
-				// 这样确保 _absX 和 _absY 已经被 onChange 正确更新
 				setTimeout(() => {
+					item._disabled = true
 					this.$nextTick(() => {
 						item._x = item._absX * this.itemWidthPx
 						item._y = item._absY * this.itemHeightPx
@@ -957,7 +925,7 @@ export default {
 						this.tempItem = null
 						this.changeStatus = true
 					})
-				}, 0)
+				}, 150)
 			}
 		},
 		// 处理内容区域触摸开始（用于手柄模式）
@@ -1006,11 +974,13 @@ export default {
 	.drag-area {
 		width: 100%;
 		position: relative;
+		touch-action: pan-y;
 		
 		.drag-item {
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			touch-action: pan-y;
 
 			.drag-content {
 				position: relative;

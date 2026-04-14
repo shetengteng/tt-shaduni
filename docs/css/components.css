@@ -7,7 +7,7 @@ pre code{background:none;padding:0}
 .layout{display:flex;padding-top:56px;min-height:100vh}
 
 /* Sidebar */
-.sidebar{position:fixed;top:56px;left:0;bottom:0;width:var(--sidebar-w);border-right:1px solid var(--border);background:var(--bg);overflow-y:auto;padding:16px 0;transition:background .4s}
+.sidebar{position:fixed;top:56px;left:0;bottom:0;width:var(--sidebar-w);border-right:1px solid var(--border);background:var(--bg);overflow-y:auto;padding:0 0 16px;transition:background .4s}
 .sidebar::-webkit-scrollbar{width:4px}
 .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .sidebar-group{padding:0 16px;margin-bottom:16px}
@@ -51,9 +51,9 @@ pre code{background:none;padding:0}
 .phone{width:280px;height:540px;border:2px solid var(--border);border-radius:32px;overflow:hidden;background:var(--bg);box-shadow:0 20px 60px rgba(0,0,0,.08);margin:0 auto;transition:box-shadow .4s;touch-action:pan-y}
 .dark .phone{box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .phone-notch{width:100px;height:24px;background:var(--border);border-radius:0 0 14px 14px;margin:0 auto}
-.phone-screen{height:calc(100% - 24px);overflow:hidden}
+.phone-screen{height:calc(100% - 24px);overflow:auto}
 .phone-screen::-webkit-scrollbar{display:none}
-.phone-iframe{border:none;width:100%;display:block;-webkit-overflow-scrolling:touch;touch-action:auto}
+.phone-iframe{border:none;width:100%;height:100%;display:block;-webkit-overflow-scrolling:touch;touch-action:auto}
 
 /* Phone mini components */
 .p-sec{margin-bottom:12px}
@@ -133,4 +133,10 @@ pre code{background:none;padding:0}
 .phone-screen [data-interactive]{cursor:pointer;transition:opacity .15s}
 .phone-screen [data-interactive]:active{opacity:.7}
 
+.sidebar-search{padding:12px 16px;position:sticky;top:0;background:var(--bg);z-index:1}
+.sidebar-search__input{width:100%;height:32px;padding:0 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:13px;outline:none;transition:border-color .2s;box-sizing:border-box}
+.sidebar-search__input:focus{border-color:var(--ring)}
+.sidebar-search__input::placeholder{color:var(--muted-fg)}
+.sidebar-stats{display:flex;align-items:center;gap:6px;padding:12px 16px;margin-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted-fg);font-variant-numeric:tabular-nums}
+.sidebar-stats__sep{opacity:.4}
 @media(max-width:768px){.sidebar{display:none}.main{margin-left:0}}

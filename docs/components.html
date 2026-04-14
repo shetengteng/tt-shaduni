@@ -24,7 +24,9 @@
       <a class="nav-link active" href="components.html">{{ t.components }}</a>
       <a class="nav-link" href="styles.html">{{ t.styles || 'Styles' }}</a>
       <a class="nav-link" href="https://github.com/shetengteng/tt-shaduni" target="_blank">GitHub</a>
-      <button class="nav-btn" @click="toggleLang">{{ lang==='en'?'中':'En' }}</button>
+      <button class="nav-btn" @click="toggleLang">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 10L22.9 21H20.745L19.544 18H15.454L14.255 21H12.101L16.5 10H18.5ZM10 2V4H16V6L14.0322 6.0006C13.2425 8.36616 11.9988 10.5057 10.4115 12.301C11.1344 12.9457 11.917 13.5176 12.7475 14.0079L11.9969 15.8855C10.9237 15.2781 9.91944 14.5524 8.99961 13.7249C7.21403 15.332 5.10914 16.5553 2.79891 17.2734L2.26257 15.3442C4.2385 14.7203 6.04543 13.6737 7.59042 12.3021C6.46277 11.0281 5.50873 9.57985 4.76742 8.00028L7.00684 8.00037C7.57018 9.03885 8.23979 10.0033 8.99967 10.877C10.2283 9.46508 11.2205 7.81616 11.9095 6.00101L2 6V4H8V2H10ZM17.5 12.8852L16.253 16H18.745L17.5 12.8852Z"/></svg>
+      </button>
       <button class="nav-btn" @click="toggleTheme">
         <svg v-if="!isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
         <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -34,11 +36,19 @@
 
   <div class="layout">
     <aside class="sidebar">
-      <div v-for="g in groups" :key="g.label" class="sidebar-group">
+      <div class="sidebar-search">
+        <input v-model="searchQuery" type="text" class="sidebar-search__input" :placeholder="t.searchPlaceholder || 'Search components...'" @keydown.enter="selectFirstMatch" />
+      </div>
+      <div v-for="g in filteredGroups" :key="g.label" class="sidebar-group">
         <div class="sidebar-label">{{ g.label }}</div>
         <div v-for="c in g.items" :key="c.id" class="sidebar-item" :class="{active:active===c.id}" @click="select(c.id)">
           {{ c.name }}
         </div>
+      </div>
+      <div class="sidebar-stats">
+        <span id="busuanzi_container_site_pv">PV <span id="busuanzi_value_site_pv">-</span></span>
+        <span class="sidebar-stats__sep">·</span>
+        <span id="busuanzi_container_site_uv">UV <span id="busuanzi_value_site_uv">-</span></span>
       </div>
     </aside>
 
@@ -121,6 +131,7 @@ createApp({
     const active = ref('button')
     const demoSeed = ref(0)
     const phoneFrame = ref(null)
+    const searchQuery = ref('')
 
     const t = computed(() => {
       const base = TTDocs.i18n[lang.value] || TTDocs.i18n.en
@@ -131,6 +142,7 @@ createApp({
         examples: base.examples || 'Examples',
         liveDemo: base.liveDemo || 'Live Demo',
         resetDemo: base.resetDemo || 'Reset Demo',
+        searchPlaceholder: lang.value === 'zh' ? '搜索组件...' : 'Search components...',
       }
     })
 
@@ -142,6 +154,22 @@ createApp({
         items: TTDocs.allComponents.filter(c => c.cat === cat)
       })).filter(g => g.items.length > 0)
     })
+
+    const filteredGroups = computed(() => {
+      const q = searchQuery.value.trim().toLowerCase()
+      if (!q) return groups.value
+      return groups.value.map(g => ({
+        ...g,
+        items: g.items.filter(c => c.name.toLowerCase().includes(q) || c.id.includes(q) || (c.descZh || '').includes(q) || (c.desc || '').toLowerCase().includes(q))
+      })).filter(g => g.items.length > 0)
+    })
+
+    function selectFirstMatch() {
+      const q = searchQuery.value.trim().toLowerCase()
+      if (!q) return
+      const match = filteredGroups.value[0]?.items[0]
+      if (match) select(match.id)
+    }
 
     const comp = computed(() => TTDocs.allComponents.find(c => c.id === active.value) || TTDocs.allComponents[0])
     const exampleBlocks = computed(() => comp.value.examples || [{ title: 'Quick Start', titleZh: '快速开始', code: comp.value.usage }])
@@ -187,13 +215,16 @@ createApp({
       lang,
       t,
       active,
+      searchQuery,
       groups,
+      filteredGroups,
       comp,
       exampleBlocks,
       demoMeta,
       frameSrc,
       phoneKey,
       phoneFrame,
+      selectFirstMatch,
       select,
       toggleTheme,
       toggleLang,
@@ -202,5 +233,6 @@ createApp({
   }
 }).mount('#app')
 </script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>

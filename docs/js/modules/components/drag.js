@@ -49,6 +49,13 @@ window.TTDocs.componentEntries["drag"] = {
       "desc": "Long press to shake, tap delete button to remove",
       "descZh": "长按触发抖动，点击删除按钮移除",
       "code": "<tt-drag\n  v-model=\"items\"\n  :columns=\"3\"\n  deletable\n  shake\n>\n  <template #default=\"{ item }\">\n    <view>{{ item.text }}</view>\n  </template>\n</tt-drag>"
+    },
+    {
+      "title": "Image Mode",
+      "titleZh": "图片模式",
+      "desc": "Draggable image grid with preview on tap",
+      "descZh": "可拖拽图片宫格，点击预览",
+      "code": "<tt-drag\n  v-model=\"images\"\n  mode=\"image\"\n  key-name=\"url\"\n  :columns=\"3\"\n  :gap=\"12\"\n  :border-radius=\"12\"\n/>"
     }
   ]
 }
