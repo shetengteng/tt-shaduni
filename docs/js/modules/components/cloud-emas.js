@@ -6,13 +6,13 @@ window.TTDocs.componentEntries["cloud-emas"] = {
   "name": "Cloud EMAS",
   "desc": "EMAS Serverless SDK wrapper with CloudBase-style chainable DB API, auth, and error handling. Tree-shakable — only bundled when imported.",
   "descZh": "EMAS Serverless SDK 封装，提供 CloudBase 风格的链式数据库 API、授权和错误处理。按需加载——不导入则不打包。",
-  "usage": "import { setupEmas } from 'tt-shaduni/cloud-emas'\n\nconst { db, initEmas, anonymousAuth } = setupEmas({\n  config: { appId, spaceId, clientSecret, endpoint }\n})\n\nawait initEmas()\nawait anonymousAuth()\nconst res = await db.collection('users').where({ id: '001' }).get()",
+  "usage": "import MPServerless from '@alicloud/mpserverless-sdk'\nimport { setupEmas } from 'tt-shaduni/cloud-emas'\n\nconst { db, initEmas, anonymousAuth } = setupEmas({\n  sdk: MPServerless,\n  config: { appId, spaceId, clientSecret, endpoint }\n})\n\nawait initEmas()\nawait anonymousAuth()\nconst res = await db.collection('users').where({ id: '001' }).get()",
   "props": [
+    ["sdk", "any (MPServerless)", "(required)"],
     ["config.appId", "string", "(required)"],
     ["config.spaceId", "string", "(required)"],
     ["config.clientSecret", "string", "(required)"],
     ["config.endpoint", "string", "(required)"],
-    ["sdk", "any", "auto-require"],
     ["mockDb", "MockDb", "undefined"]
   ],
   "tag": "setupEmas",
@@ -22,7 +22,7 @@ window.TTDocs.componentEntries["cloud-emas"] = {
       "titleZh": "快速初始化",
       "desc": "One-line setup returns all APIs you need.",
       "descZh": "一行配置返回全部 API。",
-      "code": "// api/emas.js\nimport { setupEmas } from '@/uni_modules/tt-shaduni/cloud-emas'\nimport { EMAS_CONFIG, WX_APPID } from '@/config'\n\nconst {\n  initEmas, db, dbCmd,\n  anonymousAuth, wechatAuth,\n  resetAuthState, resetWechatAuthState,\n} = setupEmas({\n  config: { appId: WX_APPID, ...EMAS_CONFIG }\n})\n\nexport {\n  initEmas, db, dbCmd,\n  anonymousAuth, wechatAuth,\n  resetAuthState, resetWechatAuthState,\n}"
+      "code": "// api/emas.js\nimport MPServerless from '@alicloud/mpserverless-sdk'\nimport { setupEmas } from '@/uni_modules/tt-shaduni/cloud-emas'\nimport { EMAS_CONFIG, WX_APPID } from '@/config'\n\nconst {\n  initEmas, db, dbCmd,\n  anonymousAuth, wechatAuth,\n  resetAuthState, resetWechatAuthState,\n} = setupEmas({\n  sdk: MPServerless,\n  config: { appId: WX_APPID, ...EMAS_CONFIG }\n})\n\nexport {\n  initEmas, db, dbCmd,\n  anonymousAuth, wechatAuth,\n  resetAuthState, resetWechatAuthState,\n}"
     },
     {
       "title": "App Startup Auth",
@@ -43,7 +43,7 @@ window.TTDocs.componentEntries["cloud-emas"] = {
       "titleZh": "Mock 模式（开发环境）",
       "desc": "Pass mockDb to use in-memory data during development.",
       "descZh": "传入 mockDb 在开发时使用内存数据。",
-      "code": "import { setupEmas } from '@/uni_modules/tt-shaduni/cloud-emas'\nimport { mockDb } from '@/mock/db'\n\nconst { db } = setupEmas({\n  config: { appId, spaceId, clientSecret, endpoint },\n  mockDb: DEV_MODE ? mockDb : undefined\n})\n\n// Same API works with both mock and real DB\nconst { data } = await db.collection('users').get()"
+      "code": "import MPServerless from '@alicloud/mpserverless-sdk'\nimport { setupEmas } from '@/uni_modules/tt-shaduni/cloud-emas'\nimport { mockDb } from '@/mock/db'\n\nconst { db } = setupEmas({\n  sdk: MPServerless,\n  config: { appId, spaceId, clientSecret, endpoint },\n  mockDb: DEV_MODE ? mockDb : undefined\n})\n\n// Same API works with both mock and real DB\nconst { data } = await db.collection('users').get()"
     },
     {
       "title": "Error Handling",

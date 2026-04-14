@@ -15,13 +15,13 @@ import type { MockDb } from './database'
 import { createAnonymousAuth, createWechatAuth } from './auth'
 
 export interface SetupEmasOptions {
+  sdk: any
   config: EmasConfig
-  sdk?: any
   mockDb?: MockDb
 }
 
 export function setupEmas(options: SetupEmasOptions) {
-  const emas = createEmas(options.config, options.sdk)
+  const emas = createEmas(options.sdk, options.config)
   const { db } = createEmasDb(emas, options.mockDb)
   const anonAuth = createAnonymousAuth(emas)
   const wxAuth = createWechatAuth(emas)

@@ -2,8 +2,9 @@
  * EMAS Serverless SDK 初始化
  *
  * Usage:
+ *   import MPServerless from '@alicloud/mpserverless-sdk'
  *   import { createEmas } from 'tt-shaduni/cloud-emas'
- *   const emas = createEmas({ appId, spaceId, clientSecret, endpoint })
+ *   const emas = createEmas(MPServerless, { appId, spaceId, clientSecret, endpoint })
  *   await emas.init()
  */
 
@@ -17,19 +18,12 @@ export interface EmasConfig {
 let _mpserverless: any = null
 let _initialized = false
 
-function loadSDK(sdkOverride?: any): any {
-  if (sdkOverride) return sdkOverride
-  // @ts-ignore - SDK 由消费者项目安装
-  return require('@alicloud/mpserverless-sdk').default || require('@alicloud/mpserverless-sdk')
-}
-
-export function createEmas(config: EmasConfig, sdk?: any) {
+export function createEmas(SDK: any, config: EmasConfig) {
   const init = async () => {
     if (_initialized && _mpserverless) return true
 
     try {
-      const MPServerless = loadSDK(sdk)
-      _mpserverless = new MPServerless(uni, {
+      _mpserverless = new SDK(uni, {
         appId: config.appId,
         spaceId: config.spaceId,
         clientSecret: config.clientSecret,
