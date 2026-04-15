@@ -1,0 +1,1 @@
+import{d as o,c as t,w as a,o as s,b as m}from"./index-oCe3qlxF.js";import{C as e}from"./CompPageLayout.C8XzC2R_.js";import{D as i}from"./DemoFeedback.Cd9Qnj6x.js";import"./tt-icon.NWt8WS6t.js";import"./tt-button.CEY4L8NI.js";import"./tt-cell.CmS5Zn15.js";const r=o({__name:"dialog",setup:o=>(o,r)=>(s(),t(e,null,{default:a(()=>[m(i,{only:"dialog"})]),_:1}))});export{r as default};

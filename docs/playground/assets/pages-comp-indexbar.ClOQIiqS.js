@@ -1,1 +1,0 @@
-import{d as o,c as s,w as a,o as t,b as e}from"./index-o74cSAyG.js";import{C as m}from"./CompPageLayout.B8ZTWzMZ.js";import{D as r}from"./DemoNav.BjVRPh4f.js";import"./use-i18n.DZbBCN0O.js";import"./tt-cell.BsiqzPEI.js";import"./tt-icon.CZ4Qf1ma.js";const i=o({__name:"indexbar",setup:o=>(o,i)=>(t(),s(m,null,{default:a(()=>[e(r,{only:"indexbar"})]),_:1}))});export{i as default};

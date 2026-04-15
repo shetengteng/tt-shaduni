@@ -1,0 +1,1 @@
+import{d as t,c as o,w as a,o as s,b as m}from"./index-oCe3qlxF.js";import{C as r}from"./CompPageLayout.C8XzC2R_.js";import{D as p}from"./DemoLayout.DmVW3XQY.js";import"./tt-icon.NWt8WS6t.js";import"./tt-button.CEY4L8NI.js";import"./tt-tag.CEehVLAd.js";const e=t({__name:"row",setup:t=>(t,e)=>(s(),o(r,null,{default:a(()=>[m(p,{only:"row"})]),_:1}))});export{e as default};

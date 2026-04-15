@@ -1,1 +1,0 @@
-import{d as s,c as t,w as o,o as a,b as m}from"./index-o74cSAyG.js";import{C as e}from"./CompPageLayout.B8ZTWzMZ.js";import{D as r}from"./DemoNav.BjVRPh4f.js";import"./use-i18n.DZbBCN0O.js";import"./tt-cell.BsiqzPEI.js";import"./tt-icon.CZ4Qf1ma.js";const i=s({__name:"tabs",setup:s=>(s,i)=>(a(),t(e,null,{default:o(()=>[m(r,{only:"tabs"})]),_:1}))});export{i as default};

@@ -1,0 +1,1 @@
+import{d as o,c as s,w as a,o as t,b as m}from"./index-oCe3qlxF.js";import{C as e}from"./CompPageLayout.C8XzC2R_.js";import{D as r}from"./DemoIcon.ClVoM_cL.js";import"./tt-icon.NWt8WS6t.js";const i=o({__name:"icon",setup:o=>(o,i)=>(t(),s(e,null,{default:a(()=>[m(r)]),_:1}))});export{i as default};

@@ -46,7 +46,7 @@ function handleClick(e: Event) {
   align-items: center;
   justify-content: center;
   gap: 12rpx;
-  border: none;
+  border: none !important;
   border-radius: var(--tt-radius, 12rpx);
   font-weight: 500;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -58,43 +58,47 @@ function handleClick(e: Event) {
   margin: 0;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  background: none;
+  color: inherit;
+  overflow: visible;
 }
 
 .tt-button::after {
-  display: none;
+  display: none !important;
+  border: none !important;
 }
 
 /* — Variants — */
 
 .tt-button--default {
-  background-color: var(--tt-primary, #171717);
-  color: var(--tt-primary-foreground, #fafafa);
+  background-color: var(--tt-primary, #171717) !important;
+  color: var(--tt-primary-foreground, #fafafa) !important;
 }
 
 .tt-button--destructive {
-  background-color: var(--tt-destructive, #ef4444);
-  color: var(--tt-destructive-foreground, #fafafa);
+  background-color: var(--tt-destructive, #ef4444) !important;
+  color: var(--tt-destructive-foreground, #fafafa) !important;
 }
 
 .tt-button--outline {
-  background-color: var(--tt-background, #ffffff);
-  color: var(--tt-foreground, #0a0a0a);
-  border: 2rpx solid var(--tt-border, #e5e5e5);
+  background-color: var(--tt-background, #ffffff) !important;
+  color: var(--tt-foreground, #0a0a0a) !important;
+  border: 2rpx solid var(--tt-border, #e5e5e5) !important;
 }
 
 .tt-button--secondary {
-  background-color: var(--tt-secondary, #f5f5f5);
-  color: var(--tt-secondary-foreground, #171717);
+  background-color: var(--tt-secondary, #f5f5f5) !important;
+  color: var(--tt-secondary-foreground, #171717) !important;
 }
 
 .tt-button--ghost {
-  background-color: transparent;
-  color: var(--tt-foreground, #0a0a0a);
+  background-color: transparent !important;
+  color: var(--tt-foreground, #0a0a0a) !important;
 }
 
 .tt-button--link {
-  background-color: transparent;
-  color: var(--tt-primary, #171717);
+  background-color: transparent !important;
+  color: var(--tt-primary, #171717) !important;
   text-decoration: underline;
   text-underline-offset: 8rpx;
 }
@@ -105,7 +109,7 @@ function handleClick(e: Event) {
   height: 64rpx;
   padding: 0 24rpx;
   font-size: 24rpx;
-  border-radius: calc(var(--tt-radius, 12rpx) - 4rpx);
+  border-radius: calc(var(--tt-radius, 12rpx) - 4rpx) !important;
 }
 
 .tt-button--md {
@@ -118,7 +122,7 @@ function handleClick(e: Event) {
   height: 88rpx;
   padding: 0 48rpx;
   font-size: 32rpx;
-  border-radius: calc(var(--tt-radius, 12rpx) + 4rpx);
+  border-radius: calc(var(--tt-radius, 12rpx) + 4rpx) !important;
 }
 
 .tt-button--icon {

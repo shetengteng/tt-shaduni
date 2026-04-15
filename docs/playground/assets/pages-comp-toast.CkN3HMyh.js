@@ -1,0 +1,1 @@
+import{d as t,c as o,w as s,o as a,b as m}from"./index-oCe3qlxF.js";import{C as e}from"./CompPageLayout.C8XzC2R_.js";import{D as r}from"./DemoFeedback.Cd9Qnj6x.js";import"./tt-icon.NWt8WS6t.js";import"./tt-button.CEY4L8NI.js";import"./tt-cell.CmS5Zn15.js";const p=t({__name:"toast",setup:t=>(t,p)=>(a(),o(e,null,{default:s(()=>[m(r,{only:"toast"})]),_:1}))});export{p as default};

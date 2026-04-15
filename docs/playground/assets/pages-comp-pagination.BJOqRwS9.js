@@ -1,0 +1,1 @@
+import{d as a,c as o,w as t,o as s,b as i}from"./index-oCe3qlxF.js";import{C as m}from"./CompPageLayout.C8XzC2R_.js";import{D as n}from"./DemoNav.CcKXUGW3.js";import"./tt-icon.NWt8WS6t.js";import"./tt-cell.CmS5Zn15.js";const p=a({__name:"pagination",setup:a=>(a,p)=>(s(),o(m,null,{default:t(()=>[i(n,{only:"pagination"})]),_:1}))});export{p as default};

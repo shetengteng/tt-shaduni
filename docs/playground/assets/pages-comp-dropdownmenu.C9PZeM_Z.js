@@ -1,0 +1,1 @@
+import{d as o,c as s,w as t,o as a,b as m}from"./index-oCe3qlxF.js";import{C as e}from"./CompPageLayout.C8XzC2R_.js";import{D as r}from"./DemoNav.CcKXUGW3.js";import"./tt-icon.NWt8WS6t.js";import"./tt-cell.CmS5Zn15.js";const n=o({__name:"dropdownmenu",setup:o=>(o,n)=>(a(),s(e,null,{default:t(()=>[m(r,{only:"dropdownmenu"})]),_:1}))});export{n as default};
