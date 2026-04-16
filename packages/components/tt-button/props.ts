@@ -3,6 +3,7 @@ import type { ExtractPropTypes, PropType } from 'vue'
 export type ButtonVariant =
   | 'default'
   | 'destructive'
+  | 'wechat'
   | 'outline'
   | 'secondary'
   | 'ghost'

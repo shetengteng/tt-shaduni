@@ -18,7 +18,9 @@
   },
   "include": [
     "packages/**/*.ts",
-    "packages/**/*.vue"
+    "packages/**/*.vue",
+    "vitest.config.ts",
+    "test-setup.ts"
   ],
   "exclude": ["node_modules", "dist", "playground"]
 }
