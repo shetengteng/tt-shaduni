@@ -1,6 +1,6 @@
 {
   "name": "tt-shaduni",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A shadcn-style UniApp Vue3 component library",
   "main": "dist/lib/index.cjs",
   "module": "dist/es/index.mjs",
@@ -48,7 +48,7 @@
     "docs:playground": "cd playground && npm run build:h5 && rm -rf ../docs/playground && cp -r dist/build/h5 ../docs/playground && cp -r static/svg ../docs/playground/static/svg",
     "release": "node scripts/release.mjs",
     "icons:extract": "node scripts/extract-icons.mjs",
-    "prepublishOnly": "npm run build:all",
+    "prepublishOnly": "npm run build",
     "hbuilderx": "hbuilderx",
     "dev:web": "uni-launch web",
     "dev:app-android": "uni-launch app-android",
