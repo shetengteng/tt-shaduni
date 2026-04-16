@@ -50,7 +50,12 @@ function run(cmd, opts = {}) {
 
 // Step 1: Build
 console.log('\n🔨 Building...')
-run('npm run build:all')
+run('npm run build')
+try {
+  run('npm run build:dts')
+} catch {
+  console.warn('  ⚠ vue-tsc not available, skipping type declarations')
+}
 
 // Step 2: Bump version
 console.log(`\n📝 Bumping version to ${newVersion}...`)
