@@ -9,6 +9,7 @@ dist/
 
 prompts.txt
 userinput.py
+.npmrc
 .cursor/**
 allure-results/**
 /test-output/**
