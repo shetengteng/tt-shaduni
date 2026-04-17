@@ -93,7 +93,7 @@ for (const comp of components) {
 }
 
 const pkgJson = JSON.parse(JSON.stringify({
-  id: 'tt-shaduni',
+  id: 'teng-shaduni',
   displayName: 'TT ShadUni',
   version: '1.0.0',
   description: 'A shadcn-style UniApp component library',
