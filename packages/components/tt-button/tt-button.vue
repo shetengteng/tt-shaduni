@@ -42,7 +42,7 @@ function handleClick(e: Event) {
 
 <style>
 .tt-button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 12rpx;

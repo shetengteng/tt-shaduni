@@ -16,6 +16,18 @@
       <tt-toast v-model:show="showToast" message="Saved!" />
     </view>
 
+    <view class="demo-block" id="demo-notify" v-if="!only || only === 'notify'">
+      <text class="demo-label">{{ t('notify') }}</text>
+      <text class="demo-desc">{{ t('notify.desc') }}</text>
+      <view class="demo-row">
+        <tt-button size="sm" @click="notify.info('This is an info message')">Info</tt-button>
+        <tt-button size="sm" variant="outline" @click="notify.success('Saved successfully')">Success</tt-button>
+        <tt-button size="sm" variant="outline" @click="notify.warning('Please check input')">Warning</tt-button>
+        <tt-button size="sm" variant="destructive" @click="notify.error('Something went wrong')">Error</tt-button>
+      </view>
+      <tt-notify />
+    </view>
+
     <view class="demo-block" id="demo-dialog" v-if="!only || only === 'dialog'">
       <text class="demo-label">{{ t('dialog') }}</text>
       <text class="demo-desc">{{ t('dialog.desc') }}</text>
@@ -91,6 +103,8 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import '@/styles/demo-shared.css'
+import { notify } from 'tt-shaduni'
+
 defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)
 

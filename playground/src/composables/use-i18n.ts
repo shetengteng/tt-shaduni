@@ -127,6 +127,8 @@ const dict: Record<string, Record<string, string>> = {
   'loading.desc': { en: 'Spinner with text, vertical layout', zh: '加载指示器，支持文字和垂直布局' },
   'toast': { en: 'Toast', zh: '轻提示' },
   'toast.desc': { en: 'Lightweight message popup', zh: '轻量消息弹出提示' },
+  'notify': { en: 'Notify', zh: '消息通知' },
+  'notify.desc': { en: 'Top banner notification with imperative API', zh: '顶部横幅通知（命令式 API）' },
   'dialog': { en: 'Dialog', zh: '对话框' },
   'dialog.desc': { en: 'Modal confirm/cancel dialog', zh: '模态确认/取消对话框' },
   'popup': { en: 'Popup', zh: '弹出层' },

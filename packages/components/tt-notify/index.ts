@@ -1,0 +1,7 @@
+export { default as TtNotify } from './tt-notify.vue'
+export { notifyProps } from './props'
+export type { TtNotifyProps, NotifyType, NotifyPosition } from './props'
+export { notify, closeNotify } from './notify'
+export type { NotifyFn } from './notify'
+export { notifyState, openNotify } from './store'
+export type { NotifyOptions } from './store'
