@@ -29,6 +29,7 @@
 		{ "path": "pages/comp/switch", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/search", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/numberbox", "style": { "navigationStyle": "custom" } },
+		{ "path": "pages/comp/colorpicker", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/form", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/rate", "style": { "navigationStyle": "custom" } },
 		{ "path": "pages/comp/slider", "style": { "navigationStyle": "custom" } },

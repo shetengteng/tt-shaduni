@@ -45,6 +45,14 @@ export { TtRate, rateProps } from './components/tt-rate'
 export type { TtRateProps as RateProps } from './components/tt-rate'
 export { TtNumberBox, numberBoxProps } from './components/tt-number-box'
 export type { TtNumberBoxProps as NumberBoxProps } from './components/tt-number-box'
+export { TtColorPicker, colorPickerProps } from './components/tt-color-picker'
+export type {
+  TtColorPickerProps as ColorPickerProps,
+  TtColorPickerSize as ColorPickerSize,
+  TtColorPickerShape as ColorPickerShape,
+  TtColorPickerGroup as ColorPickerGroup,
+  TtColorItem as ColorItem,
+} from './components/tt-color-picker'
 
 // Data Display
 export { TtCard, cardProps } from './components/tt-card'

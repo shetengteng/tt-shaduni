@@ -49,6 +49,56 @@
       </view>
     </view>
 
+    <view class="demo-block" id="demo-colorpicker" v-if="!only || only === 'colorpicker'">
+      <text class="demo-label">{{ t('colorpicker') }}</text>
+      <text class="demo-desc">{{ t('colorpicker.desc') }}</text>
+
+      <text class="demo-sub-label">{{ t('colorpicker.basic') }}</text>
+      <view class="demo-row">
+        <tt-color-picker v-model="color1" />
+        <text class="demo-hint">{{ color1 || '—' }}</text>
+      </view>
+
+      <text class="demo-sub-label">{{ t('colorpicker.recommended') }}</text>
+      <view class="demo-row">
+        <tt-color-picker
+          v-model="color2"
+          :recommended="recommendedPalette"
+          :recommended-label="t('colorpicker.tagged')"
+          show-label
+        />
+        <text class="demo-hint">{{ color2 || '—' }}</text>
+      </view>
+
+      <text class="demo-sub-label">{{ t('colorpicker.grouped') }}</text>
+      <view class="demo-row">
+        <tt-color-picker
+          v-model="color3"
+          :groups="groupedPalette"
+          show-label
+        />
+        <text class="demo-hint">{{ color3 || '—' }}</text>
+      </view>
+
+      <text class="demo-sub-label">{{ t('colorpicker.shape') }}</text>
+      <view class="demo-row">
+        <tt-color-picker v-model="color4" shape="square" :preview-count="6" />
+        <text class="demo-hint">{{ color4 || '—' }}</text>
+      </view>
+
+      <text class="demo-sub-label">{{ t('colorpicker.size') }}</text>
+      <view class="demo-row">
+        <tt-color-picker v-model="color5" size="sm" :preview-count="6" />
+        <tt-color-picker v-model="color5" size="md" :preview-count="6" />
+        <tt-color-picker v-model="color5" size="lg" :preview-count="6" />
+      </view>
+
+      <text class="demo-sub-label">{{ t('colorpicker.disabled') }}</text>
+      <view class="demo-row">
+        <tt-color-picker v-model="color6" disabled />
+      </view>
+    </view>
+
     <view class="demo-block" id="demo-rate" v-if="!only || only === 'rate'">
       <text class="demo-label">{{ t('rate') }}</text>
       <text class="demo-desc">{{ t('rate.desc') }}</text>
@@ -176,5 +226,50 @@ function checkInFormatter(day: { dateStr: string; style?: Record<string, string>
 const files = ref<Array<{ url: string }>>([])
 const fname = ref('')
 const femail = ref('')
+
+const color1 = ref('hsl(220, 65%, 82%)')
+const color2 = ref('')
+const color3 = ref('')
+const color4 = ref('hsl(40, 80%, 78%)')
+const color5 = ref('hsl(160, 55%, 78%)')
+const color6 = ref('hsl(0, 70%, 80%)')
+
+const recommendedPalette = [
+  { value: 'hsl(210, 60%, 88%)', label: lang.value === 'zh' ? '主科' : 'Core' },
+  { value: 'hsl(150, 50%, 85%)', label: lang.value === 'zh' ? '语言' : 'Lang' },
+  { value: 'hsl(30, 60%, 85%)', label: lang.value === 'zh' ? '艺术' : 'Art' },
+  { value: 'hsl(270, 40%, 85%)', label: lang.value === 'zh' ? '体育' : 'Sport' },
+  { value: 'hsl(0, 50%, 88%)', label: lang.value === 'zh' ? '兴趣' : 'Hobby' },
+]
+
+const groupedPalette = [
+  {
+    label: lang.value === 'zh' ? '清新' : 'Pastel',
+    colors: [
+      { value: 'hsl(0, 70%, 88%)', label: 'Rose' },
+      { value: 'hsl(40, 75%, 85%)', label: 'Cream' },
+      { value: 'hsl(160, 55%, 85%)', label: 'Mint' },
+      { value: 'hsl(220, 60%, 88%)', label: 'Sky' },
+    ],
+  },
+  {
+    label: lang.value === 'zh' ? '深色' : 'Vivid',
+    colors: [
+      { value: 'hsl(0, 70%, 50%)', label: 'Red' },
+      { value: 'hsl(40, 90%, 50%)', label: 'Orange' },
+      { value: 'hsl(160, 60%, 40%)', label: 'Teal' },
+      { value: 'hsl(220, 70%, 50%)', label: 'Blue' },
+    ],
+  },
+  {
+    label: lang.value === 'zh' ? '中性' : 'Neutral',
+    colors: [
+      '#f5f5f5',
+      '#d4d4d4',
+      '#737373',
+      '#171717',
+    ],
+  },
+]
 </script>
 

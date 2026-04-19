@@ -14,6 +14,7 @@ window.TTDocs.componentGroups["form"] = [
   "picker",
   "datepicker",
   "calendar",
+  "colorpicker",
   "upload"
 ]
 document.write('<script src="./js/modules/components/input.js"><\/script>')
@@ -29,4 +30,5 @@ document.write('<script src="./js/modules/components/slider.js"><\/script>')
 document.write('<script src="./js/modules/components/picker.js"><\/script>')
 document.write('<script src="./js/modules/components/datepicker.js"><\/script>')
 document.write('<script src="./js/modules/components/calendar.js"><\/script>')
+document.write('<script src="./js/modules/components/colorpicker.js"><\/script>')
 document.write('<script src="./js/modules/components/upload.js"><\/script>')

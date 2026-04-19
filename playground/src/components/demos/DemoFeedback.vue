@@ -103,7 +103,7 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import '@/styles/demo-shared.css'
-import { notify } from 'tt-shaduni'
+import { notify } from 'tt-ui'
 
 defineProps<{ only?: string }>()
 const t = inject<(key: string) => string>('t', (k) => k)

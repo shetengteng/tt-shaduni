@@ -24,14 +24,13 @@ describe('TtButton', () => {
   it('applies disabled state', () => {
     const wrapper = mount(TtButton, { props: { disabled: true } })
     expect(wrapper.classes()).toContain('tt-button--disabled')
-    expect(wrapper.attributes('disabled')).toBeDefined()
+    expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
   it('applies loading state', () => {
     const wrapper = mount(TtButton, { props: { loading: true } })
     expect(wrapper.classes()).toContain('tt-button--loading')
     expect(wrapper.find('.tt-button__spinner').exists()).toBe(true)
-    expect(wrapper.attributes('disabled')).toBeDefined()
     expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
@@ -60,8 +59,14 @@ describe('TtButton', () => {
     expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
-  it('hides native ::after border', () => {
+  it('renders as view by default', () => {
     const wrapper = mount(TtButton)
-    expect(wrapper.find('button').exists()).toBe(true)
+    expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+  })
+
+  it('renders as native button when openType is set', () => {
+    const wrapper = mount(TtButton, { props: { openType: 'getUserInfo' } })
+    expect(wrapper.element.tagName.toLowerCase()).toBe('button')
+    expect(wrapper.attributes('open-type')).toBe('getUserInfo')
   })
 })

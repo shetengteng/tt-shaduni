@@ -1,17 +1,37 @@
 <template>
   <button
+    v-if="openType"
     class="tt-button"
     :class="rootClass"
-    :disabled="disabled || loading"
-    :open-type="openType || undefined"
-    :aria-disabled="disabled || loading"
+    :disabled="isDisabled"
+    :open-type="openType"
+    :aria-disabled="isDisabled"
     @click="handleClick"
+    @getuserinfo="forward('getuserinfo', $event)"
+    @getphonenumber="forward('getphonenumber', $event)"
+    @chooseavatar="forward('chooseavatar', $event)"
+    @launchapp="forward('launchapp', $event)"
+    @opensetting="forward('opensetting', $event)"
+    @contact="forward('contact', $event)"
+    @error="forward('error', $event)"
   >
     <view v-if="loading" class="tt-button__loading">
       <view class="tt-button__spinner" />
     </view>
     <slot />
   </button>
+  <view
+    v-else
+    class="tt-button"
+    :class="rootClass"
+    :aria-disabled="isDisabled"
+    @click="handleClick"
+  >
+    <view v-if="loading" class="tt-button__loading">
+      <view class="tt-button__spinner" />
+    </view>
+    <slot />
+  </view>
 </template>
 
 <script setup lang="ts">
@@ -21,7 +41,16 @@ import { buttonProps } from './props'
 const props = defineProps(buttonProps)
 const emit = defineEmits<{
   (e: 'click', event: Event): void
+  (e: 'getuserinfo', event: Event): void
+  (e: 'getphonenumber', event: Event): void
+  (e: 'chooseavatar', event: Event): void
+  (e: 'launchapp', event: Event): void
+  (e: 'opensetting', event: Event): void
+  (e: 'contact', event: Event): void
+  (e: 'error', event: Event): void
 }>()
+
+const isDisabled = computed(() => props.disabled || props.loading)
 
 const rootClass = computed(() => [
   `tt-button--${props.variant}`,
@@ -34,9 +63,21 @@ const rootClass = computed(() => [
 ])
 
 function handleClick(e: Event) {
-  if (!props.disabled && !props.loading) {
-    emit('click', e)
-  }
+  if (isDisabled.value) return
+  emit('click', e)
+}
+
+type OpenTypeEvent =
+  | 'getuserinfo'
+  | 'getphonenumber'
+  | 'chooseavatar'
+  | 'launchapp'
+  | 'opensetting'
+  | 'contact'
+  | 'error'
+
+function forward(name: OpenTypeEvent, e: Event) {
+  ;(emit as (n: OpenTypeEvent, ev: Event) => void)(name, e)
 }
 </script>
 
