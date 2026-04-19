@@ -56,6 +56,11 @@ export const colorPickerProps = {
     type: Boolean,
     default: false,
   },
+  /** 行内预览选中色块是否显示对勾（外圈 border 已具识别度时可关闭以减少噪点） */
+  showTick: {
+    type: Boolean,
+    default: true,
+  },
   /** popup 标题 */
   popupTitle: {
     type: String,

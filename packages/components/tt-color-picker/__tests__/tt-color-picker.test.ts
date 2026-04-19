@@ -142,4 +142,19 @@ describe('TtColorPicker', () => {
     expect(activeGrid.exists()).toBe(true)
     expect(wrapper.find('.tt-color-picker__grid-tick').exists()).toBe(true)
   })
+
+  it('hides the inline tick when showTick=false (still keeps active border)', () => {
+    const wrapper = mount(TtColorPicker, {
+      props: { modelValue: BLUE, previewCount: 8, showTick: false },
+    })
+    expect(wrapper.find('.tt-color-picker__swatch--active').exists()).toBe(true)
+    expect(wrapper.find('.tt-color-picker__swatch-tick').exists()).toBe(false)
+  })
+
+  it('shows the inline tick by default (showTick=true)', () => {
+    const wrapper = mount(TtColorPicker, {
+      props: { modelValue: BLUE, previewCount: 8 },
+    })
+    expect(wrapper.find('.tt-color-picker__swatch-tick').exists()).toBe(true)
+  })
 })

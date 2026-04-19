@@ -17,6 +17,7 @@ window.TTDocs.componentEntries["colorpicker"] = {
     ["size", "'sm' | 'md' | 'lg'", "'md'"],
     ["shape", "'circle' | 'square'", "'circle'"],
     ["showLabel", "boolean", "false"],
+    ["showTick", "boolean", "true"],
     ["popupTitle", "string", "'选择颜色'"],
     ["confirmText", "string", "'确定'"],
     ["cancelText", "string", "'取消'"],

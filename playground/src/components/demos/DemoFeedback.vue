@@ -87,6 +87,44 @@
       <tt-notice-bar text="This is a notice bar with scrollable text." closeable />
     </view>
 
+    <view class="demo-block" id="demo-tooltip" v-if="!only || only === 'tooltip'">
+      <text class="demo-label">{{ t('tooltip') }}</text>
+      <text class="demo-desc">{{ t('tooltip.desc') }}</text>
+      <view class="demo-row">
+        <tt-tooltip content="Plain text tooltip" placement="top">
+          <tt-button size="sm" variant="outline">Top text</tt-button>
+        </tt-tooltip>
+        <tt-tooltip content="Bottom" placement="bottom">
+          <tt-button size="sm" variant="outline">Bottom</tt-button>
+        </tt-tooltip>
+        <tt-tooltip content="Right" placement="right">
+          <tt-button size="sm" variant="outline">Right</tt-button>
+        </tt-tooltip>
+        <tt-tooltip content="Light variant" variant="light">
+          <tt-button size="sm" variant="outline">Light</tt-button>
+        </tt-tooltip>
+      </view>
+      <text class="demo-sublabel">Rich content menu</text>
+      <view class="demo-row">
+        <tt-tooltip placement="bottom" variant="light">
+          <tt-button size="sm">Open menu</tt-button>
+          <template #content>
+            <view class="tooltip-menu">
+              <view class="tooltip-menu__item">
+                <text class="tooltip-menu__text">Day view</text>
+              </view>
+              <view class="tooltip-menu__item">
+                <text class="tooltip-menu__text">Week view</text>
+              </view>
+              <view class="tooltip-menu__item">
+                <text class="tooltip-menu__text">Month view</text>
+              </view>
+            </view>
+          </template>
+        </tt-tooltip>
+      </view>
+    </view>
+
     <view class="demo-block" id="demo-transition" v-if="!only || only === 'transition'">
       <text class="demo-label">{{ t('transition') }}</text>
       <text class="demo-desc">{{ t('transition.desc') }}</text>
@@ -160,5 +198,22 @@ const showTransition = ref(true)
   color: var(--tt-muted-foreground, #737373);
   text-align: center;
   line-height: 1.5;
+}
+.tooltip-menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 240rpx;
+}
+.tooltip-menu__item {
+  padding: 16rpx 24rpx;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.tooltip-menu__item:hover {
+  background: var(--tt-muted, #f5f5f5);
+}
+.tooltip-menu__text {
+  font-size: 26rpx;
+  color: var(--tt-foreground, #0a0a0a);
 }
 </style>

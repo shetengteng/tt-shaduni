@@ -97,6 +97,8 @@ export { TtNoticeBar, noticeBarProps } from './components/tt-notice-bar'
 export type { TtNoticeBarProps as NoticeBarProps } from './components/tt-notice-bar'
 export { TtSheet, sheetProps } from './components/tt-sheet'
 export type { TtSheetProps as SheetProps } from './components/tt-sheet'
+export { TtTooltip, tooltipProps } from './components/tt-tooltip'
+export type { TooltipProps, TooltipPlacement, TooltipTrigger } from './components/tt-tooltip'
 
 // Composables
 export { useTheme } from './composables/use-theme'
