@@ -69,6 +69,7 @@ function handleClear() {
 .tt-input {
   display: flex;
   align-items: center;
+  width: 100%;
   height: 80rpx;
   padding: 0 24rpx;
   border: 2rpx solid var(--tt-input, #e5e5e5);

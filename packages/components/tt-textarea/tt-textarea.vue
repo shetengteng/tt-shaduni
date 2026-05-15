@@ -22,7 +22,7 @@ function onInput(e: any) {
 </script>
 
 <style>
-.tt-textarea { border: 2rpx solid var(--tt-input, #e5e5e5); border-radius: var(--tt-radius, 12rpx); padding: 20rpx 24rpx; background: var(--tt-background, #ffffff); transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; }
+.tt-textarea { width: 100%; border: 2rpx solid var(--tt-input, #e5e5e5); border-radius: var(--tt-radius, 12rpx); padding: 20rpx 24rpx; background: var(--tt-background, #ffffff); transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; }
 .tt-textarea--focused { border-color: var(--tt-ring, #a3a3a3); box-shadow: 0 0 0 4rpx rgba(163, 163, 163, 0.2); }
 .tt-textarea--disabled { opacity: 0.5; }
 .tt-textarea__inner { width: 100%; font-size: 28rpx; color: var(--tt-foreground, #0a0a0a); background: transparent; border: none; outline: none; min-height: 160rpx; line-height: 1.6; }
