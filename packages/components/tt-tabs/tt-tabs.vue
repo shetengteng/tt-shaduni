@@ -18,7 +18,7 @@
         <view class="tt-tabs__indicator" :style="indicatorStyle" />
       </view>
     </scroll-view>
-    <view class="tt-tabs__content">
+    <view v-if="$slots.default" class="tt-tabs__content">
       <slot />
     </view>
   </view>

@@ -40,4 +40,17 @@ describe('TtTabs', () => {
     const third = wrapper.findAll('.tt-tabs__item')[2]
     expect(third.classes()).toContain('tt-tabs__item--disabled')
   })
+
+  it('does not render content wrapper when default slot is empty', () => {
+    const wrapper = mount(TtTabs, { props: { items, modelValue: 'a' } })
+    expect(wrapper.find('.tt-tabs__content').exists()).toBe(false)
+  })
+
+  it('renders content wrapper when default slot has content', () => {
+    const wrapper = mount(TtTabs, {
+      props: { items, modelValue: 'a' },
+      slots: { default: '<view>panel</view>' },
+    })
+    expect(wrapper.find('.tt-tabs__content').exists()).toBe(true)
+  })
 })
