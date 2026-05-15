@@ -144,6 +144,8 @@ function onRowClick(evt: any) {
 }
 
 .tt-form-item--vertical .tt-form-item__content {
+  flex-direction: column;
+  align-items: stretch;
   justify-content: flex-start;
 }
 
