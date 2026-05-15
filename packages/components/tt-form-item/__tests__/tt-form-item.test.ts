@@ -103,4 +103,36 @@ describe('TtFormItem', () => {
     const labelEl = wrapper.find('.tt-form-item__label').element as HTMLElement
     expect(labelEl.style.width).toBe('320px')
   })
+
+  it('parent TtForm border=false hides all child form-item borders by default', () => {
+    const Parent = defineComponent({
+      components: { TtForm, TtFormItem },
+      template: `
+        <TtForm variant="list" :border="false">
+          <TtFormItem label="A" />
+          <TtFormItem label="B" />
+        </TtForm>
+      `,
+    })
+    const wrapper = mount(Parent)
+    const items = wrapper.findAll('.tt-form-item')
+    expect(items[0].classes()).not.toContain('tt-form-item--list-border')
+    expect(items[1].classes()).not.toContain('tt-form-item--list-border')
+  })
+
+  it('child :border=true overrides parent TtForm :border=false', () => {
+    const Parent = defineComponent({
+      components: { TtForm, TtFormItem },
+      template: `
+        <TtForm variant="list" :border="false">
+          <TtFormItem label="A" />
+          <TtFormItem label="B" :border="true" />
+        </TtForm>
+      `,
+    })
+    const wrapper = mount(Parent)
+    const items = wrapper.findAll('.tt-form-item')
+    expect(items[0].classes()).not.toContain('tt-form-item--list-border')
+    expect(items[1].classes()).toContain('tt-form-item--list-border')
+  })
 })

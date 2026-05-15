@@ -46,11 +46,13 @@ export const formItemProps = {
     default: false,
   },
   /**
-   * 在 list 模式下，本行是否显示底部分隔线（默认 true）
+   * 在 list 模式下，本行是否显示底部分隔线。
+   * - true / false：显式覆盖父 tt-form 的 border
+   * - null（默认）：继承父 tt-form 的 border（父默认 true）
    */
   border: {
-    type: Boolean,
-    default: true,
+    type: Boolean as PropType<boolean | null>,
+    default: null,
   },
   /**
    * 自定义 label 容器宽度，覆盖父 form 的 labelWidth

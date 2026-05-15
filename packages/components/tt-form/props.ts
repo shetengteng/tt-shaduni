@@ -32,6 +32,15 @@ export const formProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * variant=list 时，整体是否显示行底边（默认 true）。
+   * 设为 false 等同于把所有子 tt-form-item 的 border 默认值改为 false。
+   * 子 tt-form-item 上显式传的 :border 优先生效。
+   */
+  border: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export type TtFormProps = ExtractPropTypes<typeof formProps>
@@ -40,6 +49,7 @@ export interface TtFormContext {
   variant: TtFormVariant
   labelWidth: string
   borderedLast: boolean
+  border: boolean
 }
 
 export const TT_FORM_INJECT_KEY: InjectionKey<TtFormContext> = Symbol('TtFormContext')

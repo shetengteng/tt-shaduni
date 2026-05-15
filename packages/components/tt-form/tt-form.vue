@@ -17,12 +17,14 @@ const ctx = reactive<TtFormContext>({
   variant: props.variant as TtFormContext['variant'],
   labelWidth: props.labelWidth,
   borderedLast: props.borderedLast,
+  border: props.border,
 })
 
 watchEffect(() => {
   ctx.variant = props.variant as TtFormContext['variant']
   ctx.labelWidth = props.labelWidth
   ctx.borderedLast = props.borderedLast
+  ctx.border = props.border
 })
 
 provide(TT_FORM_INJECT_KEY, ctx)

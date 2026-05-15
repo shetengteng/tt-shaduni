@@ -45,7 +45,11 @@ const emit = defineEmits<{
 const formCtx = inject<TtFormContext | null>(TT_FORM_INJECT_KEY, null)
 
 const isList = computed(() => formCtx?.variant === 'list')
-const hasBorder = computed(() => isList.value && props.border)
+const hasBorder = computed(() => {
+  if (!isList.value) return false
+  if (props.border !== null) return props.border
+  return formCtx?.border ?? true
+})
 
 const effectiveDirection = computed(() => props.direction)
 
