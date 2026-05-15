@@ -245,7 +245,7 @@ function onSelect(cell: CalendarDay) {
 
 <style>
 .tt-calendar {
-  background: var(--tt-card, #f4f4f5);
+  background: var(--tt-background, #ffffff);
   border-radius: 24rpx;
   padding: 24rpx;
 }
