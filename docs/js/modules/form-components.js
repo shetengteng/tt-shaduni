@@ -7,6 +7,7 @@ window.TTDocs.componentGroups["form"] = [
   "radio",
   "switch",
   "search",
+  "segmented",
   "numberbox",
   "form",
   "rate",
@@ -23,6 +24,7 @@ document.write('<script src="./js/modules/components/checkbox.js"><\/script>')
 document.write('<script src="./js/modules/components/radio.js"><\/script>')
 document.write('<script src="./js/modules/components/switch.js"><\/script>')
 document.write('<script src="./js/modules/components/search.js"><\/script>')
+document.write('<script src="./js/modules/components/segmented.js"><\/script>')
 document.write('<script src="./js/modules/components/numberbox.js"><\/script>')
 document.write('<script src="./js/modules/components/form.js"><\/script>')
 document.write('<script src="./js/modules/components/rate.js"><\/script>')

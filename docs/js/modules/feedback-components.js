@@ -10,7 +10,8 @@ window.TTDocs.componentGroups["feedback"] = [
   "noticebar",
   "loading",
   "transition",
-  "swipeaction"
+  "swipeaction",
+  "fab"
 ]
 document.write('<script src="./js/modules/components/popup.js"><\/script>')
 document.write('<script src="./js/modules/components/dialog.js"><\/script>')
@@ -22,3 +23,4 @@ document.write('<script src="./js/modules/components/noticebar.js"><\/script>')
 document.write('<script src="./js/modules/components/loading.js"><\/script>')
 document.write('<script src="./js/modules/components/transition.js"><\/script>')
 document.write('<script src="./js/modules/components/swipeaction.js"><\/script>')
+document.write('<script src="./js/modules/components/fab.js"><\/script>')
