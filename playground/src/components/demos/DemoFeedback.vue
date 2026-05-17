@@ -1,5 +1,31 @@
 <template>
   <view class="demo">
+    <view class="demo-block" id="demo-fab" v-if="only === 'fab'">
+      <text class="demo-label">{{ t('fab') }}</text>
+      <text class="demo-desc">{{ t('fab.desc') }}</text>
+      <view class="fab-demo-frame">
+        <text class="demo-hint">Floating Action Button stays at bottom-right of the phone screen.</text>
+        <tt-fab icon="ri-add-line" @click="fabClicks++" />
+      </view>
+      <view style="height: 12px;" />
+      <view class="fab-demo-frame">
+        <text class="demo-hint">Extended FAB with text.</text>
+        <tt-fab icon="ri-edit-line" text="Compose" position="bottom-center" @click="fabClicks++" />
+      </view>
+      <view style="height: 12px;" />
+      <view class="fab-demo-frame">
+        <text class="demo-hint">Speed-dial with badges. Tap to open.</text>
+        <tt-fab
+          v-model="fabOpen"
+          icon="ri-more-2-fill"
+          position="bottom-left"
+          :items="fabItems"
+          @select="onFabSelect"
+        />
+      </view>
+      <text class="demo-hint">Clicked {{ fabClicks }} times — last: {{ fabLast || '(none)' }}</text>
+    </view>
+
     <view class="demo-block" id="demo-loading" v-if="!only || only === 'loading'">
       <text class="demo-label">{{ t('loading') }}</text>
       <text class="demo-desc">{{ t('loading.desc') }}</text>
@@ -153,6 +179,19 @@ const showPopupCenter = ref(false)
 const showAS = ref(false)
 const showSheet = ref(false)
 const showTransition = ref(true)
+
+const fabClicks = ref(0)
+const fabOpen = ref(false)
+const fabLast = ref('')
+const fabItems = [
+  { key: 'photo', icon: 'ri-image-line', text: 'Photo', type: 'primary', badge: 'NEW' },
+  { key: 'audio', icon: 'ri-mic-line', text: 'Audio', type: 'default' },
+  { key: 'video', icon: 'ri-vidicon-line', text: 'Video', type: 'default', disabled: true },
+]
+function onFabSelect(item: { key: string | number }) {
+  fabLast.value = String(item.key)
+  fabClicks.value++
+}
 </script>
 
 <style>
@@ -198,6 +237,13 @@ const showTransition = ref(true)
   color: var(--tt-muted-foreground, #737373);
   text-align: center;
   line-height: 1.5;
+}
+.fab-demo-frame {
+  position: relative;
+  min-height: 220rpx;
+  padding: 24rpx;
+  border: 2rpx dashed var(--tt-border, #e5e5e5);
+  border-radius: var(--tt-radius, 12rpx);
 }
 .tooltip-menu {
   display: flex;

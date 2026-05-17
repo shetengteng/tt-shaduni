@@ -3,8 +3,10 @@
     <view class="demo-block" id="demo-cell" v-if="!only || only === 'cell'">
       <text class="demo-label">{{ t('cell') }}</text>
       <text class="demo-desc">{{ t('cell.desc') }}</text>
-      <tt-cell title="Setting" value="Go" is-link />
-      <tt-cell title="About" value="v1.0" is-link />
+      <tt-cell title="Display only" value="v1.0" />
+      <tt-cell title="Linkable" value="Go" is-link />
+      <tt-cell title="No active feedback" value="Tap me" is-link :hover="false" />
+      <tt-cell title="With label" label="Helpful description" value="Detail" is-link :border="false" />
     </view>
 
     <view class="demo-block" id="demo-tabs" v-if="!only || only === 'tabs'">

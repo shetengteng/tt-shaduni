@@ -28,6 +28,13 @@
         <tt-tag type="warning">Warning</tt-tag>
         <tt-tag type="danger">Danger</tt-tag>
       </view>
+      <view class="demo-row" style="margin-top: 8px;">
+        <tt-tag round closeable>Closeable</tt-tag>
+        <tt-tag round variant="dashed">+ Add</tt-tag>
+        <tt-tag round variant="dashed" type="primary">+ Tag</tt-tag>
+        <tt-tag round variant="dashed" type="success">+ Done</tt-tag>
+        <tt-tag size="sm" type="primary">Small</tt-tag>
+      </view>
     </view>
 
     <view class="demo-block" id="demo-divider" v-if="!only || only === 'divider'">

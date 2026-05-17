@@ -34,10 +34,24 @@
       </view>
     </view>
 
+    <view class="demo-block" id="demo-segmented" v-if="!only || only === 'segmented'">
+      <text class="demo-label">{{ t('segmented') }}</text>
+      <text class="demo-desc">{{ t('segmented.desc') }}</text>
+      <tt-segmented v-model="segVal" :options="segOptions" />
+      <view style="height: 12px;" />
+      <tt-segmented v-model="segSize" :options="segSizeOptions" size="sm" />
+      <view style="height: 12px;" />
+      <tt-segmented v-model="segDis" :options="segDisOptions" />
+    </view>
+
     <view class="demo-block" id="demo-search" v-if="!only || only === 'search'">
       <text class="demo-label">{{ t('search') }}</text>
       <text class="demo-desc">{{ t('search.desc') }}</text>
       <tt-search v-model="searchVal" placeholder="Search..." show-cancel @cancel="searchVal = ''" />
+      <view style="height: 12px;" />
+      <tt-search v-model="searchGhost" placeholder="Ghost variant" variant="ghost" clearable />
+      <view style="height: 12px;" />
+      <tt-search v-model="searchClear" placeholder="Clearable" clearable />
     </view>
 
     <view class="demo-block" id="demo-numberbox" v-if="!only || only === 'numberbox'">
@@ -188,6 +202,25 @@ const r1 = ref(true)
 const r2 = ref(false)
 const sw = ref(true)
 const searchVal = ref('')
+const searchGhost = ref('')
+const searchClear = ref('Type and clear me')
+const segVal = ref('day')
+const segOptions = [
+  { label: 'Day', value: 'day' },
+  { label: 'Week', value: 'week' },
+  { label: 'Month', value: 'month' },
+]
+const segSize = ref('a')
+const segSizeOptions = [
+  { label: 'Small A', value: 'a' },
+  { label: 'Small B', value: 'b' },
+]
+const segDis = ref('one')
+const segDisOptions = [
+  { label: 'One', value: 'one' },
+  { label: 'Two', value: 'two', disabled: true },
+  { label: 'Three', value: 'three' },
+]
 const num = ref(3)
 const rate = ref(3)
 const slider = ref(40)
