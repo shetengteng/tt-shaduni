@@ -18,9 +18,22 @@ describe('TtCell', () => {
     expect(wrapper.text()).toContain('Description')
   })
 
-  it('shows link arrow when isLink=true', () => {
+  it('applies link modifier when isLink=true', () => {
     const wrapper = mount(TtCell, { props: { isLink: true } })
-    expect(wrapper.find('.tt-cell__arrow').exists()).toBe(true)
+    expect(wrapper.find('.tt-cell--link').exists()).toBe(true)
+  })
+
+  it('renders an arrow icon on the right when isLink=true', () => {
+    const wrapper = mount(TtCell, { props: { isLink: true } })
+    const rightSide = wrapper.find('.tt-cell__right')
+    expect(rightSide.exists()).toBe(true)
+    expect(rightSide.html()).toContain('ri-arrow-right-s-line')
+  })
+
+  it('omits the arrow icon when isLink=false', () => {
+    const wrapper = mount(TtCell, { props: { isLink: false } })
+    const rightSide = wrapper.find('.tt-cell__right')
+    expect(rightSide.html()).not.toContain('ri-arrow-right-s-line')
   })
 
   it('shows border by default', () => {
