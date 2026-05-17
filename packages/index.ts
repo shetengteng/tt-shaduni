@@ -41,6 +41,12 @@ export { TtFormItem, formItemProps } from './components/tt-form-item'
 export type { TtFormItemProps as FormItemProps } from './components/tt-form-item'
 export { TtSearch, searchProps } from './components/tt-search'
 export type { TtSearchProps as SearchProps } from './components/tt-search'
+export { TtSegmented, segmentedProps } from './components/tt-segmented'
+export type {
+  TtSegmentedProps as SegmentedProps,
+  TtSegmentedOption as SegmentedOption,
+  TtSegmentedSize as SegmentedSize,
+} from './components/tt-segmented'
 export { TtRate, rateProps } from './components/tt-rate'
 export type { TtRateProps as RateProps } from './components/tt-rate'
 export { TtNumberBox, numberBoxProps } from './components/tt-number-box'
