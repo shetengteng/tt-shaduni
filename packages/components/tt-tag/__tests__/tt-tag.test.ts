@@ -36,4 +36,28 @@ describe('TtTag', () => {
     const wrapper = mount(TtTag, { props: { round: true } })
     expect(wrapper.find('.tt-tag--round').exists()).toBe(true)
   })
+
+  it('defaults variant to solid', () => {
+    const wrapper = mount(TtTag, { slots: { default: 'Tag' } })
+    expect(wrapper.find('.tt-tag--solid').exists()).toBe(true)
+    expect(wrapper.find('.tt-tag--dashed').exists()).toBe(false)
+  })
+
+  it('applies dashed variant class', () => {
+    const wrapper = mount(TtTag, { props: { variant: 'dashed' } })
+    expect(wrapper.find('.tt-tag--dashed').exists()).toBe(true)
+    expect(wrapper.find('.tt-tag--solid').exists()).toBe(false)
+  })
+
+  it('dashed variant can combine with type', () => {
+    const wrapper = mount(TtTag, { props: { variant: 'dashed', type: 'primary' } })
+    expect(wrapper.find('.tt-tag--dashed').exists()).toBe(true)
+    expect(wrapper.find('.tt-tag--primary').exists()).toBe(true)
+  })
+
+  it('dashed variant can combine with round', () => {
+    const wrapper = mount(TtTag, { props: { variant: 'dashed', round: true } })
+    expect(wrapper.find('.tt-tag--dashed').exists()).toBe(true)
+    expect(wrapper.find('.tt-tag--round').exists()).toBe(true)
+  })
 })

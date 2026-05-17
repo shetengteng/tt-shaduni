@@ -5,6 +5,10 @@ export const tagProps = {
     type: String as PropType<'default' | 'primary' | 'success' | 'warning' | 'danger'>,
     default: 'default',
   },
+  variant: {
+    type: String as PropType<'solid' | 'dashed'>,
+    default: 'solid',
+  },
   closeable: {
     type: Boolean,
     default: false,
