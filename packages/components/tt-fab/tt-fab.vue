@@ -256,6 +256,7 @@ function onItemClick(item: TtFabItem, idx: number) {
   right: 0;
   flex-direction: column-reverse;
   padding-bottom: 24rpx;
+  align-items: flex-end;
 }
 
 .tt-fab__items--down {
@@ -263,6 +264,28 @@ function onItemClick(item: TtFabItem, idx: number) {
   right: 0;
   flex-direction: column;
   padding-top: 24rpx;
+  align-items: flex-end;
+}
+
+/* 左对齐：当 FAB 位于左侧时，items 应当贴主按钮的左边对齐，避免向左溢出屏幕 */
+.tt-fab--bottom-left .tt-fab__items--up,
+.tt-fab--bottom-left .tt-fab__items--down,
+.tt-fab--top-left .tt-fab__items--up,
+.tt-fab--top-left .tt-fab__items--down {
+  right: auto;
+  left: 0;
+  align-items: flex-start;
+}
+
+/* 居中对齐：当 FAB 居中（bottom-center / top-center）时，items 也居中对齐 */
+.tt-fab--bottom-center .tt-fab__items--up,
+.tt-fab--bottom-center .tt-fab__items--down,
+.tt-fab--top-center .tt-fab__items--up,
+.tt-fab--top-center .tt-fab__items--down {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
 }
 
 .tt-fab__items--left {
