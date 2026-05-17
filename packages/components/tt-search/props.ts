@@ -7,7 +7,7 @@ export const searchProps = {
   },
   placeholder: {
     type: String,
-    default: 'Search',
+    default: '',
   },
   showCancel: {
     type: Boolean,
@@ -16,6 +16,14 @@ export const searchProps = {
   disabled: {
     type: Boolean,
     default: false,
+  },
+  clearable: {
+    type: Boolean,
+    default: false,
+  },
+  variant: {
+    type: String as PropType<'default' | 'ghost'>,
+    default: 'default',
   },
 }
 
