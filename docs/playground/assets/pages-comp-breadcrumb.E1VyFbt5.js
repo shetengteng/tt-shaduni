@@ -1,1 +1,0 @@
-import{d as a,c as o,w as s,o as t,b as m}from"./index-DuesLRfr.js";import{C as r}from"./CompPageLayout.X0fA97_i.js";import{D as e}from"./DemoNav.BAtAlu6I.js";import"./tt-icon.WYNIboLj.js";import"./tt-cell.BAeg0_-A.js";const i=a({__name:"breadcrumb",setup:a=>(a,i)=>(t(),o(r,null,{default:s(()=>[m(e,{only:"breadcrumb"})]),_:1}))});export{i as default};

@@ -1,0 +1,1 @@
+import{d as a,c as o,w as s,o as t,b as m}from"./index-CW5zaAsz.js";import{C as r}from"./CompPageLayout.uCNTsvQ8.js";import{D as e}from"./DemoNav.DjR789FO.js";import"./tt-icon.Bf4VjOCh.js";import"./tt-cell.DC69I1Du.js";const i=a({__name:"navbar",setup:a=>(a,i)=>(t(),o(r,null,{default:s(()=>[m(e,{only:"navbar"})]),_:1}))});export{i as default};
