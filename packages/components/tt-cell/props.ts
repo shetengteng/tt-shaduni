@@ -25,6 +25,10 @@ export const cellProps = {
     type: Boolean,
     default: true,
   },
+  hover: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export type TtCellProps = ExtractPropTypes<typeof cellProps>

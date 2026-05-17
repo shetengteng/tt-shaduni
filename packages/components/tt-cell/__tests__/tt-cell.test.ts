@@ -47,4 +47,20 @@ describe('TtCell', () => {
     })
     expect(wrapper.find('.custom-icon').exists()).toBe(true)
   })
+
+  it('applies hover class only when both hover and isLink are true', () => {
+    const both = mount(TtCell, { props: { hover: true, isLink: true } })
+    expect(both.find('.tt-cell--hover').exists()).toBe(true)
+
+    const hoverOnly = mount(TtCell, { props: { hover: true, isLink: false } })
+    expect(hoverOnly.find('.tt-cell--hover').exists()).toBe(false)
+
+    const linkOnly = mount(TtCell, { props: { hover: false, isLink: true } })
+    expect(linkOnly.find('.tt-cell--hover').exists()).toBe(false)
+  })
+
+  it('hover defaults to true and pairs with isLink for active feedback', () => {
+    const wrapper = mount(TtCell, { props: { isLink: true } })
+    expect(wrapper.find('.tt-cell--hover').exists()).toBe(true)
+  })
 })

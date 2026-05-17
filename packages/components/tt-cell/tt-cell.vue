@@ -1,5 +1,13 @@
 <template>
-  <view class="tt-cell" :class="{ 'tt-cell--border': border, 'tt-cell--link': isLink }" @click="emit('click')">
+  <view
+    class="tt-cell"
+    :class="{
+      'tt-cell--border': border,
+      'tt-cell--link': isLink,
+      'tt-cell--hover': hover && isLink
+    }"
+    @click="emit('click')"
+  >
     <view class="tt-cell__left">
       <slot name="icon"><text v-if="icon" class="tt-cell__icon">{{ icon }}</text></slot>
       <view class="tt-cell__title-wrap">
@@ -28,6 +36,7 @@ const emit = defineEmits<{
 .tt-cell { display: flex; align-items: center; justify-content: space-between; padding: 24rpx 32rpx; background: var(--tt-cell-bg, var(--tt-background, #ffffff)); }
 .tt-cell--border { border-bottom: 2rpx solid var(--tt-border, #e5e5e5); }
 .tt-cell--link { cursor: pointer; }
+.tt-cell--hover:active { background-color: var(--tt-muted, #f5f5f5); }
 .tt-cell__left { display: flex; align-items: center; gap: 20rpx; flex: 1; min-width: 0; }
 .tt-cell__icon { font-size: 36rpx; }
 .tt-cell__title-wrap { display: flex; flex-direction: column; }
